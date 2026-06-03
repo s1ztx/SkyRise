@@ -260,7 +260,6 @@
         }
         .stat-label { color: var(--text-gray); }
         .stat-value { color: #fff; font-weight: 600; font-family: monospace; }
-        .stat-value.motd-val { font-family: sans-serif; text-align: right; max-width: 160px; font-size: 0.8rem; }
 
         .action-arrow {
             font-size: 0.85rem;
@@ -313,7 +312,7 @@
             display: grid;
             grid-template-columns: 1.2fr 1fr;
             gap: 25px;
-            margin-top: 20px;
+            margin-top: 5px;
         }
 
         @media (max-width: 768px) {
@@ -352,19 +351,6 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-
-        .motd-block-panel {
-            background: #07090d;
-            border: 1px solid rgba(255,255,255,0.04);
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #fff;
-            margin-top: 15px;
-            font-family: 'Courier New', Courier, monospace;
-            border-left: 3px solid var(--accent-green);
         }
 
         .player-list-scroll {
@@ -488,7 +474,7 @@
             color: var(--text-gray);
             display: flex;
             align-items: center;
-gap: 10px;
+            gap: 10px;
         }
 
         .perk-list li i {
@@ -547,7 +533,7 @@ gap: 10px;
             <nav>
                 <a href="#features">Features</a>
                 <a href="#store">Store</a>
-                <a href="https://discord.gg/3NvrYh2d" target="_blank">Discord</a>
+                <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer">Discord</a>
             </nav>
         </header>
 
@@ -577,10 +563,6 @@ gap: 10px;
                                 <span class="stat-label">Engine Version</span>
                                 <span class="stat-value" id="card-version">1.8.x - 1.20.x</span>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Live MOTD</span>
-                                <span class="stat-value motd-val" id="card-motd">Connecting...</span>
-                            </div>
                         </div>
                     </div>
                     <div class="action-arrow">Server Stats <i class="fa-solid fa-arrow-down"></i></div>
@@ -595,7 +577,7 @@ gap: 10px;
                     <div class="action-arrow">Explore Shop <i class="fa-solid fa-arrow-right"></i></div>
                 </a>
 
-                <a href="https://discord.gg/3NvrYh2d" class="matrix-card" target="_blank">
+                <a href="https://discord.gg/3NvrYh2d" class="matrix-card" target="_blank" rel="noopener noreferrer">
                     <div>
                         <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
                         <h3>Secure Discord</h3>
@@ -611,10 +593,6 @@ gap: 10px;
                         <div class="dashboard-title-header">
                             <i class="fa-solid fa-circle-info" style="color: var(--accent-green); font-size: 1.4rem;"></i>
                             <h2>Live Diagnostics Dashboard</h2>
-                        </div>
-                        
-                        <div class="motd-block-panel" id="dropdown-motd-display">
-                            Gathering real-time system profile ping logs...
                         </div>
 
                         <div class="dashboard-layout-grid">
@@ -656,7 +634,7 @@ gap: 10px;
                             <li><i class="fa-solid fa-square-check"></i> Nickname Command</li>
                             <li><i class="fa-solid fa-square-check"></i> Premium Network Support</li>
                         </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
                     </div>
 
                     <div class="shop-card best">
@@ -670,7 +648,7 @@ gap: 10px;
                             <li><i class="fa-solid fa-square-check"></i> Colored Custom Chat</li>
                             <li><i class="fa-solid fa-square-check"></i> Custom Join Message</li>
                         </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
                     </div>
 
                     <div class="shop-card">
@@ -682,7 +660,7 @@ gap: 10px;
                             <li><i class="fa-solid fa-square-check"></i> Colored Chat Grid</li>
                             <li><i class="fa-solid fa-square-check"></i> Extra Perks Access</li>
                         </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
                     </div>
 
                     <div class="shop-card">
@@ -693,7 +671,7 @@ gap: 10px;
                             <li><i class="fa-solid fa-square-check"></i> Fly Command Access</li>
                             <li><i class="fa-solid fa-square-check"></i> Chat Formatting Access</li>
                         </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
                     </div>
 
                     <div class="shop-card">
@@ -704,7 +682,7 @@ gap: 10px;
                             <li><i class="fa-solid fa-square-check"></i> Colored Chat Access</li>
                             <li><i class="fa-solid fa-square-check"></i> Special Log Message</li>
                         </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
                     </div>
 
                     <div class="shop-card">
@@ -714,7 +692,7 @@ gap: 10px;
                             <li><i class="fa-solid fa-square-check"></i> Green VIP Tag Line</li>
                             <li><i class="fa-solid fa-square-check"></i> Essential Lobby Access</li>
                         </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
                     </div>
 
                     <div class="shop-card">
@@ -724,7 +702,7 @@ gap: 10px;
                             <li><i class="fa-solid fa-square-check"></i> Selectable Chat Colors</li>
                             <li><i class="fa-solid fa-square-check"></i> Stand Out Globally</li>
                         </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
                     </div>
                 </div>
             </section>
@@ -853,13 +831,11 @@ gap: 10px;
             // Base Card Nodes
             const cardStatus = document.getElementById('card-status');
             const cardVersion = document.getElementById('card-version');
-            const cardMotd = document.getElementById('card-motd');
 
             // Dropdown Inner Dashboard Nodes
             const dropStatus = document.getElementById('drop-status');
             const dropVersion = document.getElementById('drop-version');
             const dropSlots = document.getElementById('drop-slots');
-            const dropMotdDisplay = document.getElementById('dropdown-motd-display');
             const dropPlayerList = document.getElementById('drop-player-list');
 
             try {
@@ -877,19 +853,12 @@ gap: 10px;
                     cardStatus.innerText = "ONLINE";
                     cardStatus.style.color = "var(--accent-green)";
                     if (data.version) cardVersion.innerText = data.version;
-                    
-                    let cleanedMotd = "||| SKYRISE BEDWARS |||\n⚡ The bedwars grind never stops ⚡ [ 1.8 - 1.20 ]";
-                    if (data.motd && data.motd.clean && data.motd.clean.length > 0) {
-                        cleanedMotd = data.motd.clean.join('\n');
-                    }
-                    cardMotd.innerText = cleanedMotd;
 
                     // Expanded Sliding Dropdown Panel components
                     dropStatus.innerText = "ONLINE";
                     dropStatus.style.color = "var(--accent-green)";
                     if (data.version) dropVersion.innerText = data.version;
                     dropSlots.innerText = `${onlineCount} / ${maxSlots}`;
-                    dropMotdDisplay.innerText = cleanedMotd;
 
                     // Check live online profiles lists
                     if (data.players.list && data.players.list.length > 0) {
@@ -911,12 +880,10 @@ gap: 10px;
                     
                     cardStatus.innerText = "OFFLINE";
                     cardStatus.style.color = "#ff4757";
-                    cardMotd.innerText = "Server is currently offline.";
 
                     dropStatus.innerText = "OFFLINE";
                     dropStatus.style.color = "#ff4757";
                     dropSlots.innerText = "0 / 0";
-                    dropMotdDisplay.innerText = "System is down. Check connection layouts.";
                     dropPlayerList.innerHTML = '<span class="empty-players">No players currently connected.</span>';
                 }
             } catch (err) {
@@ -924,7 +891,6 @@ gap: 10px;
                 counter.innerText = "ONLINE";
                 cardStatus.innerText = "ONLINE";
                 cardStatus.style.color = "var(--accent-green)";
-                cardMotd.innerText = "||| SKYRISE BEDWARS |||\n⚡ The bedwars grind never stops ⚡ [ 1.8 - 1.20 ]";
             }
         }
         
