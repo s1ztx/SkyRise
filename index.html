@@ -144,7 +144,7 @@
             line-height: 1.6;
         }
 
-        /* --- THEME IP CONTROLLER --- */
+        /* --- IP COPY BAR --- */
         .ip-controller {
             background: var(--panel-dark);
             border: 1px solid var(--panel-border);
@@ -193,12 +193,13 @@
             color: var(--accent-green);
         }
 
+        /* --- HUB CARD GRID MATRIX --- */
         .grid-matrix {
             display: flex;
             gap: 20px;
             width: 100%;
             flex-wrap: wrap;
-            margin-bottom: 80px;
+            margin-bottom: 25px; /* Reduced to sit snug with the sliding panel */
         }
 
         .matrix-card {
@@ -242,7 +243,7 @@
             margin-bottom: 20px;
         }
 
-        /* Live Stat Rows */
+        /* Live Stat Rows inside Card */
         .stat-rows {
             display: flex;
             flex-direction: column;
@@ -268,147 +269,127 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            transition: gap 0.2s ease;
+        }
+        .matrix-card:hover .action-arrow {
+            gap: 10px;
+        }
+        .action-arrow i {
+            transition: transform 0.2s ease;
+        }
+        /* Rotates down when active */
+        .matrix-card.panel-open .action-arrow i {
+            transform: rotate(90deg);
         }
 
-        /* --- SERVER STATS MODAL PANEL EXTENSION --- */
-        .stats-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* --- SMART SLIDE DOWN PANEL ANIMATION --- */
+        .slide-panel-container {
             width: 100%;
-            height: 100%;
-            background: rgba(6, 8, 12, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            padding: 20px;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            margin-bottom: 60px;
         }
-        .stats-overlay.active {
-            opacity: 1;
-            pointer-events: all;
+        
+        .slide-panel-container.expanded {
+            grid-template-rows: 1fr;
         }
-        .stats-window {
+
+        .slide-panel-content {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .inner-stats-dashboard {
             background: var(--panel-dark);
             border: 1px solid var(--panel-border);
-            width: 100%;
-            max-width: 650px;
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 35px;
-            position: relative;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            margin-top: 5px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
-        .stats-overlay.active .stats-window {
-            transform: scale(1);
-        }
-        .close-overlay-btn {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: var(--text-gray);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .close-overlay-btn:hover {
-            color: #fff;
-            border-color: var(--accent-green);
-            background: rgba(46, 213, 115, 0.1);
-        }
-        .window-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 15px;
-        }
-        .window-header h2 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .window-header i {
-            color: var(--accent-green);
-            font-size: 1.5rem;
-        }
-        .stats-dashboard-grid {
+
+        .dashboard-layout-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
         }
-        @media (max-width: 540px) {
-            .stats-dashboard-grid { grid-template-columns: 1fr; }
+
+        @media (max-width: 768px) {
+            .dashboard-layout-grid { grid-template-columns: 1fr; }
         }
+
         .dashboard-box {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.04);
             padding: 20px;
             border-radius: 10px;
         }
+
         .box-title {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--text-gray);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-weight: 700;
         }
-        .box-metrics-list {
+        .box-title i { color: var(--accent-green); }
+
+        .dashboard-title-header {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 12px;
         }
-        .player-list-scroll {
-            max-height: 120px;
-            overflow-y: auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 5px;
+        .dashboard-title-header h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .player-pill {
-            background: rgba(46, 213, 115, 0.1);
-            border: 1px solid rgba(46, 213, 115, 0.2);
-            color: var(--accent-green);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            font-family: monospace;
-        }
-        .empty-players {
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            font-style: italic;
-        }
+
         .motd-block-panel {
             background: #07090d;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.04);
             padding: 15px;
             border-radius: 8px;
             font-size: 0.9rem;
             line-height: 1.5;
             color: #fff;
-            text-align: center;
-            margin-bottom: 20px;
+            margin-top: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            border-left: 3px solid var(--accent-green);
+        }
+
+        .player-list-scroll {
+            max-height: 140px;
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .player-pill {
+            background: rgba(46, 213, 115, 0.1);
+            border: 1px solid rgba(46, 213, 115, 0.2);
+            color: var(--accent-green);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .empty-players {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            font-style: italic;
         }
 
         /* --- SHOP SECTION --- */
@@ -561,44 +542,6 @@
     <div class="ambient-glow-1"></div>
     <div class="ambient-glow-2"></div>
 
-    <!-- MAIN INTERACTIVE SERVER METRICS MODAL WINDOW Overlay -->
-    <div class="stats-overlay" id="stats-overlay-container">
-        <div class="stats-window">
-            <div class="close-overlay-btn" onclick="toggleStatsWindow(false)"><i class="fa-solid fa-xmark"></i></div>
-            
-            <div class="window-header">
-                <i class="fa-solid fa-chart-line"></i>
-                <h2>Network Control Hub</h2>
-            </div>
-
-            <div class="motd-block-panel" id="modal-motd-display">
-                Loading real-time message profile...
-            </div>
-
-            <div class="stats-dashboard-grid">
-                <!-- METRICS BLOCK -->
-                <div class="dashboard-box">
-                    <div class="box-title"><i class="fa-solid fa-circle-nodes"></i> Core Specs</div>
-                    <div class="box-metrics-list">
-                        <div class="stat-item"><span class="stat-label">Status</span><span class="stat-value" id="modal-status" style="color:#ff4757;">OFFLINE</span></div>
-                        <div class="stat-item"><span class="stat-label">Software</span><span class="stat-value" id="modal-version">1.8 - 1.20</span></div>
-                        <div class="stat-item"><span class="stat-label">Capacity</span><span class="stat-value" id="modal-slots">-- / --</span></div>
-                    </div>
-                </div>
-
-                <!-- LIVE PLAYER DISCOVERY BOX -->
-                <div class="dashboard-box">
-                    <div class="box-title"><i class="fa-solid fa-users"></i> Online Crew</div>
-                    <div class="player-list-scroll" id="modal-player-list">
-                        <span class="empty-players">No players active.</span>
-                    </div>
-                </div>
-            </div>
-
-            <a href="#" class="buy-btn" style="display:block; width:100%;" onclick="copyNetworkIP('skyrise.ddns.net:25567')">Copy Connection Address</a>
-        </div>
-    </div>
-
     <div class="wrapper">
         <header>
             <div class="logo">Sky<span>Rise</span></div>
@@ -622,8 +565,8 @@
             </div>
 
             <div class="grid-matrix" id="features">
-                <!-- MODAL TRIGGER CORE CARD -->
-                <div class="matrix-card" onclick="toggleStatsWindow(true)">
+                <!-- SERVER STATS CARD TRIGGER -->
+                <div class="matrix-card" id="stats-trigger-card" onclick="toggleServerStatsPanel()">
                     <div>
                         <div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div>
                         <h3>Server Stats</h3>
@@ -642,7 +585,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="action-arrow">View All Stats <i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="action-arrow">Server Stats <i class="fa-solid fa-arrow-right"></i></div>
                 </div>
 
                 <a href="#store" class="matrix-card">
@@ -663,6 +606,45 @@
                     <div class="action-arrow">Join Server <i class="fa-solid fa-arrow-right"></i></div>
                 </a>
             </div>
+
+            <!-- --- THE ALLLLLLLLLLLLL SERVER STATS SLIDE-DOWN DROPDOWN COMPONENT --- -->
+            <div class="slide-panel-container" id="stats-sliding-container">
+                <div class="slide-panel-content">
+                    <div class="inner-stats-dashboard">
+                        <div class="dashboard-title-header">
+                            <i class="fa-solid fa-circle-info" style="color: var(--accent-green); font-size: 1.2rem;"></i>
+                            <h2>Live Diagnostics Dashboard</h2>
+                        </div>
+                        
+                        <div class="motd-block-panel" id="dropdown-motd-display">
+                            Gathering real-time system profile ping logs...
+                        </div>
+
+                        <div class="dashboard-layout-grid">
+                            <!-- METRICS BOX -->
+                            <div class="dashboard-box">
+                                <div class="box-title"><i class="fa-solid fa-server"></i> System Metrics</div>
+                                <div class="stat-rows" style="margin: 0;">
+                                    <div class="stat-item"><span class="stat-label">Node Connection</span><span class="stat-value" id="drop-status" style="color:#ff4757;">OFFLINE</span></div>
+                                    <div class="stat-item"><span class="stat-label">Protocol Software</span><span class="stat-value" id="drop-version">1.8 - 1.20</span></div>
+                                    <div class="stat-item"><span class="stat-label">Allocated Slots</span><span class="stat-value" id="drop-slots">-- / --</span></div>
+                                    <div class="stat-item"><span class="stat-label">Host Domain</span><span class="stat-value">skyrise.ddns.net</span></div>
+                                    <div class="stat-item"><span class="stat-label">Dedicated Port</span><span class="stat-value">25567</span></div>
+                                </div>
+                            </div>
+
+                            <!-- PLAYERS ACTIVE BOX -->
+                            <div class="dashboard-box">
+                                <div class="box-title"><i class="fa-solid fa-users"></i> Online Players</div>
+                                <div class="player-list-scroll" id="drop-player-list">
+                                    <span class="empty-players">No players currently connected.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <section class="store-section" id="store">
                 <h2 class="store-title">Network Shop</h2>
@@ -767,7 +749,7 @@
     </div>
 
     <script>
-        // --- PERFORMANCE CANVAS PARTICLES ENGINE ---
+        // --- BACKGROUND PARTICLES CANVAS ENGINE ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -866,38 +848,32 @@
         animateParticles();
 
 
-        // --- DYNAMIC CONTROL OVERLAY CONTROLLER ---
-        function toggleStatsWindow(show) {
-            const overlay = document.getElementById('stats-overlay-container');
-            if (show) {
-                overlay.classList.add('active');
-            } else {
-                overlay.classList.remove('active');
-            }
+        // --- DROPDOWN PANEL ACCORDION INTERACTION CONTROLLER ---
+        function toggleServerStatsPanel() {
+            const container = document.getElementById('stats-sliding-container');
+            const cardTrigger = document.getElementById('stats-trigger-card');
+            
+            container.classList.toggle('expanded');
+            cardTrigger.classList.toggle('panel-open');
         }
 
-        // Close on clicking backdrop out of container box boundary
-        document.getElementById('stats-overlay-container').addEventListener('click', function(e) {
-            if (e.target === this) toggleStatsWindow(false);
-        });
 
-
-        // --- LIVE PERFORMANCE METRICS API ENGINE ---
+        // --- MINECRAFT SERVER API ENGINE STATUS CORES ---
         async function updateLiveNetworkMetrics() {
             const counter = document.getElementById('live-count');
             const dot = document.getElementById('network-dot');
             
-            // Base Panel Card DOM Elements
+            // Base Card Nodes
             const cardStatus = document.getElementById('card-status');
             const cardVersion = document.getElementById('card-version');
             const cardMotd = document.getElementById('card-motd');
 
-            // Overlay Modal DOM Elements
-            const modalStatus = document.getElementById('modal-status');
-            const modalVersion = document.getElementById('modal-version');
-            const modalSlots = document.getElementById('modal-slots');
-            const modalMotd = document.getElementById('modal-motd-display');
-            const modalPlayerList = document.getElementById('modal-player-list');
+            // Dropdown Inner Dashboard Nodes
+            const dropStatus = document.getElementById('drop-status');
+            const dropVersion = document.getElementById('drop-version');
+            const dropSlots = document.getElementById('drop-slots');
+            const dropMotdDisplay = document.getElementById('dropdown-motd-display');
+            const dropPlayerList = document.getElementById('drop-player-list');
 
             try {
                 const response = await fetch('https://api.mcsrvstat.us/3/skyrise.ddns.net:25567');
@@ -910,39 +886,39 @@
                     dot.classList.remove('offline');
                     counter.innerHTML = `<span style="color:#fff;">${onlineCount}</span> PLAYERS`;
                     
-                    // Populate Main Card
+                    // Main layout components
                     cardStatus.innerText = "ONLINE";
                     cardStatus.style.color = "var(--accent-green)";
                     if (data.version) cardVersion.innerText = data.version;
                     
-                    let cleanedMotd = "A Competitive Practice Club Arena";
+                    let cleanedMotd = "||| SKYRISE BEDWARS |||\n⚡ The bedwars grind never stops ⚡ [ 1.8 - 1.20 ]";
                     if (data.motd && data.motd.clean && data.motd.clean.length > 0) {
-                        cleanedMotd = data.motd.clean.join(' ');
+                        cleanedMotd = data.motd.clean.join('\n');
                     }
                     cardMotd.innerText = cleanedMotd;
 
-                    // Populate Extended Modal UI Component
-                    modalStatus.innerText = "ONLINE";
-                    modalStatus.style.color = "var(--accent-green)";
-                    if (data.version) modalVersion.innerText = data.version;
-                    modalSlots.innerText = `${onlineCount} / ${maxSlots}`;
-                    modalMotd.innerText = cleanedMotd;
+                    // Expanded Sliding Dropdown Panel components
+                    dropStatus.innerText = "ONLINE";
+                    dropStatus.style.color = "var(--accent-green)";
+                    if (data.version) dropVersion.innerText = data.version;
+                    dropSlots.innerText = `${onlineCount} / ${maxSlots}`;
+                    dropMotdDisplay.innerText = cleanedMotd;
 
-                    // Build out player pill objects if arrays exist
+                    // Check live online profiles lists
                     if (data.players.list && data.players.list.length > 0) {
-                        modalPlayerList.innerHTML = '';
+                        dropPlayerList.innerHTML = '';
                         data.players.list.forEach(player => {
                             const pill = document.createElement('span');
                             pill.classList.add('player-pill');
                             pill.innerText = player.name;
-                            modalPlayerList.appendChild(pill);
+                            dropPlayerList.appendChild(pill);
                         });
                     } else {
-                        modalPlayerList.innerHTML = '<span class="empty-players">No players active.</span>';
+                        dropPlayerList.innerHTML = '<span class="empty-players">No players currently connected.</span>';
                     }
 
                 } else {
-                    // Offline States
+                    // Offline defaults
                     dot.classList.add('offline');
                     counter.innerText = "OFFLINE";
                     
@@ -950,18 +926,18 @@
                     cardStatus.style.color = "#ff4757";
                     cardMotd.innerText = "Server is currently offline.";
 
-                    modalStatus.innerText = "OFFLINE";
-                    modalStatus.style.color = "#ff4757";
-                    modalSlots.innerText = "0 / 0";
-                    modalMotd.innerText = "Server is offline. Double check configuration layers.";
-                    modalPlayerList.innerHTML = '<span class="empty-players">No players active.</span>';
+                    dropStatus.innerText = "OFFLINE";
+                    dropStatus.style.color = "#ff4757";
+                    dropSlots.innerText = "0 / 0";
+                    dropMotdDisplay.innerText = "System is down. Check connection layouts.";
+                    dropPlayerList.innerHTML = '<span class="empty-players">No players currently connected.</span>';
                 }
             } catch (err) {
                 // Fail-safe fallbacks
                 counter.innerText = "ONLINE";
                 cardStatus.innerText = "ONLINE";
                 cardStatus.style.color = "var(--accent-green)";
-                cardMotd.innerText = "A Competitive Practice Club Arena";
+                cardMotd.innerText = "||| SKYRISE BEDWARS |||\n⚡ The bedwars grind never stops ⚡ [ 1.8 - 1.20 ]";
             }
         }
         
