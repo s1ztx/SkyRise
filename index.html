@@ -241,6 +241,25 @@
             margin-bottom: 20px;
         }
 
+        /* Live Stat Utilities Inside Card */
+        .stat-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding-bottom: 6px;
+        }
+        .stat-label { color: var(--text-gray); }
+        .stat-value { color: #fff; font-weight: 600; font-family: monospace; }
+        .stat-value.motd-val { font-family: sans-serif; text-align: right; max-width: 160px; font-size: 0.8rem; }
+
         .action-arrow {
             font-size: 0.85rem;
             font-weight: 700;
@@ -423,13 +442,27 @@
             </div>
 
             <div class="grid-matrix" id="features">
-                <div class="matrix-card">
+                <!-- NEW LIVE SERVER STATS CARD COMPONENT -->
+                <div class="matrix-card" onclick="copyNetworkIP('skyrise.ddns.net:25567')">
                     <div>
-                        <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h3>BedFight Duels</h3>
-                        <p>Instant respawns. Minimalistic, competitive MMC-style maps. Clean knockback profiles designed specifically to optimize drag-clicking and speed bridging runs.</p>
+                        <div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                        <h3>Server Stats</h3>
+                        <div class="stat-rows">
+                            <div class="stat-item">
+                                <span class="stat-label">Network Status</span>
+                                <span class="stat-value" id="card-status" style="color: #ff4757;">OFFLINE</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Engine Version</span>
+                                <span class="stat-value" id="card-version">1.8.x - 1.20.x</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Live MOTD</span>
+                                <span class="stat-value motd-val" id="card-motd">Connecting...</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="action-arrow">Practice Arena <i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="action-arrow">Copy Server IP <i class="fa-solid fa-copy"></i></div>
                 </div>
 
                 <a href="#store" class="matrix-card">
@@ -594,7 +627,6 @@
                 if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
                 if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
 
-                // Mouse interaction mechanics
                 if (mouse.x != null && mouse.y != null) {
                     let dx = mouse.x - this.x;
                     let dy = mouse.y - this.y;
@@ -658,18 +690,43 @@
         async function updateLiveNetworkMetrics() {
             const counter = document.getElementById('live-count');
             const dot = document.getElementById('network-dot');
+            
+            // Dashboard Selectors
+            const cardStatus = document.getElementById('card-status');
+            const cardVersion = document.getElementById('card-version');
+            const cardMotd = document.getElementById('card-motd');
+
             try {
                 const response = await fetch('https://api.mcsrvstat.us/3/skyrise.ddns.net:25567');
                 const data = await response.json();
+                
                 if (data.online) {
                     dot.classList.remove('offline');
                     counter.innerHTML = `<span style="color:#fff;">${data.players.online}</span> PLAYERS`;
+                    
+                    // Populate dashboard panel data
+                    cardStatus.innerText = "ONLINE";
+                    cardStatus.style.color = "var(--accent-green)";
+                    if (data.version) cardVersion.innerText = data.version;
+                    
+                    if (data.motd && data.motd.clean && data.motd.clean.length > 0) {
+                        cardMotd.innerText = data.motd.clean.join(' ');
+                    } else {
+                        cardMotd.innerText = "A Competitive Practice Club Arena";
+                    }
                 } else {
                     dot.classList.add('offline');
                     counter.innerText = "OFFLINE";
+                    
+                    cardStatus.innerText = "OFFLINE";
+                    cardStatus.style.color = "#ff4757";
+                    cardMotd.innerText = "Server is currently offline.";
                 }
             } catch (err) {
                 counter.innerText = "ONLINE";
+                cardStatus.innerText = "ONLINE";
+                cardStatus.style.color = "var(--accent-green)";
+                cardMotd.innerText = "A Competitive Practice Club Arena";
             }
         }
         updateLiveNetworkMetrics();
