@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyRise Network | BedWars & Practice Club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #07080d;
+            --panel-glass: rgba(18, 22, 35, 0.65);
+            --border-glass: rgba(69, 243, 255, 0.15);
+            --accent: #45f3ff;
+            --accent-glow: rgba(69, 243, 255, 0.4);
+            --text-main: #f0f2f5;
+            --text-muted: #8b9bb4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Interactive Canvas Background Layer */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Navigation */
+        header {
+            width: 100%;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .logo span { color: var(--accent); }
+
+        nav { display: flex; gap: 30px; }
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
+        }
+        nav a:hover { color: var(--accent); }
+
+        /* Hero Layout Engine */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-text {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            background: linear-gradient(180deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Advanced Dynamic IP Copy Controller */
+        .ip-controller {
+            background: var(--panel-glass);
+            border: 1px solid var(--border-glass);
+            padding: 14px 28px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 60px;
+        }
+
+        .ip-controller:hover {
+            transform: scale(1.03);
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(69, 243, 255, 0.2);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #2ecc71;
+        }
+        .status-dot.offline {
+            background-color: #e74c3c;
+            box-shadow: 0 0 10px #e74c3c;
+        }
+
+        .ip-text {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .player-counter {
+            background: rgba(255,255,255,0.07);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        /* Cards Cluster Matrix Grid */
+        .grid-matrix {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .matrix-card {
+            background: var(--panel-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 35px;
+            flex: 1;
+            min-width: 300px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .matrix-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .matrix-card h3 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .matrix-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .action-arrow {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.2s ease;
+        }
+
+        .matrix-card:hover .action-arrow {
+            gap: 14px;
+        }
+
+        footer {
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.2);
+            border-top: 1px solid rgba(255,255,255,0.02);
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 20px; flex-direction: column; gap: 15px; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .hero-text p { font-size: 1rem; }
+            .ip-controller { padding: 10px 20px; gap: 12px; }
+            .ip-text { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="wrapper">
+        <header>
+            <div class="logo">Sky<span>Rise</span></div>
+            <nav>
+                <a href="#features">Features</a>
+                <a href="https://tribalchief635.github.io/SkyRise-store/" target="_blank">Store</a>
+                <a href="https://discord.gg/sFFRyQggS" target="_blank">Discord</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="hero-text">
+                <h1>The Ultimate Arena</h1>
+                <p>Dominate the rush lanes. Zero latency mechanics, custom 1v1 BedFight practice, and a hardened community arena.</p>
+            </div>
+
+            <div class="ip-controller" onclick="copyNetworkIP('play.skyrise.net')">
+                <div class="status-dot" id="network-dot"></div>
+                <div class="ip-text" id="target-ip">PLAY.SKYRISE.NET</div>
+                <div class="player-counter" id="live-count">PINGING...</div>
+            </div>
+
+            <div class="grid-matrix" id="features">
+                <div class="matrix-card">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3>BedFight Duels</h3>
+                        <p>Instant respawns. Minimalistic, competitive MMC-style maps. Clean knockback profiles designed specifically to optimize drag-clicking and speed bridging runs.</p>
+                    </div>
+                    <div class="action-arrow">Practice Arena <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
+                <a href="https://tribalchief635.github.io/SkyRise-store/" class="matrix-card" target="_blank">
+                    <div>
+                        <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
+                        <h3>Rank Store</h3>
+                        <p>Unlock premium server features, custom profile tags, particle streaks, and lobby cosmetic modifiers. Keep the network online with zero pay-to-win elements.</p>
+                    </div>
+                    <div class="action-arrow">Visit Store <i class="fa-solid fa-arrow-right"></i></div>
+                </a>
+
+                <a href="https://discord.gg/sFFRyQggS" class="matrix-card" target="_blank">
+                    <div>
+                        <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
+                        <h3>Secure Discord</h3>
+                        <p>Pair your in-game layout safely using our custom 2FA Discord bot. View server announcements, log performance bugs, and run competitive community tournaments.</p>
+                    </div>
+                    <div class="action-arrow">Join Server <i class="fa-solid fa-arrow-right"></i></div>
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            &copy; 2026 SkyRise Network. This project is not affiliated with Mojang Studios or Microsoft Corporation.
+        </footer>
+    </div>
+
+    <script>
+        // --- 1. LIVE MINECRAFT SERVER STATUS MONITOR ---
+        async function updateLiveNetworkMetrics() {
+            const counter = document.getElementById('live-count');
+            const dot = document.getElementById('network-dot');
+            try {
+                // Queries the live public Minecraft API cache
+                const response = await fetch('https://api.mcsrvstat.us/3/play.skyrise.net');
+                const data = await response.json();
+                
+                if (data.online) {
+                    dot.classList.remove('offline');
+                    counter.innerHTML = `<span style="color:#fff;">${data.players.online}</span> PLAYERS`;
+                } else {
+                    dot.classList.add('offline');
+                    counter.innerText = "OFFLINE";
+                }
+            } catch (err) {
+                counter.innerText = "ONLINE";
+            }
+        }
+        updateLiveNetworkMetrics();
+        setInterval(updateLiveNetworkMetrics, 30000); // Poll status every 30 seconds
+
+        // --- 2. INTERACTIVE CLIPBOARD ENGINE ---
+        function copyNetworkIP(ipString) {
+            navigator.clipboard.writeText(ipString);
+            const textElement = document.getElementById('target-ip');
+            const initialText = textElement.innerText;
+            
+            textElement.innerText = "COPIED TO CLIPBOARD!";
+            textElement.style.color = "#45f3ff";
+            
+            setTimeout(() => {
+                textElement.innerText = initialText;
+                textElement.style.color = "#fff";
+            }, 2000);
+        }
+
+        // --- 3. STARS VOID VECTOR CANVAS PARTICLE ANIMATOR ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let starArray = [];
+        const maxStars = 80;
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', setCanvasSize);
+        setCanvasSize();
+
+        class ParticleStar {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.baseSpeedX = Math.random() * 0.4 - 0.2;
+                this.baseSpeedY = Math.random() * 0.4 - 0.2;
+                this.speedX = this.baseSpeedX;
+                this.speedY = this.baseSpeedY;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, ' + (Math.random() * 0.4 + 0.3) + ')';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createStarfield() {
+            starArray = [];
+            for (let i = 0; i < maxStars; i++) {
+                starArray.push(new ParticleStar());
+            }
+        }
+        createStarfield();
+
+        // Mouse displacement matrix effect
+        window.addEventListener('mousemove', (e) => {
+            const mX = e.clientX;
+            const mY = e.clientY;
+            starArray.forEach(star => {
+                const dx = star.x - mX;
+                const dy = star.y - mY;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < 150) {
+                    const force = (150 - distance) / 150;
+                    star.speedX += (dx / distance) * force * 0.05;
+                    star.speedY += (dy / distance) * force * 0.05;
+                } else {
+                    // Gradual deceleration back to base cruise velocities
+                    star.speedX += (star.baseSpeedX - star.speedX) * 0.02;
+                    star.speedY += (star.baseSpeedY - star.speedY) * 0.02;
+                }
+            });
+        });
+
+        function animateStarfieldLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            starArray.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animateStarfieldLoop);
+        }
+        animateStarfieldLoop();
+    </script>
+</body>
+</html>
