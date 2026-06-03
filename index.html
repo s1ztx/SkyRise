@@ -34,7 +34,18 @@
             position: relative;
         }
 
-        /* --- AMBIENT GLOW BACKDROP BACKGROUND FROM THEME IMAGE --- */
+        /* --- BACKGROUND PARTICLES CANVAS --- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* --- AMBIENT GLOW BACKDROP BACKGROUND --- */
         .ambient-glow-1 {
             position: fixed;
             top: 20%;
@@ -239,7 +250,7 @@
             gap: 6px;
         }
 
-        /* --- THEME MATTE STOREFRONT SECTION --- */
+        /* --- SHOP SECTION --- */
         .store-section {
             width: 100%;
             max-width: 1200px;
@@ -383,6 +394,9 @@
 </head>
 <body>
 
+    <!-- Canvas Component for Particles Background -->
+    <canvas id="particle-canvas"></canvas>
+
     <div class="ambient-glow-1"></div>
     <div class="ambient-glow-2"></div>
 
@@ -442,6 +456,7 @@
                 <p class="store-subtitle">Support development and customize your identity profile in-game</p>
                 
                 <div class="shop-grid">
+                    <!-- CUSTOM -->
                     <div class="shop-card limited">
                         <div class="tag-badge">Limited</div>
                         <div class="rank-name">Custom Rank</div>
@@ -456,6 +471,7 @@
                         <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
+                    <!-- SUPREME -->
                     <div class="shop-card best">
                         <div class="tag-badge best-deal">Popular</div>
                         <div class="rank-name">Supreme</div>
@@ -470,6 +486,7 @@
                         <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
+                    <!-- ELITE -->
                     <div class="shop-card">
                         <div class="rank-name">Elite</div>
                         <div class="rank-price">$3.99</div>
@@ -482,6 +499,7 @@
                         <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
+                    <!-- VIP+ -->
                     <div class="shop-card">
                         <div class="rank-name">VIP+</div>
                         <div class="rank-price">$2.99</div>
@@ -493,6 +511,7 @@
                         <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
+                    <!-- AURA -->
                     <div class="shop-card">
                         <div class="rank-name">Aura</div>
                         <div class="rank-price">$1.99</div>
@@ -504,6 +523,7 @@
                         <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
+                    <!-- VIP -->
                     <div class="shop-card">
                         <div class="rank-name">VIP</div>
                         <div class="rank-price">$1.00</div>
@@ -514,6 +534,7 @@
                         <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
+                    <!-- CHAT COLOR -->
                     <div class="shop-card">
                         <div class="rank-name">Chat Color</div>
                         <div class="rank-price">$3.00</div>
@@ -533,7 +554,107 @@
     </div>
 
     <script>
-        // API Pinger
+        // --- PERFORMANCE CANVAS PARTICLES ENGINE ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particlesArray = [];
+        const maxParticles = 85; 
+        const mouse = { x: null, y: null, radius: 140 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.speedY = (Math.random() - 0.5) * 0.6;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+
+                // Mouse interaction mechanics
+                if (mouse.x != null && mouse.y != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < mouse.radius) {
+                        this.x -= dx * 0.02;
+                        this.y -= dy * 0.02;
+                    }
+                }
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(46, 213, 115, 0.45)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < maxParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function connectParticles() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let dx = particlesArray[a].x - particlesArray[b].x;
+                    let dy = particlesArray[a].y - particlesArray[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 110) {
+                        let opacity = (1 - (distance / 110)) * 0.12;
+                        ctx.strokeStyle = `rgba(46, 213, 115, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            connectParticles();
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+
+        // --- LIVE PERFORMANCE METRICS API ---
         async function updateLiveNetworkMetrics() {
             const counter = document.getElementById('live-count');
             const dot = document.getElementById('network-dot');
@@ -554,7 +675,6 @@
         updateLiveNetworkMetrics();
         setInterval(updateLiveNetworkMetrics, 30000);
 
-        // Clipboard Copy Action
         function copyNetworkIP(ipString) {
             navigator.clipboard.writeText(ipString);
             const textElement = document.getElementById('target-ip');
