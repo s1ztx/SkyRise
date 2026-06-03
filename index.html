@@ -488,7 +488,7 @@
             color: var(--text-gray);
             display: flex;
             align-items: center;
-            gap: 10px;
+gap: 10px;
         }
 
         .perk-list li i {
@@ -536,7 +536,6 @@
 </head>
 <body>
 
-    <!-- Canvas Component for Particles Background -->
     <canvas id="particle-canvas"></canvas>
 
     <div class="ambient-glow-1"></div>
@@ -548,7 +547,7 @@
             <nav>
                 <a href="#features">Features</a>
                 <a href="#store">Store</a>
-                <a href="https://discord.gg/sFFRyQggS" target="_blank">Discord</a>
+                <a href="https://discord.gg/3NvrYh2d" target="_blank">Discord</a>
             </nav>
         </header>
 
@@ -565,7 +564,6 @@
             </div>
 
             <div class="grid-matrix" id="features">
-                <!-- SERVER STATS CARD TRIGGER (Perfectly restored with data rows) -->
                 <div class="matrix-card" id="stats-trigger-card" onclick="toggleServerStatsPanel()">
                     <div>
                         <div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div>
@@ -588,7 +586,6 @@
                     <div class="action-arrow">Server Stats <i class="fa-solid fa-arrow-down"></i></div>
                 </div>
 
-                <!-- RANK STORE CARD -->
                 <a href="#store" class="matrix-card">
                     <div>
                         <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
@@ -598,8 +595,7 @@
                     <div class="action-arrow">Explore Shop <i class="fa-solid fa-arrow-right"></i></div>
                 </a>
 
-                <!-- DISCORD CONNECTOR CARD -->
-                <a href="https://discord.gg/sFFRyQggS" class="matrix-card" target="_blank">
+                <a href="https://discord.gg/3NvrYh2d" class="matrix-card" target="_blank">
                     <div>
                         <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
                         <h3>Secure Discord</h3>
@@ -609,7 +605,6 @@
                 </a>
             </div>
 
-            <!-- --- THE DIAGNOSTICS SLIDE-DOWN DRAWER COMPONENT --- -->
             <div class="slide-panel-container" id="stats-sliding-container">
                 <div class="slide-panel-content">
                     <div class="inner-stats-dashboard">
@@ -623,7 +618,6 @@
                         </div>
 
                         <div class="dashboard-layout-grid">
-                            <!-- METRICS BOX -->
                             <div class="dashboard-box">
                                 <div class="box-title"><i class="fa-solid fa-server"></i> System Metrics</div>
                                 <div class="stat-rows" style="margin: 0;">
@@ -635,7 +629,6 @@
                                 </div>
                             </div>
 
-                            <!-- PLAYERS ACTIVE BOX -->
                             <div class="dashboard-box">
                                 <div class="box-title"><i class="fa-solid fa-users"></i> Online Players</div>
                                 <div class="player-list-scroll" id="drop-player-list">
@@ -647,13 +640,11 @@
                 </div>
             </div>
 
-            <!-- --- SHOP ROW SECTION --- -->
             <section class="store-section" id="store">
                 <h2 class="store-title">Network Shop</h2>
                 <p class="store-subtitle">Support development and customize your identity profile in-game</p>
                 
                 <div class="shop-grid">
-                    <!-- CUSTOM -->
                     <div class="shop-card limited">
                         <div class="tag-badge">Limited</div>
                         <div class="rank-name">Custom Rank</div>
@@ -665,10 +656,9 @@
                             <li><i class="fa-solid fa-square-check"></i> Nickname Command</li>
                             <li><i class="fa-solid fa-square-check"></i> Premium Network Support</li>
                         </ul>
-                        <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
-                    <!-- SUPREME -->
                     <div class="shop-card best">
                         <div class="tag-badge best-deal">Popular</div>
                         <div class="rank-name">Supreme</div>
@@ -680,10 +670,9 @@
                             <li><i class="fa-solid fa-square-check"></i> Colored Custom Chat</li>
                             <li><i class="fa-solid fa-square-check"></i> Custom Join Message</li>
                         </ul>
-                        <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
-                    <!-- ELITE -->
                     <div class="shop-card">
                         <div class="rank-name">Elite</div>
                         <div class="rank-price">$3.99</div>
@@ -693,10 +682,9 @@
                             <li><i class="fa-solid fa-square-check"></i> Colored Chat Grid</li>
                             <li><i class="fa-solid fa-square-check"></i> Extra Perks Access</li>
                         </ul>
-                        <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
-                    <!-- VIP+ -->
                     <div class="shop-card">
                         <div class="rank-name">VIP+</div>
                         <div class="rank-price">$2.99</div>
@@ -705,10 +693,9 @@
                             <li><i class="fa-solid fa-square-check"></i> Fly Command Access</li>
                             <li><i class="fa-solid fa-square-check"></i> Chat Formatting Access</li>
                         </ul>
-                        <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
-                    <!-- AURA -->
                     <div class="shop-card">
                         <div class="rank-name">Aura</div>
                         <div class="rank-price">$1.99</div>
@@ -717,10 +704,9 @@
                             <li><i class="fa-solid fa-square-check"></i> Colored Chat Access</li>
                             <li><i class="fa-solid fa-square-check"></i> Special Log Message</li>
                         </ul>
-                        <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
-                    <!-- VIP -->
                     <div class="shop-card">
                         <div class="rank-name">VIP</div>
                         <div class="rank-price">$1.00</div>
@@ -728,10 +714,9 @@
                             <li><i class="fa-solid fa-square-check"></i> Green VIP Tag Line</li>
                             <li><i class="fa-solid fa-square-check"></i> Essential Lobby Access</li>
                         </ul>
-                        <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
 
-                    <!-- CHAT COLOR -->
                     <div class="shop-card">
                         <div class="rank-name">Chat Color</div>
                         <div class="rank-price">$3.00</div>
@@ -739,7 +724,7 @@
                             <li><i class="fa-solid fa-square-check"></i> Selectable Chat Colors</li>
                             <li><i class="fa-solid fa-square-check"></i> Stand Out Globally</li>
                         </ul>
-                        <a href="https://discord.gg/sFFRyQggS" target="_blank" class="buy-btn">Unlock Rank</a>
+                        <a href="https://discord.gg/3NvrYh2d" target="_blank" class="buy-btn">Unlock Rank</a>
                     </div>
                 </div>
             </section>
