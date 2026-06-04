@@ -3,688 +3,1704 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyRise Network</title>
-    <!-- FontAwesome for clean icons -->
+    <title>SkyRise Network | Rise Above The Rest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- CSS VARIABLES & THEME SETUP --- */
+        /* --- CSS VARIABLES & THEME CONFIGURATION --- */
         :root {
-            --dark-bg: #0a0f1d;          /* Deep Dark Blue Background */
-            --card-bg: #111a30;          /* Lighter Dark Blue for cards */
-            --navbar-bg: #070b16;        /* Darkest Blue for contrast */
-            --sky-blue: #00bfff;         /* Electric Sky Blue accents */
-            --sky-glow: rgba(0, 191, 255, 0.4);
-            --white: #ffffff;            /* Pure White */
-            --text-muted: #a0aec0;       /* Soft grey text */
-            --accent-gold: #ffd700;      /* For best seller accents */
-            --success: #2ecc71;          /* Green for elements */
-            --danger: #e74c3c;           /* Red for Bans */
-            --warning: #f1c40f;          /* Yellow for Mutes */
+            --primary: #00bfff;
+            --primary-glow: rgba(0, 191, 255, 0.4);
+            --secondary: #6dd5ff;
+            --bg-dark: #08111f;
+            --bg-darker: #040912;
+            --text-light: #ffffff;
+            --text-muted: #a0aec0;
+            --glass: rgba(13, 25, 46, 0.65);
+            --glass-border: rgba(0, 191, 255, 0.15);
+            --glass-hover: rgba(0, 191, 255, 0.08);
+            --accent-gold: #ffd700;
+            --accent-gold-glow: rgba(255, 215, 0, 0.4);
+            --accent-red: #ff4a4a;
+            --accent-red-glow: rgba(255, 74, 74, 0.4);
+            --success: #2ecc71;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* --- GLOBAL RESET & BASE STYLES --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
         }
 
         body {
-            background-color: var(--dark-bg);
-            color: var(--white);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-color: var(--bg-darker);
+            color: var(--text-light);
             overflow-x: hidden;
-        }
-
-        /* --- NAVBAR --- */
-        .navbar {
-            background-color: var(--navbar-bg);
-            border-bottom: 2px solid var(--card-bg);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-        }
-
-        .sky-text {
-            color: var(--sky-blue);
-            text-shadow: 0 0 10px var(--sky-glow);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-        }
-
-        .nav-item {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            color: var(--white);
-            background-color: var(--card-bg);
-            box-shadow: inset 0 0 5px var(--sky-blue);
-        }
-
-        /* --- CONTENT CONTAINER & GLOBAL STYLES --- */
-        .content-wrapper {
-            flex: 1;
-            max-width: 1200px;
-            width: 100%;
-            margin: 100px auto 4rem auto;
-            padding: 2rem;
-        }
-
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title p {
-            color: var(--text-muted);
-        }
-
-        .title-line {
-            width: 80px;
-            height: 4px;
-            background: var(--sky-blue);
-            margin: 10px auto 0 auto;
-            border-radius: 2px;
-            box-shadow: 0 0 10px var(--sky-blue);
-        }
-
-        /* --- HOME HERO SECTION --- */
-        .hero {
-            text-align: center;
-            padding: 3rem 1rem 5rem 1rem;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .sky-glow {
-            color: var(--sky-blue);
-            text-shadow: 0 0 20px var(--sky-glow);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 3rem auto;
             line-height: 1.6;
         }
 
-        /* IP CLICK TO COPY BUTTON */
-        .server-status {
-            background-color: var(--card-bg);
-            display: inline-flex;
+        /* --- BACKGROUND PARTICLES EFFECT --- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- PRELOADER ANIMATION --- */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-darker);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
             align-items: center;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            border: 2px solid var(--sky-blue);
-            cursor: pointer;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .preloader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+        .loader-content {
+            text-align: center;
+        }
+        .loader-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+        .loader-logo span {
+            color: var(--primary);
+        }
+        .loader-bar {
+            width: 180px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            margin: 0 auto;
             position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 0 15px var(--sky-glow);
+            overflow: hidden;
+        }
+        .loader-bar::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 10px var(--primary);
+            border-radius: 2px;
+            animation: loading-slide 1.5s infinite ease-in-out;
+        }
+        @keyframes loading-slide {
+            0% { left: -40%; }
+            50% { left: 100%; width: 60%; }
+            100% { left: 100%; width: 40%; }
         }
 
-        .server-status:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 25px var(--sky-blue);
-        }
-
-        .status-icon {
-            font-size: 1.5rem;
-            color: var(--sky-blue);
-            margin-right: 1rem;
-        }
-
-        .status-info {
+        /* --- NOTIFICATION PLATFORM --- */
+        .notification-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
             display: flex;
             flex-direction: column;
-            text-align: left;
-            margin-right: 1.5rem;
+            gap: 12px;
         }
-
-        .ip-text {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .player-count {
-            font-size: 0.85rem;
-            color: var(--success);
+        .notif {
+            background: rgba(8, 17, 31, 0.9);
+            border-left: 4px solid var(--primary);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 0 8px 8px 0;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 12px;
+            transform: translateX(120%);
+            animation: notif-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            min-width: 280px;
+        }
+        .notif i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 5px var(--primary-glow));
+        }
+        .notif-text h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+        .notif-text p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        @keyframes notif-slide-in {
+            to { transform: translateX(0); }
         }
 
-        .pulse-dot {
+        /* --- REUSABLE GLASSMORPHISM ELEMENT STYLES --- */
+        .glass-panel {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 191, 255, 0.3);
+            background: rgba(13, 25, 46, 0.75);
+            box-shadow: 0 20px 40px rgba(0, 191, 255, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- PREMIUM BUTTONS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0.85rem 2rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #0088cc);
+            color: #000;
+            font-weight: 800;
+            box-shadow: 0 5px 20px var(--primary-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 191, 255, 0.6);
+            filter: brightness(1.1);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.1);
+        }
+        .btn-discord {
+            background: #5865F2;
+            color: var(--text-light);
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+        }
+        .btn-discord:hover {
+            transform: translateY(-3px);
+            background: #4752C4;
+            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.5);
+        }
+
+        /* --- SECTION HEADERS --- */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--primary);
+        }
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 15px auto 0 auto;
+        }
+
+        /* --- NAVIGATION HEADER --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(4, 9, 18, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+        .navbar.scrolled {
+            background: rgba(4, 9, 18, 0.95);
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        .nav-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 2rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        .logo-mark i {
+            color: #000;
+            font-size: 1.3rem;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            color: var(--text-light);
+        }
+        .logo-text span {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-light);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+            box-shadow: 0 0 8px var(--primary);
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-toggle {
+            display: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- HERO SPLASH SECTION --- */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+            position: relative;
+            z-index: 10;
+        }
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 1rem;
+            animation: pulse-glow 3s infinite alternate;
+        }
+        @keyframes pulse-glow {
+            0% { text-shadow: 0 0 5px rgba(0, 191, 255, 0.2); }
+            100% { text-shadow: 0 0 20px rgba(0, 191, 255, 0.7); }
+        }
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--text-light) 60%, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 3rem auto;
+        }
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+        
+        /* PREMIUM IP CONSOLE MODULE */
+        .ip-card {
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(4, 9, 18, 0.6);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        .ip-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(0, 191, 255, 0.1), inset 0 1px 2px rgba(255,255,255,0.08);
+            transform: scale(1.02);
+        }
+        .ip-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+        }
+        .ip-icon-box {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 191, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            border: 1px solid rgba(0, 191, 255, 0.2);
+        }
+        .ip-address-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            color: var(--text-light);
+        }
+        .ip-subtext {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .ip-action-hint {
+            background: rgba(0, 191, 255, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--text-light);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+        .ip-card:hover .ip-action-hint {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* --- VITAL LIVE METRICS PANEL --- */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: -2rem;
+        }
+        .metric-card {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .metric-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 8px var(--primary-glow));
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .metric-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .pulse-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--success);
+            font-weight: 700;
+        }
+        .dot {
             width: 8px;
             height: 8px;
             background-color: var(--success);
             border-radius: 50%;
-            display: inline-block;
-            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse-dot-anim 1.5s infinite;
+        }
+        @keyframes pulse-dot-anim {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px var(--success); }
+            100% { transform: scale(0.8); opacity: 0.5; }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.7; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.9); opacity: 0.7; }
+        /* --- GAMEMODES MODULE --- */
+        .gamemodes-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1.5rem;
+        }
+        .gamemode-card {
+            grid-column: span 2;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 350px;
+            padding: 2rem;
+        }
+        /* Grid Layout balancing for 5 items */
+        .gamemodes-grid .gamemode-card:nth-child(4) {
+            grid-column: 2 / span 2;
+        }
+        .gamemodes-grid .gamemode-card:nth-child(5) {
+            grid-column: 4 / span 2;
+        }
+        .gm-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            transition: var(--transition);
+            filter: brightness(0.4) saturate(0.8);
+        }
+        .gamemode-card:hover .gm-bg {
+            transform: scale(1.1);
+            filter: brightness(0.6) saturate(1.1);
+        }
+        .gm-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(4,9,18,0.95) 20%, rgba(4,9,18,0.2) 100%);
+            z-index: 2;
+        }
+        .gm-info {
+            position: relative;
+            z-index: 3;
+            transition: var(--transition);
+        }
+        .gm-icon-container {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 191, 255, 0.15);
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+        }
+        .gamemode-card:hover .gm-icon-container {
+            background: var(--primary);
+            color: #000;
+            transform: rotate(-5deg) scale(1.05);
+        }
+        .gm-info h3 {
+            font-size: 1.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        .gm-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transform: translateY(0);
+            transition: var(--transition);
         }
 
-        .copy-hint {
-            background: var(--sky-blue);
-            color: var(--dark-bg);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+        /* --- STATS COUNTERS GRID --- */
+        .stats-bg {
+            background: linear-gradient(180deg, transparent, var(--bg-dark), transparent);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+        }
+        .stat-card {
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+        .stat-counter {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
             font-weight: 700;
         }
 
-        /* HOME FEATURES */
-        .features-grid {
+        /* --- PREMIUM WEBSTORE ARCHITECTURE --- */
+        .store-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            margin-top: 2rem;
         }
-
-        .feature-card {
-            background-color: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 10px;
+        .store-card {
+            display: flex;
+            flex-direction: column;
+            padding: 3rem 2rem;
+            position: relative;
+            justify-content: space-between;
+            min-height: 520px;
+        }
+        .store-card.best-value {
+            border-color: var(--accent-gold);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.08), inset 0 1px 1px rgba(255,255,255,0.05);
+        }
+        .store-card.best-value:hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 20px 45px rgba(255, 215, 0, 0.15), inset 0 1px 1px rgba(255,255,255,0.08);
+        }
+        .store-card.limited {
+            border-color: var(--accent-red);
+            box-shadow: 0 15px 40px rgba(255, 74, 74, 0.08), inset 0 1px 1px rgba(255,255,255,0.05);
+        }
+        .store-card.limited:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 20px 45px rgba(255, 74, 74, 0.15), inset 0 1px 1px rgba(255,255,255,0.08);
+        }
+        .badge-premium {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+        .badge-best {
+            background: var(--accent-gold);
+            color: #000;
+            box-shadow: 0 0 10px var(--accent-gold-glow);
+        }
+        .badge-limited {
+            background: var(--accent-red);
+            color: var(--text-light);
+            box-shadow: 0 0 10px var(--accent-red-glow);
+        }
+        .store-card-header {
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s;
+            margin-bottom: 2rem;
+        }
+        .rank-name {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        /* Specific Rank Color Tiers */
+        .rank-vip { color: #55ff55; text-shadow: 0 0 10px rgba(85,255,85,0.2); }
+        .rank-aura { color: #ffaa00; text-shadow: 0 0 10px rgba(255,170,0,0.2); }
+        .rank-vipplus { color: #55ffff; text-shadow: 0 0 10px rgba(85,255,255,0.2); }
+        .rank-elite { color: #ff55ff; text-shadow: 0 0 10px rgba(255,55,255,0.2); }
+        .rank-supreme { color: var(--accent-gold); text-shadow: 0 0 10px var(--accent-gold-glow); }
+        .rank-custom { color: var(--accent-red); text-shadow: 0 0 10px var(--accent-red-glow); }
+
+        .rank-price {
+            font-size: 3rem;
+            font-weight: 900;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-light);
+        }
+        .perks-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+        }
+        .perks-list li {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .perks-list li i {
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+        .store-card.best-value .perks-list li i { color: var(--accent-gold); }
+        .store-card.limited .perks-list li i { color: var(--accent-red); }
+
+        .btn-purchase {
+            width: 100%;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
+        /* --- UTILITY / VALUES MATRIX SECTION --- */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
         }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--sky-blue);
-            margin-bottom: 1.5rem;
+        .why-card {
+            padding: 2.5rem;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
         }
-
-        .feature-card h3 {
-            margin-bottom: 1rem;
+        .why-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 191, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            transition: var(--transition);
         }
-
-        .feature-card p {
+        .why-card:hover .why-icon {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            transform: scale(1.05);
+        }
+        .why-meta h3 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.6rem;
+        }
+        .why-meta p {
             color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.5;
         }
 
-        /* --- STORE GRID & CARDS --- */
-        .store-grid {
+        /* --- COMMUNITY DISCORD ENGAGEMENT GATEWAY --- */
+        .discord-panel {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(12, 1fr);
+            padding: 4rem;
+            align-items: center;
+            gap: 3rem;
+            position: relative;
+            overflow: hidden;
         }
-
-        .store-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 2.5rem 2rem;
+        .discord-panel::after {
+            content: '\f392';
+            font-family: 'Font Awesome 6 Brands';
+            position: absolute;
+            right: -30px;
+            bottom: -50px;
+            font-size: 25rem;
+            color: rgba(88, 101, 242, 0.03);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .discord-text-content {
+            grid-column: span 7;
+            position: relative;
+            z-index: 2;
+        }
+        .discord-text-content h3 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .discord-text-content p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+        .discord-features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+        .discord-feat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .discord-feat-item i {
+            color: #5865F2;
+            font-size: 1.2rem;
+        }
+        .discord-action-box {
+            grid-column: span 5;
             text-align: center;
             position: relative;
-            border: 2px solid transparent;
+            z-index: 2;
+        }
+
+        /* --- INTELLIGENT ACCORDION SYSTEM (FAQ) --- */
+        .faq-layout {
+            max-width: 850px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
+            gap: 1rem;
+        }
+        .faq-item {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: var(--glass);
+            transition: var(--transition);
+        }
+        .faq-trigger {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
             justify-content: space-between;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-
-        .store-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--sky-blue);
-        }
-
-        .vip-color { color: #55ff55; text-shadow: 0 0 10px rgba(85, 255, 85, 0.2); }
-        .aura-color { color: #ffaa00; text-shadow: 0 0 10px rgba(255, 170, 0, 0.2); }
-        .vipplus-color { color: #55ffff; text-shadow: 0 0 10px rgba(85, 255, 255, 0.2); }
-        .chatcolor-color { color: #e2c08d; }
-        .elite-color { color: #ff55ff; text-shadow: 0 0 10px rgba(255, 55, 255, 0.2); }
-        .supreme-color { color: #ff5555; text-shadow: 0 0 10px rgba(255, 85, 85, 0.3); }
-
-        .rank-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 1.5rem;
-        }
-
-        .perks-list {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 2rem;
-            flex-grow: 1;
-        }
-
-        .perks-list li {
-            padding: 0.6rem 0;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-        }
-
-        .perks-list li i {
-            color: var(--sky-blue);
-            margin-right: 8px;
-        }
-
-        .buy-btn {
-            background: linear-gradient(135deg, #0056b3, var(--sky-blue));
-            color: var(--white);
+            align-items: center;
+            background: transparent;
             border: none;
-            padding: 1rem;
-            border-radius: 8px;
-            font-weight: 700;
+            color: var(--text-light);
             cursor: pointer;
-            width: 100%;
-            transition: opacity 0.2s, transform 0.1s;
-        }
-
-        .buy-btn:hover { opacity: 0.9; }
-        .buy-btn:active { transform: scale(0.98); }
-
-        .best-value {
-            border: 2px solid var(--accent-gold) !important;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
-        }
-
-        .best-value .buy-btn {
-            background: linear-gradient(135deg, #cc9900, var(--accent-gold));
-            color: #000;
-        }
-
-        .best-value .perks-list li i { color: var(--accent-gold); }
-
-        .ribbon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--accent-gold);
-            color: #000;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-        }
-
-        /* --- PUNISHMENTS TABLE --- */
-        .table-container {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            overflow-x: auto;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .punishments-table {
-            width: 100%;
-            border-collapse: collapse;
             text-align: left;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        .faq-trigger:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .faq-icon-marker {
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: var(--primary);
+        }
+        .faq-item.active {
+            border-color: var(--primary);
+            background: rgba(13, 25, 46, 0.85);
+        }
+        .faq-item.active .faq-icon-marker {
+            transform: rotate(180deg);
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+        .faq-content-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq-inner-body {
+            padding: 0 2rem 1.5rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.6;
         }
 
-        .punishments-table th, .punishments-table td { padding: 1.2rem 1.5rem; }
-
-        .punishments-table th {
-            background-color: var(--navbar-bg);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        /* --- SIGNATURE CONSOLE FOOTER --- */
+        .footer-module {
+            background-color: var(--bg-darker);
+            border-top: 1px solid var(--glass-border);
+            padding: 4rem 2rem 2rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-brand h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
             letter-spacing: 1px;
         }
-
-        .punishments-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .punishments-table tr:last-child { border-bottom: none; }
-        .player-name { font-weight: 600; }
-
-        .badge {
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
+        .footer-brand h3 span {
+            color: var(--primary);
+        }
+        .footer-brand p {
+            color: var(--text-muted);
+            max-width: 320px;
+            font-size: 0.9rem;
+        }
+        .footer-links-box h4 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.2rem;
+            color: var(--text-light);
+        }
+        .footer-links-box ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .footer-links-box ul a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        .footer-links-box ul a:hover {
+            color: var(--primary);
+            padding-left: 4px;
+        }
+        .footer-infosphere h4 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.2rem;
+        }
+        .footer-infosphere p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .footer-infosphere p i {
+            color: var(--primary);
+            width: 16px;
+        }
+        .footer-baseline {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .footer-baseline p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .footer-baseline .legal-disclaimer {
+            opacity: 0.5;
         }
 
-        .badge.ban { background-color: rgba(231, 76, 60, 0.2); color: var(--danger); border: 1px solid var(--danger); }
-        .badge.mute { background-color: rgba(241, 196, 123, 0.2); color: var(--warning); border: 1px solid var(--warning); }
-
-        .status-perm { color: var(--danger); font-weight: 600; }
-        .status-active { color: var(--warning); font-weight: 600; }
-        .status-expired { color: var(--success); font-weight: 600; }
-
-        /* --- FOOTER --- */
-        .footer {
-            background-color: var(--navbar-bg);
-            text-align: center;
-            padding: 2rem;
-            border-top: 2px solid var(--card-bg);
-            margin-top: auto;
+        /* --- RESPONSIVE INTERFACE COMPONENT STYLES --- */
+        @media (max-width: 1024px) {
+            .store-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gamemodes-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .gamemodes-grid .gamemode-card {
+                grid-column: span 2;
+            }
+            .gamemodes-grid .gamemode-card:nth-child(4),
+            .gamemodes-grid .gamemode-card:nth-child(5) {
+                grid-column: span 2;
+            }
+            .discord-panel {
+                grid-template-columns: 1fr;
+                padding: 3rem 2rem;
+            }
+            .discord-text-content {
+                grid-column: span 12;
+            }
+            .discord-action-box {
+                grid-column: span 12;
+            }
         }
 
-        .footer p { color: var(--text-muted); font-size: 0.9rem; }
-        .footer .disclaimer { font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6; }
-
-        /* --- RESPONSIVE MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 1rem; }
-            .hero h1 { font-size: 2.5rem; }
-            .content-wrapper { margin-top: 150px; }
+            .hero-title { font-size: 3.2rem; }
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--bg-darker);
+                flex-direction: column;
+                padding: 3rem;
+                gap: 2rem;
+                transition: var(--transition);
+                backdrop-filter: none;
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .nav-toggle {
+                display: block;
+            }
+            .store-grid {
+                grid-template-columns: 1fr;
+            }
+            .gamemodes-grid {
+                grid-template-columns: 1fr;
+            }
+            .gamemodes-grid .gamemode-card,
+            .gamemodes-grid .gamemode-card:nth-child(4),
+            .gamemodes-grid .gamemode-card:nth-child(5) {
+                grid-column: span 1;
+            }
+            .discord-features-list {
+                grid-template-columns: 1fr;
+            }
+            .footer-inner {
+                flex-direction: column;
+                gap: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">SKY<span class="sky-text">RISE</span></div>
-            <ul class="nav-links">
-                <li><a href="#" class="nav-item active" data-target="home">Home</a></li>
-                <li><a href="#" class="nav-item" data-target="store">Store</a></li>
-                <li><a href="#" class="nav-item" data-target="punishments">Punishments</a></li>
-                <li><a href="https://discord.gg/skyrise" target="_blank" class="nav-item"><i class="fab fa-discord"></i> Discord</a></li>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="preloader" id="preloader-overlay">
+        <div class="loader-content">
+            <div class="loader-logo">SKY<span>RISE</span></div>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <div class="notification-container" id="notif-anchor"></div>
+
+    <nav class="navbar" id="main-navigation">
+        <div class="nav-wrapper">
+            <a href="#" class="nav-logo">
+                <div class="logo-mark"><i class="fa-solid fa-cube"></i></div>
+                <div class="logo-text">SKY<span>RISE</span></div>
+            </a>
+            <div class="nav-toggle" id="menu-toggle-btn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-menu" id="nav-dropdown-list">
+                <li><a href="#" class="nav-link active">Home</a></li>
+                <li><a href="#gamemodes" class="nav-link">Gamemodes</a></li>
+                <li><a href="#store" class="nav-link">Store</a></li>
+                <li><a href="#stats" class="nav-link">Stats</a></li>
+                <li><a href="#faq" class="nav-link">FAQ</a></li>
+                <li><a href="https://discord.gg/skyrise" target="_blank" class="btn btn-discord" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;"><i class="fa-brands fa-discord"></i> Discord</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="content-wrapper">
-
-        <!-- HOME PAGE -->
-        <section id="home" class="page-section active">
-            <div class="hero">
-                <h1>Welcome to <span class="sky-glow">SkyRise Network</span></h1>
-                <p>Experience the ultimate Minecraft adventure with custom features, balanced gameplay, and an amazing community.</p>
-                
-                <div class="server-status" id="ip-button" onclick="copyIP()">
-                    <div class="status-icon"><i class="fas fa-server"></i></div>
-                    <div class="status-info">
-                        <span class="ip-text">play.skyrisenetwork.com</span>
-                        <span class="player-count"><span class="pulse-dot"></span> <span id="online-count">142</span> Players Online</span>
+    <header class="hero-section" id="home">
+        <div class="hero-content">
+            <p class="hero-subtitle">SkyRise Network</p>
+            <h1 class="hero-title">Rise Above<br>The Rest</h1>
+            <p class="hero-description">Immerse yourself into a highly competitive, production-optimized Minecraft network engineered for perfection and flawless performance.</p>
+            <div class="hero-actions">
+                <a href="#gamemodes" class="btn btn-primary"><i class="fa-solid fa-gamepad"></i> Play Now</a>
+                <a href="https://discord.gg/skyrise" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-discord"></i> Join Discord</a>
+            </div>
+            
+            <div class="ip-card glass-panel" onclick="copyServerIP()">
+                <div class="ip-details">
+                    <div class="ip-icon-box"><i class="fa-solid fa-network-wired"></i></div>
+                    <div>
+                        <div class="ip-address-text">skyrise.ddns.net:25567</div>
+                        <div class="ip-subtext">Click to initialize connection copy</div>
                     </div>
-                    <div class="copy-hint">Click to Copy</div>
+                </div>
+                <div class="ip-action-hint">Copy IP</div>
+            </div>
+        </div>
+    </header>
+
+    <section class="section-container">
+        <div class="metrics-grid">
+            <div class="metric-card glass-panel">
+                <i class="fa-solid fa-users"></i>
+                <div class="metric-value" id="live-players-counter">742</div>
+                <div class="metric-label">Players Active</div>
+                <div class="pulse-indicator"><span class="dot"></span> Online</div>
+            </div>
+            <div class="metric-card glass-panel">
+                <i class="fa-solid fa-gauge-high"></i>
+                <div class="metric-value">20.0</div>
+                <div class="metric-label">Server TPS</div>
+                <div class="pulse-indicator" style="color: var(--primary);"><span class="dot" style="background-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow);"></span> Stable</div>
+            </div>
+            <div class="metric-card glass-panel">
+                <i class="fa-solid fa-code-branch"></i>
+                <div class="metric-value">1.8 - 1.20</div>
+                <div class="metric-label">Version Range</div>
+                <div class="pulse-indicator" style="color: var(--accent-gold);"><span class="dot" style="background-color: var(--accent-gold); box-shadow: 0 0 10px var(--accent-gold-glow);"></span> Native</div>
+            </div>
+            <div class="metric-card glass-panel">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div class="metric-value">Operational</div>
+                <div class="metric-label">Network Status</div>
+                <div class="pulse-indicator"><span class="dot"></span> Protected</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="gamemodes">
+        <div class="section-header">
+            <h2>Our Gamemodes</h2>
+            <p>Explore our carefully engineered gamemodes tailored for absolute competitive execution and balanced retention.</p>
+        </div>
+        <div class="gamemodes-grid">
+            <div class="gamemode-card glass-panel">
+                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1607988795691-3d0147b43231?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="gm-overlay"></div>
+                <div class="gm-info">
+                    <div class="gm-icon-container"><i class="fa-solid fa-bed"></i></div>
+                    <h3>BedWars</h3>
+                    <p>Protect your core foundation while strategically wiping out teams in fast-paced strategic skirmishes.</p>
                 </div>
             </div>
-
-            <!-- FEATURES SECTION -->
-            <div class="section-title">
-                <h2>Why Choose Us?</h2>
-                <div class="title-line"></div>
+            <div class="gamemode-card glass-panel">
+                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="gm-overlay"></div>
+                <div class="gm-info">
+                    <div class="gm-icon-container"><i class="fa-solid fa-cloud"></i></div>
+                    <h3>SkyWars</h3>
+                    <p>Fast-paced void battle royale maps featuring custom loot matrices and extreme mechanical engineering layouts.</p>
+                </div>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fas fa-bolt feature-icon"></i>
+            <div class="gamemode-card glass-panel">
+                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="gm-overlay"></div>
+                <div class="gm-info">
+                    <div class="gm-icon-container"><i class="fa-solid fa-dumbbell"></i></div>
+                    <h3>Practice</h3>
+                    <p>Sharpen your micro-movement, tracking, and combat strategies on zero-latency testing infrastructure.</p>
+                </div>
+            </div>
+            <div class="gamemode-card glass-panel">
+                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1551103782-8ab07afd45c1?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="gm-overlay"></div>
+                <div class="gm-info">
+                    <div class="gm-icon-container"><i class="fa-solid fa-swords"></i></div>
+                    <h3>Duels</h3>
+                    <p>Challenge elite competitive tier players to immediate, high-stakes combat trials across structured maps.</p>
+                </div>
+            </div>
+            <div class="gamemode-card glass-panel">
+                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="gm-overlay"></div>
+                <div class="gm-info">
+                    <div class="gm-icon-container"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <h3>Lifesteal</h3>
+                    <p>High-stakes open world survival. Execute rival players to siphon their health pool, or risk permanent banishment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-bg" id="stats">
+        <div class="section-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-counter" data-count-target="25000">0</div>
+                    <div class="stat-label">Registered Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-counter" data-count-target="100000">0</div>
+                    <div class="stat-label">Matches Executed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-counter" data-count-target="2500">0</div>
+                    <div class="stat-label">Discord Comrades</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-counter" style="background: var(--text-light); -webkit-background-clip: text;">99.9</div>
+                    <div class="stat-label">Uptime Percentage</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="store">
+        <div class="section-header">
+            <h2>Server Webstore</h2>
+            <p>Support network operational costs and expand cosmetic, command, and visual tier multipliers across all systems.</p>
+        </div>
+        <div class="store-grid">
+            <div class="store-card glass-panel">
+                <div class="store-card-header">
+                    <h3 class="rank-name rank-vip">VIP</h3>
+                    <div class="rank-price">$1.00</div>
+                </div>
+                <ul class="perks-list">
+                    <li><i class="fa-solid fa-circle-check"></i> VIP Cosmetic Rank Prefix</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Global Standard Colored Chat</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Primary Lobby Lobby Utilities</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Exclusive VIP Forum Tag</li>
+                </ul>
+                <button class="btn btn-secondary btn-purchase" onclick="triggerPurchaseAlert('VIP')">Purchase Tier</button>
+            </div>
+            <div class="store-card glass-panel">
+                <div class="store-card-header">
+                    <h3 class="rank-name rank-aura">AURA</h3>
+                    <div class="rank-price">$1.99</div>
+                </div>
+                <ul class="perks-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Unique Aura Rank Tags</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Access to Custom Chat Cosmetics</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Unique Interactive Hub Actions</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Specialized Server Entry Echo</li>
+                </ul>
+                <button class="btn btn-secondary btn-purchase" onclick="triggerPurchaseAlert('AURA')">Purchase Tier</button>
+            </div>
+            <div class="store-card glass-panel">
+                <div class="store-card-header">
+                    <h3 class="rank-name rank-vipplus">VIP+</h3>
+                    <div class="rank-price">$2.99</div>
+                </div>
+                <ul class="perks-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Premium VIP+ Rank Headers</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Server-Wide Flight Module (/fly)</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Enhanced Multi-Lobby Passwords</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Advanced Chat Character Scripts</li>
+                </ul>
+                <button class="btn btn-secondary btn-purchase" onclick="triggerPurchaseAlert('VIP+')">Purchase Tier</button>
+            </div>
+            <div class="store-card glass-panel">
+                <div class="store-card-header">
+                    <h3 class="rank-name rank-elite">ELITE</h3>
+                    <div class="rank-price">$3.99</div>
+                </div>
+                <ul class="perks-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Elite Global Rank Parameters</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Server-Wide Flight Access (/fly)</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Identity Masking Engine (/nick)</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Priority Dynamic Server Queue</li>
+                </ul>
+                <button class="btn btn-secondary btn-purchase" onclick="triggerPurchaseAlert('ELITE')">Purchase Tier</button>
+            </div>
+            <div class="store-card glass-panel best-value">
+                <span class="badge-premium badge-best">Best Value</span>
+                <div class="store-card-header">
+                    <h3 class="rank-name rank-supreme">SUPREME</h3>
+                    <div class="rank-price">$4.99</div>
+                </div>
+                <ul class="perks-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Dynamic Motion Rank Headers</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Server-Wide Flight Access (/fly)</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Identity Masking Engine (/nick)</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Custom Server Entry Broadcasts</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Maximum Virtual Inventory Slots</li>
+                </ul>
+                <button class="btn btn-primary btn-purchase" onclick="triggerPurchaseAlert('SUPREME')">Purchase Tier</button>
+            </div>
+            <div class="store-card glass-panel limited">
+                <span class="badge-premium badge-limited">Limited</span>
+                <div class="store-card-header">
+                    <h3 class="rank-name rank-custom">CUSTOM</h3>
+                    <div class="rank-price">$8.00</div>
+                </div>
+                <ul class="perks-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Fully Modifiable Custom Rank Tag</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Server-Wide Flight Module (/fly)</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Custom Font Hex-Code Picker</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Identity Masking Engine (/nick)</li>
+                    <li><i class="fa-solid fa-circle-check"></i> VIP Discord Support Escalation</li>
+                </ul>
+                <button class="btn btn-secondary btn-purchase" style="border-color: var(--accent-red);" onclick="triggerPurchaseAlert('CUSTOM')">Purchase Tier</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container">
+        <div class="section-header">
+            <h2>Why Choose SkyRise</h2>
+            <p>Engineered by infrastructure professionals to provide a premium competitive interface without compromise.</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-card glass-panel">
+                <div class="why-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div class="why-meta">
                     <h3>Lag-Free Gameplay</h3>
-                    <p>Optimized systems ensuring high TPS and smooth connection mechanics for everyone.</p>
+                    <p>Dedicated high-frequency processors coupled with optimal thread allocation guarantees flawless execution.</p>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-shield-alt feature-icon"></i>
+            </div>
+            <div class="why-card glass-panel">
+                <div class="why-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="why-meta">
                     <h3>Active Staff</h3>
-                    <p>Dedicated team members working around the clock to keep the network toxic and cheater free.</p>
+                    <p>Around-the-clock moderation teams keeping gaming sessions completely clear of malicious entities and toxicity.</p>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-cogs feature-icon"></i>
+            </div>
+            <div class="why-card glass-panel">
+                <div class="why-icon"><i class="fa-solid fa-gears"></i></div>
+                <div class="why-meta">
                     <h3>Custom Features</h3>
-                    <p>Unique plugins, features, and tailored economies that you won't find anywhere else.</p>
+                    <p>In-house developed asset configurations and economic designs you won't observe elsewhere.</p>
                 </div>
             </div>
-        </section>
-
-        <!-- STORE PAGE -->
-        <section id="store" class="page-section">
-            <div class="section-title">
-                <h2>Server Webstore</h2>
-                <p>Support the network and unlock premium tiers and enhancements!</p>
-                <div class="title-line"></div>
-            </div>
-
-            <div class="store-grid">
-                <!-- VIP CARD -->
-                <div class="store-card">
-                    <h3 class="rank-title vip-color">VIP</h3>
-                    <div class="price">$1.00</div>
-                    <ul class="perks-list">
-                        <li><i class="fas fa-check"></i> VIP Prefix</li>
-                        <li><i class="fas fa-check"></i> Colored Chat</li>
-                        <li><i class="fas fa-check"></i> Basic Commands</li>
-                        <li><i class="fas fa-check"></i> VIP Tag</li>
-                    </ul>
-                    <button class="buy-btn">Add to Cart</button>
-                </div>
-
-                <!-- AURA CARD -->
-                <div class="store-card">
-                    <h3 class="rank-title aura-color">AURA</h3>
-                    <div class="price">$1.99</div>
-                    <ul class="perks-list">
-                        <li><i class="fas fa-check"></i> Aura Prefix</li>
-                        <li><i class="fas fa-check"></i> Colored Chat</li>
-                        <li><i class="fas fa-check"></i> Fun Commands</li>
-                        <li><i class="fas fa-check"></i> Special Join Message</li>
-                    </ul>
-                    <button class="buy-btn">Add to Cart</button>
-                </div>
-
-                <!-- VIP+ CARD -->
-                <div class="store-card">
-                    <h3 class="rank-title vipplus-color">VIP+</h3>
-                    <div class="price">$2.99</div>
-                    <ul class="perks-list">
-                        <li><i class="fas fa-check"></i> VIP+ Prefix</li>
-                        <li><i class="fas fa-check"></i> Fly Command Access</li>
-                        <li><i class="fas fa-check"></i> Colored Chat</li>
-                        <li><i class="fas fa-check"></i> Extra Commands</li>
-                    </ul>
-                    <button class="buy-btn">Add to Cart</button>
-                </div>
-
-                <!-- CHAT COLOR CARD -->
-                <div class="store-card">
-                    <h3 class="rank-title chatcolor-color">CHAT COLOR</h3>
-                    <div class="price">$3.00</div>
-                    <ul class="perks-list">
-                        <li><i class="fas fa-paint-brush"></i> Choose Custom Chat Color</li>
-                        <li><i class="fas fa-star"></i> Unique Chat Appearance</li>
-                        <li><i class="fas fa-eye"></i> Stand Out In Chat</li>
-                        <li><i class="fas fa-user-shield"></i> Premium Player Identity</li>
-                    </ul>
-                    <button class="buy-btn">Add to Cart</button>
-                </div>
-
-                <!-- ELITE CARD -->
-                <div class="store-card">
-                    <h3 class="rank-title elite-color">ELITE</h3>
-                    <div class="price">$3.99</div>
-                    <ul class="perks-list">
-                        <li><i class="fas fa-check"></i> Elite Prefix</li>
-                        <li><i class="fas fa-check"></i> Fly Command Access</li>
-                        <li><i class="fas fa-check"></i> Colored Chat</li>
-                        <li><i class="fas fa-check"></i> Nickname Command</li>
-                        <li><i class="fas fa-check"></i> Extra Commands</li>
-                    </ul>
-                    <button class="buy-btn">Add to Cart</button>
-                </div>
-
-                <!-- SUPREME CARD (BEST VALUE) -->
-                <div class="store-card best-value">
-                    <div class="ribbon">BEST</div>
-                    <h3 class="rank-title supreme-color">SUPREME</h3>
-                    <div class="price">$4.99</div>
-                    <ul class="perks-list">
-                        <li><i class="fas fa-check"></i> Animated Prefix</li>
-                        <li><i class="fas fa-check"></i> Fly Command Access</li>
-                        <li><i class="fas fa-check"></i> Nickname Command</li>
-                        <li><i class="fas fa-check"></i> Colored Chat</li>
-                        <li><i class="fas fa-check"></i> Special Join Message</li>
-                        <li><i class="fas fa-check"></i> Exclusive Commands</li>
-                    </ul>
-                    <button class="buy-btn">Add to Cart</button>
+            <div class="why-card glass-panel">
+                <div class="why-icon"><i class="fa-solid fa-trophy"></i></div>
+                <div class="why-meta">
+                    <h3>Competitive PvP</h3>
+                    <p>Perfect registration models ensuring fluid hitboxing mechanics for dedicated combat enthusiasts.</p>
                 </div>
             </div>
-        </section>
-
-        <!-- PUNISHMENTS PAGE -->
-        <section id="punishments" class="page-section">
-            <div class="section-title">
-                <h2>Punishment History</h2>
-                <p>Public accountability logs keeping our community safe and clean.</p>
-                <div class="title-line"></div>
+            <div class="why-card glass-panel">
+                <div class="why-icon"><i class="fa-solid fa-users-rectangle"></i></div>
+                <div class="why-meta">
+                    <h3>Friendly Community</h3>
+                    <p>A welcoming global operational ecosystem connecting casual and legendary tactical tier players together.</p>
+                </div>
             </div>
-
-            <div class="table-container">
-                <table class="punishments-table">
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Type</th>
-                            <th>Reason</th>
-                            <th>Staff Member</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="player-name">xX_Gamer_Xx</span></td>
-                            <td><span class="badge ban">BAN</span></td>
-                            <td>Unfair Advantage (Killaura)</td>
-                            <td>Console</td>
-                            <td><span class="status-perm">Permanent</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="player-name">ToxicPlayer1</span></td>
-                            <td><span class="badge mute">MUTE</span></td>
-                            <td>Chat Toxicity & Chat Flood</td>
-                            <td>Mod_Sky</td>
-                            <td><span class="status-active">2 Hours Left</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="player-name">GriefMaster</span></td>
-                            <td><span class="badge ban">BAN</span></td>
-                            <td>Severe Wilderness Griefing</td>
-                            <td>Admin_Dave</td>
-                            <td><span class="status-expired">Expired</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="why-card glass-panel">
+                <div class="why-icon"><i class="fa-solid fa-code-compare"></i></div>
+                <div class="why-meta">
+                    <h3>Frequent Updates</h3>
+                    <p>Aggressive development cycles regularly pushing clean balance additions and system updates.</p>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </main>
+    <section class="section-container">
+        <div class="discord-panel glass-panel">
+            <div class="discord-text-content">
+                <h3>Join Our Discord Community</h3>
+                <p>Synchronize your network account metrics directly with our communications layer to coordinate matches and stay informed.</p>
+                <div class="discord-features-list">
+                    <div class="discord-feat-item"><i class="fa-solid fa-calendar-star"></i> Community Events</div>
+                    <div class="discord-feat-item"><i class="fa-solid fa-gift"></i> Active Giveaways</div>
+                    <div class="discord-feat-item"><i class="fa-solid fa-bullhorn"></i> Core Announcements</div>
+                    <div class="discord-feat-item"><i class="fa-solid fa-file-signature"></i> Staff Openings</div>
+                </div>
+            </div>
+            <div class="discord-action-box">
+                <a href="https://discord.gg/skyrise" target="_blank" class="btn btn-discord" style="font-size: 1.1rem; padding: 1.2rem 3rem; width: 100%; box-shadow: 0 15px 30px rgba(88, 101, 242, 0.4);"><i class="fa-brands fa-discord"></i> Join Discord</a>
+            </div>
+        </div>
+    </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>&copy; 2026 SkyRise Network. All rights reserved.</p>
-        <p class="disclaimer">We are not affiliated with Mojang AB or Microsoft.</p>
+    <section class="section-container" id="faq">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <p>Immediate systemic responses detailing connectivity parameters, store logic, and anti-cheat policies.</p>
+        </div>
+        <div class="faq-layout">
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleAccordion(this)">
+                    <span>How do I join the network?</span>
+                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
+                </button>
+                <div class="faq-content-panel">
+                    <div class="faq-inner-body">
+                        Launch your Minecraft client interface, navigate straight to Multi-player, click Add Server, and pass the connection parameters: <code>skyrise.ddns.net:25567</code>.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleAccordion(this)">
+                    <span>Is SkyRise cracked or premium only?</span>
+                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
+                </button>
+                <div class="faq-content-panel">
+                    <div class="faq-inner-body">
+                        SkyRise operates strictly on premium account parameters to verify cryptographic layer security and optimize tracking logs effectively.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleAccordion(this)">
+                    <span>How do I purchase store ranks?</span>
+                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
+                </button>
+                <div class="faq-content-panel">
+                    <div class="faq-inner-body">
+                        Navigate to our store section above, choose your package, and click purchase to be routed securely to our checkout payment gate processing suite.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleAccordion(this)">
+                    <span>How do I report rule infractions?</span>
+                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
+                </button>
+                <div class="faq-content-panel">
+                    <div class="faq-inner-body">
+                        Execute the in-game command line string <code>/report [player] [reason]</code>, or collect raw screen logs and submit them straight to our Discord engine workspace.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleAccordion(this)">
+                    <span>What versions are supported natively?</span>
+                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
+                </button>
+                <div class="faq-content-panel">
+                    <div class="faq-inner-body">
+                        We accept incoming handshakes spanning version 1.8 up through 1.20, with specialized netcode balancing combat physics for historical parameters seamlessly.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-module">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <h3>SKY<span>RISE</span></h3>
+                <p>An elite, production-optimized competitive network structured for smooth execution, flawless hits, and ultimate mechanical play.</p>
+            </div>
+            <div class="footer-links-box">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#">Home Base</a></li>
+                    <li><a href="#gamemodes">Gamemodes</a></li>
+                    <li><a href="#store">Webstore</a></li>
+                    <li><a href="#stats">Server Stats</a></li>
+                </ul>
+            </div>
+            <div class="footer-infosphere">
+                <h4>Network Links</h4>
+                <p><i class="fa-solid fa-globe"></i> IP: skyrise.ddns.net:25567</p>
+                <p><i class="fa-brands fa-discord"></i> Discord: discord.gg/skyrise</p>
+                <p><i class="fa-solid fa-envelope"></i> Support: support@skyrise.net</p>
+            </div>
+        </div>
+        <div class="footer-baseline">
+            <p>&copy; 2026 SkyRise Network. All rights reserved.</p>
+            <p class="legal-disclaimer">We are completely independent and explicitly not affiliated with Mojang Studios or Microsoft Corporation.</p>
+        </div>
     </footer>
 
     <script>
-        // --- NAVIGATION TAB SWITCHING LOGIC ---
-        const navItems = document.querySelectorAll('.nav-item');
-        const sections = document.querySelectorAll('.page-section');
+        // --- REMOVE SYSTEM PRELOADER ON LOAD ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader-overlay');
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+                initializeStatisticalCounters();
+            }, 600);
+        });
 
-        navItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (this.getAttribute('target') === '_blank') return;
-                e.preventDefault();
-                
-                navItems.forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
+        // --- NAVIGATION COLOR TRANSLATION SCRIPT ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-navigation');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
 
-                sections.forEach(section => section.classList.remove('active'));
-                const targetId = this.getAttribute('data-target');
-                document.getElementById(targetId).classList.add('active');
+        // --- RESPONSIVE MOBILE NAVIGATION TOGGLE ---
+        const menuToggle = document.getElementById('menu-toggle-btn');
+        const navList = document.getElementById('nav-dropdown-list');
+
+        menuToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navList.classList.contains('active')) {
+                icon.className = 'fa-solid fa-xmark';
+            } else {
+                icon.className = 'fa-solid fa-bars';
+            }
+        });
+
+        // Close navigation link drop clicks automatically on mobile
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('active');
+                menuToggle.querySelector('i').className = 'fa-solid fa-bars';
             });
         });
 
-        // --- DYNAMIC IP CLICK-TO-COPY ---
-        function copyIP() {
-            const ipText = "play.skyrisenetwork.com";
-            const tempInput = document.createElement("input");
-            tempInput.value = ipText;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-
-            const hint = document.querySelector('.copy-hint');
-            hint.innerText = "Copied!";
-            hint.style.background = "#2ecc71";
+        // --- NOTIFICATION MANAGEMENT ENGINE ---
+        function sendSystemNotification(title, message) {
+            const container = document.getElementById('notif-anchor');
+            const notif = document.createElement('div');
+            notif.className = 'notif';
+            notif.innerHTML = `
+                <i class="fa-solid fa-circle-check"></i>
+                <div class="notif-text">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            container.appendChild(notif);
             
             setTimeout(() => {
-                hint.innerText = "Click to Copy";
-                hint.style.background = "#00bfff";
-            }, 2000);
+                notif.style.animation = 'notif-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards';
+                setTimeout(() => { notif.remove(); }, 400);
+            }, 3000);
         }
 
-        // --- SIMULATED LIVE PLAYER COUNTER ---
-        setInterval(() => {
-            const countElement = document.getElementById('online-count');
-            if (countElement) {
-                let currentCount = parseInt(countElement.innerText);
-                const change = Math.floor(Math.random() * 7) - 3; 
-                countElement.innerText = currentCount + change;
+        // --- CLIPBOARD COPY CONTROLLER ---
+        function copyServerIP() {
+            const targetAddress = "skyrise.ddns.net:25567";
+            const pseudoElement = document.createElement('textarea');
+            pseudoElement.value = targetAddress;
+            document.body.appendChild(pseudoElement);
+            pseudoElement.select();
+            document.execCommand('copy');
+            document.body.removeChild(pseudoElement);
+            
+            sendSystemNotification("Address Copied!", "skyrise.ddns.net:25567 pasted to clipboard.");
+        }
+
+        function triggerPurchaseAlert(tierName) {
+            sendSystemNotification("Redirecting...", `Routing securely to the ${tierName} package checkout lane.`);
+        }
+
+        // --- ACCORDION SYSTEM CONTROLLER (FAQ) ---
+        function toggleAccordion(triggerElement) {
+            const item = triggerElement.parentElement;
+            const content = item.querySelector('.faq-content-panel');
+            const isActive = item.classList.contains('active');
+            
+            // Wipe alternative entries out completely
+            document.querySelectorAll('.faq-item').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('.faq-content-panel').style.maxHeight = null;
+            });
+            
+            if (!isActive) {
+                item.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
             }
-        }, 5000);
+        }
+
+        // --- STATISTICAL PROGRESSIVE ENGINE COUNTERS ---
+        function initializeStatisticalCounters() {
+            const counterElements = document.querySelectorAll('.stat-counter');
+            
+            counterElements.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count-target'));
+                if (!target) return; // Ignore decimals lacking manual config rules
+                
+                const stepMultiplier = target / 100;
+                let activeValue = 0;
+                
+                const taskTimer = setInterval(() => {
+                    activeValue += stepMultiplier;
+                    if (activeValue >= target) {
+                        counter.innerText = target.toLocaleString() + "+";
+                        clearInterval(taskTimer);
+                    } else {
+                        counter.innerText = Math.floor(activeValue).toLocaleString();
+                    }
+                }, 15);
+            });
+        }
+
+        // --- IN-GAME METRIC OSCILLATOR SIMULATOR ---
+        setInterval(() => {
+            const livePlayers = document.getElementById('live-players-counter');
+            if (livePlayers) {
+                const current = parseInt(livePlayers.innerText);
+                const divergence = Math.floor(Math.random() * 5) - 2; // Shift bounds smoothly
+                livePlayers.innerText = Math.max(710, Math.min(790, current + divergence));
+            }
+        }, 4000);
+
+        // --- ANIMATED PARTICLE BACKGROUND LAYER ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particleArray = [];
+
+        function resizeCanvasToViewport() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvasToViewport);
+        resizeCanvasToViewport();
+
+        class BackgroundParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * -0.5 - 0.1; // Float vertically upward smoothly
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+                if (this.x < 0 || this.x > canvas.width) {
+                    this.speedX = -this.speedX;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(0, 191, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createParticleMatrix() {
+            particleArray = [];
+            const targetedDensity = Math.floor(canvas.width / 14);
+            for(let i = 0; i < targetedDensity; i++) {
+                particleArray.push(new BackgroundParticle());
+            }
+        }
+        createParticleMatrix();
+
+        function renderParticleFrameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for(let i = 0; i < particleArray.length; i++) {
+                particleArray[i].update();
+                particleArray[i].draw();
+            }
+            requestAnimationFrame(renderParticleFrameLoop);
+        }
+        renderParticleFrameLoop();
     </script>
 </body>
 </html>
