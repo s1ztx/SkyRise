@@ -104,6 +104,7 @@
         .loader-logo img {
             height: 60px;
             width: auto;
+            object-fit: contain;
             filter: drop-shadow(0 0 15px var(--glow));
         }
         .loader-logo .sky-text { color: var(--primary); }
@@ -316,9 +317,13 @@
             letter-spacing: 1px;
         }
         .nav-logo img {
-            height: 42px;
+            height: 40px;
             width: auto;
+            object-fit: contain;
             filter: drop-shadow(0 0 10px var(--glow));
+        }
+        .nav-logo img[src="logo.png"] {
+            max-width: 50px;
         }
         .nav-logo .sky-text {
             color: var(--primary);
@@ -423,12 +428,18 @@
             0% { transform: translateY(0) scale(1); }
             100% { transform: translateY(-30px) scale(1.1); }
         }
+        .hero-logo-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            animation: hero-logo-float 4s ease-in-out infinite alternate;
+        }
         .hero-logo {
             height: 160px;
             width: auto;
-            margin-bottom: 25px;
+            object-fit: contain;
             filter: drop-shadow(0 0 25px rgba(0, 191, 255, 0.45));
-            animation: hero-logo-float 4s ease-in-out infinite alternate;
         }
         @keyframes hero-logo-float {
             0% { transform: translateY(0); }
@@ -530,7 +541,7 @@
 
         /* ==========================================================================
            LIVE SERVER STATUS MODULE
-           ========================================================================== */
+           ========================================================================= */
         .live-status-section {
             padding: 30px 0;
             position: relative;
@@ -626,7 +637,7 @@
         }
 
         /* ==========================================================================
-           FEATURED GAMEMODE SECTOR
+           FEATURED GAMEMODE SECTOR (PURE CSS / ICONS ONLY)
            ========================================================================== */
         .featured-gamemode-anchor {
             background: linear-gradient(180deg, transparent, rgba(15, 27, 51, 0.3) 50%, transparent);
@@ -691,21 +702,67 @@
             justify-content: center;
             border: 1px solid rgba(0, 191, 255, 0.2);
         }
-        .featured-graphics {
+        
+        /* PREMIUM PREMIUM CSS BEDWARS GRAPHIC ILLUSTRATION */
+        .featured-graphics-css {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 240px;
+            width: 100%;
         }
-        .featured-graphics img {
-            width: 140px;
-            height: auto;
-            filter: drop-shadow(0 0 25px var(--glow));
-            animation: float-logo 4s ease-in-out infinite alternate;
+        .illustration-universe {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: float-illustration 4s ease-in-out infinite alternate;
         }
-        @keyframes float-logo {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-15px) rotate(3deg); }
+        @keyframes float-illustration {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+        .illustration-shield-glow {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.25) 0%, transparent 75%);
+            border: 2px dashed rgba(0, 191, 255, 0.3);
+            border-radius: 50%;
+            animation: rotate-shield 20s linear infinite;
+        }
+        @keyframes rotate-shield {
+            100% { transform: rotate(360deg); }
+        }
+        .illustration-core-icon {
+            position: relative;
+            z-index: 2;
+            font-size: 5.5rem;
+            color: var(--text);
+            background: linear-gradient(135deg, #ffffff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0, 191, 255, 0.6));
+        }
+        .illustration-decor-swords {
+            position: absolute;
+            font-size: 1.8rem;
+            color: var(--secondary);
+            opacity: 0.7;
+            text-shadow: 0 0 10px var(--glow);
+        }
+        .illustration-decor-swords.left {
+            top: 25px;
+            left: 15px;
+            transform: rotate(-15deg);
+        }
+        .illustration-decor-swords.right {
+            bottom: 25px;
+            right: 15px;
+            transform: rotate(15deg);
         }
 
         /* ==========================================================================
@@ -1118,6 +1175,7 @@
         .footer-brand-side .footer-logo-block img {
             height: 40px;
             width: auto;
+            object-fit: contain;
             filter: drop-shadow(0 0 10px var(--glow));
         }
         .footer-brand-side h4 {
@@ -1187,7 +1245,7 @@
             .hero-banner-title { font-size: 3.4rem; }
             .hero-tagline { font-size: 1.3rem; letter-spacing: 2px; }
             .featured-main-card { grid-template-columns: 1fr; padding: 35px 25px; }
-            .featured-graphics { display: none; }
+            .featured-graphics-css { margin-top: 20px; }
             .linking-dashboard-panel { grid-template-columns: 1fr; }
             .discord-integration-layout { grid-template-columns: 1fr; }
             .form-fields-stack { grid-template-columns: 1fr; }
@@ -1219,7 +1277,7 @@
 
     <div class="preloader" id="app-preloader">
         <div class="loader-logo">
-            <img src="image_4d72c5.png" alt="SkyRise Network Logo">
+            <img src="logo.png" alt="SkyRise Logo" onerror="this.style.display='none'">
             <div><span class="sky-text">SKY</span><span class="rise-text">RISE</span></div>
         </div>
         <div class="loader-bar"></div>
@@ -1234,7 +1292,7 @@
         <nav class="navbar" id="app-navbar">
             <div class="container nav-inner">
                 <a href="#" class="nav-logo">
-                    <img src="image_4d72c5.png" alt="SkyRise Network Logo">
+                    <img src="logo.png" alt="SkyRise Logo" onerror="this.style.display='none'">
                     <div><span class="sky-text">SKY</span><span class="rise-text">RISE</span></div>
                 </a>
                 <div class="mobile-hamburger" id="menu-toggle">
@@ -1255,7 +1313,9 @@
             <div class="hero-design-shape-1"></div>
             <div class="hero-design-shape-2"></div>
             <div class="container">
-                <img src="image_4d72c5.png" alt="SkyRise Network Premium Logo" class="hero-logo">
+                <div class="hero-logo-box">
+                    <img src="logo.png" alt="SkyRise Logo" class="hero-logo" onerror="this.style.display='none'">
+                </div>
                 <h1 class="hero-banner-title"><span class="sky-text">SKY</span><span class="rise-text">RISE</span> NETWORK</h1>
                 <div class="hero-tagline">Rise Above The Rest</div>
                 <p class="hero-desc">Experience competitive Minecraft gameplay, custom features, exciting events, and a growing community.</p>
@@ -1318,8 +1378,14 @@
                             </div>
                             <button onclick="copyServerIP()" class="btn btn-primary">Play Now</button>
                         </div>
-                        <div class="featured-graphics">
-                            <img src="image_4d72c5.png" alt="SkyRise Icon Graphics">
+                        
+                        <div class="featured-graphics-css">
+                            <div class="illustration-universe">
+                                <div class="illustration-shield-glow"></div>
+                                <i class="fa-solid fa-swords illustration-decor-swords left"></i>
+                                <i class="fa-solid fa-shield-halved illustration-decor-swords right"></i>
+                                <i class="fas fa-bed illustration-core-icon"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1632,7 +1698,7 @@
                 <div class="footer-top-block">
                     <div class="footer-brand-side">
                         <div class="footer-logo-block">
-                            <img src="image_4d72c5.png" alt="SkyRise Network Logo">
+                            <img src="logo.png" alt="SkyRise Logo" onerror="this.style.display='none'">
                             <h4><span class="sky-text">SKY</span><span class="rise-text">RISE</span></h4>
                         </div>
                         <p>High-caliber, hyper-optimized legacy competitive environment built to support modern gameplay specifications.</p>
@@ -1676,7 +1742,7 @@
             initParticleCanvas();
             initScrollReveal();
             fetchLiveStatus();
-            setInterval(fetchLiveStatus, 30000); // Polling updated to match requirement interval
+            setInterval(fetchLiveStatus, 30000); 
         });
 
         // --- NAVSTICK ACTION EVENT TRACKER ---
@@ -1699,7 +1765,6 @@
             icon.classList.toggle('fa-xmark');
         });
 
-        // Links close active mobile menu container toggle
         document.querySelectorAll('.nav-links-box a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
