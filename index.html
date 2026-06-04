@@ -5,14 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skyrise Network | Store</title>
     <style>
-        /* CSS Variables for Easy Customization */
+        /* CSS Variables mapped to Theme Engine */
         :root {
-            --dark-blue: #0b132b;
-            --secondary-dark: #1c2541;
-            --sky-blue: #00b4d8;
-            --sky-blue-hover: #90e0ef;
-            --white: #ffffff;
-            --text-gray: #a0aec0;
+            --bg-main: #0b132b;
+            --bg-card: #1c2541;
+            --primary-sky: #00b4d8;
+            --primary-hover: #90e0ef;
+            --text-main: #ffffff;
+            --text-muted: #a0aec0;
+            --border-color: rgba(0, 180, 216, 0.15);
+        }
+
+        /* Light Theme Mapping */
+        [data-theme="light"] {
+            --bg-main: #f0f4f8;
+            --bg-card: #ffffff;
+            --primary-sky: #0077b6;
+            --primary-hover: #0096c7;
+            --text-main: #1a202c;
+            --text-muted: #4a5568;
+            --border-color: rgba(0, 119, 182, 0.2);
         }
 
         /* Reset & Base Styles */
@@ -21,75 +33,217 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
-            background-color: var(--dark-blue);
-            color: var(--white);
+            background-color: var(--bg-main);
+            color: var(--text-main);
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         /* Navigation Bar */
         nav {
-            background-color: var(--secondary-dark);
-            padding: 1.2rem 2rem;
+            background-color: var(--bg-card);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--sky-blue);
+            border-bottom: 2px solid var(--primary-sky);
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .logo {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: 1px;
         }
 
         .logo span {
-            color: var(--sky-blue);
+            color: var(--primary-sky);
         }
 
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            margin-left: 2rem;
+        /* Menu controls layout */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Theme Settings Dropdown Wrapper */
+        .theme-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .theme-btn {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--primary-sky);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .theme-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--bg-card);
+            min-width: 220px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            z-index: 101;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-dropdown.show {
+            display: block;
+        }
+
+        .theme-option {
+            width: 100%;
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            text-align: left;
+            cursor: pointer;
             font-weight: 500;
-            transition: color 0.3s ease;
+            border-radius: 4px;
         }
 
-        .nav-links a:hover {
-            color: var(--sky-blue);
+        .theme-option:hover {
+            background-color: var(--bg-main);
+            color: var(--primary-sky);
         }
 
-        /* Hero Header Section */
+        .custom-picker-group {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        .color-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .color-row input[type="color"] {
+            border: none;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        /* Discord Integration Header Panel */
+        .discord-linker-panel {
+            max-width: 600px;
+            margin: 2rem auto 0 auto;
+            background-color: var(--bg-card);
+            border: 1px dashed var(--primary-sky);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .discord-input-container {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 400px;
+            margin: 1rem auto 0 auto;
+        }
+
+        .discord-input-container input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+
+        .discord-input-container button {
+            background-color: var(--primary-sky);
+            color: white;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .discord-input-container button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .profile-display {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background-color: var(--bg-main);
+            border-radius: 8px;
+        }
+
+        .profile-display img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-sky);
+        }
+
+        .profile-info {
+            text-align: left;
+        }
+
+        .profile-name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .profile-status {
+            font-size: 0.75rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        /* Main Container setup */
         header {
             text-align: center;
-            padding: 5rem 1rem 3rem 1rem;
-            background: linear-gradient(180deg, var(--secondary-dark) 0%, var(--dark-blue) 100%);
+            padding: 3rem 1rem 1rem 1rem;
         }
 
         header h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            margin-bottom: 1rem;
         }
 
         header h1 span {
-            color: var(--sky-blue);
+            color: var(--primary-sky);
         }
 
         header p {
-            color: var(--text-gray);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
         }
 
-        /* Store Container */
         .store-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -97,174 +251,177 @@
         }
 
         .category-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
             text-align: center;
-            position: relative;
         }
 
-        .category-title::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 3px;
-            background-color: var(--sky-blue);
-            margin: 0.5rem auto 0 auto;
-            border-radius: 2px;
-        }
-
-        /* Rank Cards Grid Grid Layout */
+        /* Store Card Grids */
         .ranks-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin-bottom: 4rem;
         }
 
-        /* Individual Rank Card Design */
         .rank-card {
-            background-color: var(--secondary-dark);
-            border: 1px solid rgba(0, 180, 216, 0.1);
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 2.5rem 1.5rem;
+            padding: 2rem 1.5rem;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .rank-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--sky-blue);
-            box-shadow: 0 10px 20px rgba(0, 180, 216, 0.1);
+            border-color: var(--primary-sky);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
         .rank-name {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Custom Colors for High-Tier Ranks to pop slightly */
-        .rank-card.staff-tier .rank-name {
-            color: var(--sky-blue);
+            letter-spacing: 0.5px;
         }
 
         .rank-price {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            color: var(--white);
-            margin: 1rem 0;
+            margin: 0.5rem 0 1.5rem 0;
         }
 
         .rank-price span {
-            font-size: 1rem;
-            color: var(--text-gray);
+            font-size: 0.9rem;
+            color: var(--text-muted);
             font-weight: 400;
         }
 
         .rank-features {
             list-style: none;
-            margin: 1.5rem 0 2.5rem 0;
+            margin-bottom: 2rem;
             text-align: left;
         }
 
         .rank-features li {
-            margin-bottom: 0.75rem;
-            color: var(--text-gray);
-            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
         }
 
         .rank-features li::before {
             content: '✓';
-            color: var(--sky-blue);
+            color: var(--primary-sky);
             font-weight: bold;
-            margin-right: 10px;
+            margin-right: 8px;
         }
 
-        /* Purchase Button pointing directly to your ticket channel */
         .buy-btn {
             display: block;
-            background-color: var(--sky-blue);
-            color: var(--dark-blue);
+            background-color: var(--primary-sky);
+            color: #ffffff;
             text-decoration: none;
             font-weight: 700;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem;
             border-radius: 6px;
             text-transform: uppercase;
+            font-size: 0.85rem;
             letter-spacing: 0.5px;
-            transition: background-color 0.3s ease, transform 0.1s ease;
         }
 
         .buy-btn:hover {
-            background-color: var(--sky-blue-hover);
+            background-color: var(--primary-hover);
         }
 
-        .buy-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Footer */
         footer {
-            background-color: var(--secondary-dark);
+            background-color: var(--bg-card);
             text-align: center;
             padding: 2rem;
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        footer span {
-            color: var(--white);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 5rem;
+            border-top: 1px solid var(--border-color);
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav>
         <div class="logo">SKYRISE<span>NETWORK</span></div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#" style="color: var(--sky-blue);">Store</a>
-            <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank">Support</a>
+        <div class="nav-controls">
+            <div class="theme-selector">
+                <button class="theme-btn" onclick="toggleThemeDropdown()">🎨 Change Theme</button>
+                <div class="theme-dropdown" id="themeDropdown">
+                    <button class="theme-option" onclick="setTheme('dark')">🌌 Dark Theme</button>
+                    <button class="theme-option" onclick="setTheme('light')">☀️ White Theme</button>
+                    <button class="theme-option" onclick="setTheme('custom')">⚙️ Custom Theme</button>
+                    
+                    <div class="custom-picker-group">
+                        <div class="color-row">
+                            <label>Background:</label>
+                            <input type="color" id="customBg" value="#0f172a" onchange="applyCustomColors()">
+                        </div>
+                        <div class="color-row">
+                            <label>Card Panels:</label>
+                            <input type="color" id="customCard" value="#1e293b" onchange="applyCustomColors()">
+                        </div>
+                        <div class="color-row">
+                            <label>Accent Sky:</label>
+                            <input type="color" id="customAccent" value="#38bdf8" onchange="applyCustomColors()">
+                        </div>
+                        <div class="color-row">
+                            <label>Text Main:</label>
+                            <input type="color" id="customText" value="#ffffff" onchange="applyCustomColors()">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- Header Section -->
     <header>
         <h1>Skyrise Server <span>Store</span></h1>
-        <p>Select a rank below to purchase. Clicking purchase will instantly redirect you to our secure server ticket channel to fulfill your transaction.</p>
+        <p>Order ranks safely. All purchase requests resolve through open Discord support tickets.</p>
     </header>
 
-    <!-- Store Section Container -->
+    <div class="discord-linker-panel">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">🔗 Link Discord Account</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Enter your User ID to verify the checkout destination profile.</p>
+        
+        <div class="discord-input-container">
+            <input type="text" id="discordIdInput" placeholder="Paste Discord User ID (e.g., 4510993...)">
+            <button onclick="linkDiscordProfile()">Link Account</button>
+        </div>
+
+        <div class="profile-display" id="profileDisplay">
+            <img id="avatarTarget" src="" alt="Avatar">
+            <div class="profile-info">
+                <div class="profile-name" id="usernameTarget">Loading...</div>
+                <div class="profile-status">Connected to Session</div>
+            </div>
+        </div>
+    </div>
+
     <div class="store-container">
         
-        <!-- DONOR RANKS (Arranged Price Wise: Lowest to Highest) -->
         <h2 class="category-title">Player Donor Ranks</h2>
         <div class="ranks-grid">
             
-            <!-- VIP -->
             <div class="rank-card">
                 <div>
                     <div class="rank-name">VIP</div>
                     <div class="rank-price">$5.00<span> / Permanent</span></div>
                     <ul class="rank-features">
                         <li>Basic Green VIP Prefix</li>
-                        <li>Join full servers</li>
-                        <li>Access to /feed command (10m cooldown)</li>
-                        <li>+3 Player Vault slots</li>
+                        <li>Join fully populated nodes</li>
+                        <li>Access to /feed commands</li>
                     </ul>
                 </div>
                 <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
             </div>
 
-            <!-- VIP+ -->
             <div class="rank-card">
                 <div>
                     <div class="rank-name">VIP+</div>
@@ -272,114 +429,154 @@
                     <ul class="rank-features">
                         <li>Teal VIP+ Custom Prefix</li>
                         <li>All perks of previous tier</li>
-                        <li>Access to /heal command (15m cooldown)</li>
-                        <li>+5 Player Vault slots</li>
+                        <li>Access to /heal commands</li>
                     </ul>
                 </div>
                 <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
             </div>
 
-            <!-- ELITE -->
             <div class="rank-card">
                 <div>
                     <div class="rank-name">ELITE</div>
                     <div class="rank-price">$15.00<span> / Permanent</span></div>
                     <ul class="rank-features">
                         <li>Cyan Bold ELITE Prefix</li>
-                        <li>All perks of previous tiers</li>
-                        <li>Access to /wb (portable workbench)</li>
-                        <li>Access to /hat cosmetics</li>
+                        <li>Access to portable workbenches</li>
+                        <li>Access to custom cosmetics</li>
                     </ul>
                 </div>
                 <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
             </div>
 
-            <!-- AURA -->
             <div class="rank-card">
                 <div>
                     <div class="rank-name">AURA</div>
                     <div class="rank-price">$25.00<span> / Permanent</span></div>
                     <ul class="rank-features">
                         <li>Exclusive Aqua AURA Prefix</li>
-                        <li>All perks of previous tiers</li>
-                        <li>Access to premium particles /fly in hubs</li>
-                        <li>Priority Queue Placement</li>
+                        <li>Premium lobby cosmetic nodes</li>
+                        <li>Priority Queue Access paths</li>
                     </ul>
                 </div>
                 <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
             </div>
 
-            <!-- SUPREME -->
             <div class="rank-card">
                 <div>
                     <div class="rank-name">SUPREME</div>
                     <div class="rank-price">$40.00<span> / Permanent</span></div>
                     <ul class="rank-features">
-                        <li>Premium White/SkyBlue Glow Prefix</li>
-                        <li>All perks of previous tiers</li>
-                        <li>Access to /condense and /craft</li>
-                        <li>Maximum priority support tickets</li>
+                        <li>Premium Dual Glow Prefix</li>
+                        <li>Full automated stack inventory utilities</li>
+                        <li>Highest Priority checkout lane queues</li>
                     </ul>
                 </div>
                 <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
             </div>
 
         </div>
-
-        <!-- STAFF RANKS (Arranged Hierarchically / Value Wise) -->
-        <h2 class="category-title">Staff & Administration Applications</h2>
-        <div class="ranks-grid">
-            
-            <!-- TRIAL MOD -->
-            <div class="rank-card staff-tier">
-                <div>
-                    <div class="rank-name">Trial Mod</div>
-                    <div class="rank-price">Apply<span> / Free</span></div>
-                    <ul class="rank-features">
-                        <li>Basic Staff Moderation permissions</li>
-                        <li>Access to basic log checkers</li>
-                        <li>Dedicated Staff Chat channel access</li>
-                    </ul>
-                </div>
-                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Open Application Ticket</a>
-            </div>
-
-            <!-- MOD -->
-            <div class="rank-card staff-tier">
-                <div>
-                    <div class="rank-name">Moderator</div>
-                    <div class="rank-price">Promo<span> / Staff Only</span></div>
-                    <ul class="rank-features">
-                        <li>Full kick, mute, and temporary ban permissions</li>
-                        <li>Vanishing toolsets access (/v)</li>
-                        <li>Ticket management privileges</li>
-                    </ul>
-                </div>
-                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Open Inquiry Ticket</a>
-            </div>
-
-            <!-- ADMIN -->
-            <div class="rank-card staff-tier">
-                <div>
-                    <div class="rank-name">Admin</div>
-                    <div class="rank-price">Secure<span> / Management</span></div>
-                    <ul class="rank-features">
-                        <li>Full Network management capabilities</li>
-                        <li>LuckPerms configuration system management</li>
-                        <li>Server backend access and deployment toolsets</li>
-                    </ul>
-                </div>
-                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Contact Management</a>
-            </div>
-
-        </div>
-
     </div>
 
-    <!-- Footer Area -->
     <footer>
-        <p>&copy; 2026 <span>Skyrise Network</span>. We are not affiliated with Mojang Studios or Microsoft.</p>
+        <p>&copy; 2026 <span>Skyrise Network</span>. Not affiliated with Mojang Studios.</p>
     </footer>
 
+    <script>
+        // Dropdown toggle system
+        function toggleThemeDropdown() {
+            document.getElementById('themeDropdown').classList.toggle('show');
+        }
+
+        // Close theme option container when context changes outside elements
+        window.onclick = function(event) {
+            if (!event.target.matches('.theme-btn') && !event.target.closest('.theme-dropdown')) {
+                var dropdowns = document.getElementsByClassName("theme-dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // Core Theme Dispatcher
+        function setTheme(themeMode) {
+            const root = document.documentElement;
+            root.removeAttribute('data-theme');
+            
+            if (themeMode === 'dark') {
+                root.style.removeProperty('--bg-main');
+                root.style.removeProperty('--bg-card');
+                root.style.removeProperty('--primary-sky');
+                root.style.removeProperty('--primary-hover');
+                root.style.removeProperty('--text-main');
+                root.style.removeProperty('--text-muted');
+                root.style.removeProperty('--border-color');
+            } else if (themeMode === 'light') {
+                root.setAttribute('data-theme', 'light');
+                root.style.removeProperty('--bg-main');
+                root.style.removeProperty('--bg-card');
+                root.style.removeProperty('--primary-sky');
+                root.style.removeProperty('--primary-hover');
+                root.style.removeProperty('--text-main');
+                root.style.removeProperty('--text-muted');
+                root.style.removeProperty('--border-color');
+            } else if (themeMode === 'custom') {
+                applyCustomColors();
+            }
+        }
+
+        // Runtime customization evaluation
+        function applyCustomColors() {
+            const root = document.documentElement;
+            const bg = document.getElementById('customBg').value;
+            const card = document.getElementById('customCard').value;
+            const accent = document.getElementById('customAccent').value;
+            const text = document.getElementById('customText').value;
+
+            root.style.setProperty('--bg-main', bg);
+            root.style.setProperty('--bg-card', card);
+            root.style.setProperty('--primary-sky', accent);
+            root.style.setProperty('--primary-hover', accent + 'cc'); // auto-opacity for action hover frames
+            root.style.setProperty('--text-main', text);
+            root.style.setProperty('--text-muted', text + 'aa'); 
+            root.style.setProperty('--border-color', accent + '33');
+        }
+
+        // Profile API Connector
+        async function linkDiscordProfile() {
+            const userId = document.getElementById('discordIdInput').value.trim();
+            if (!userId) return alert("Please enter a valid numeric Discord User ID.");
+
+            const nameTarget = document.getElementById('usernameTarget');
+            const avatarTarget = document.getElementById('avatarTarget');
+            const displayBox = document.getElementById('profileDisplay');
+
+            try {
+                nameTarget.innerText = "Searching profile...";
+                displayBox.style.display = "flex";
+
+                // Fetches standard Discord profile datasets via open public worker proxies securely
+                const res = await fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`);
+                if (!res.ok) throw new Error("Profile not found");
+                
+                const data = await res.json();
+                
+                // Set metadata values parsed from network payload
+                nameTarget.innerText = data.global_name ? `${data.global_name} (@${data.username})` : `@${data.username}`;
+                
+                if (data.avatar && data.avatar.id) {
+                    avatarTarget.src = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar.id}.png`;
+                } else {
+                    // Fallback to random default Discord UI avatars if account has no primary customized profile picture
+                    avatarTarget.src = `https://cdn.discordapp.com/embed/avatars/${Math.floor(Math.random() * 5)}.png`;
+                }
+            } catch (err) {
+                alert("Could not load account details. Make sure your User ID is correct.");
+                displayBox.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
