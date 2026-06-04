@@ -101,12 +101,6 @@
             color: var(--text);
             margin-bottom: 20px;
         }
-        .loader-logo img {
-            height: 60px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px var(--glow));
-        }
         .loader-logo .sky-text { color: var(--primary); }
         .loader-logo .rise-text { color: var(--text); }
         .loader-bar {
@@ -179,6 +173,69 @@
         }
         @keyframes slide-up-toast {
             to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* --- INTERACTIVE MODALS PANEL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4, 9, 18, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-frame {
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 191, 255, 0.15);
+        }
+        .modal-overlay.active .modal-frame {
+            transform: scale(1);
+        }
+        .modal-frame i.main-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px var(--glow));
+        }
+        .modal-frame h3 {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        .modal-frame p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .modal-action-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .modal-action-row .btn {
+            flex: 1;
         }
 
         /* --- LAYOUT UTILITIES --- */
@@ -316,15 +373,6 @@
             font-weight: 900;
             letter-spacing: 1px;
         }
-        .nav-logo img {
-            height: 40px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px var(--glow));
-        }
-        .nav-logo img[src="logo.png"] {
-            max-width: 50px;
-        }
         .nav-logo .sky-text {
             color: var(--primary);
         }
@@ -427,23 +475,6 @@
         @keyframes shape-float {
             0% { transform: translateY(0) scale(1); }
             100% { transform: translateY(-30px) scale(1.1); }
-        }
-        .hero-logo-box {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            animation: hero-logo-float 4s ease-in-out infinite alternate;
-        }
-        .hero-logo {
-            height: 160px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 25px rgba(0, 191, 255, 0.45));
-        }
-        @keyframes hero-logo-float {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-10px); }
         }
         .hero-banner-title {
             font-size: 4.8rem;
@@ -637,7 +668,39 @@
         }
 
         /* ==========================================================================
-           FEATURED GAMEMODE SECTOR (PURE CSS / ICONS ONLY)
+           INFO BAR GLANCE COMPONENT
+           ========================================================================= */
+        .info-glance-bar {
+            padding: 20px 0;
+            background: rgba(15, 27, 51, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .info-glance-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .info-node {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .info-node .bullet-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        /* ==========================================================================
+           FEATURED GAMEMODE SECTOR (BEDWARS FOCUS - NO FILES USED)
            ========================================================================== */
         .featured-gamemode-anchor {
             background: linear-gradient(180deg, transparent, rgba(15, 27, 51, 0.3) 50%, transparent);
@@ -702,8 +765,6 @@
             justify-content: center;
             border: 1px solid rgba(0, 191, 255, 0.2);
         }
-        
-        /* PREMIUM PREMIUM CSS BEDWARS GRAPHIC ILLUSTRATION */
         .featured-graphics-css {
             position: relative;
             display: flex;
@@ -902,7 +963,58 @@
         }
 
         /* ==========================================================================
-           DISCORD ACCOUNT LINKING MODULE
+           APPEALS MATRIX SECTOR
+           ========================================================================== */
+        .appeals-panel-layout {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .appeal-ticket-card {
+            padding: 35px 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .appeal-ticket-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 35px rgba(0, 191, 255, 0.2);
+        }
+        .appeal-icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 191, 255, 0.06);
+            border: 1px solid rgba(0, 191, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 8px var(--glow));
+        }
+        .appeal-ticket-card h4 {
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .appeal-ticket-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        .appeal-ticket-card .btn {
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+        }
+
+        /* ==========================================================================
+           DISCORD ACCOUNT LINKING MODULE UI
            ========================================================================== */
         .linking-dashboard-panel {
             display: grid;
@@ -1084,6 +1196,43 @@
         }
 
         /* ==========================================================================
+           CORE INFRASTRUCTURE VALUE NODES (WHY CHOOSE)
+           ========================================================================== */
+        .values-matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        .feature-node-box {
+            padding: 40px 30px;
+            text-align: left;
+            position: relative;
+        }
+        .feature-node-box:hover {
+            border-color: var(--primary);
+            box-shadow: 0 15px 35px rgba(0, 191, 255, 0.15);
+            transform: translateY(-4px);
+        }
+        .feature-node-box i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: inline-block;
+            filter: drop-shadow(0 0 8px var(--glow));
+        }
+        .feature-node-box h4 {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .feature-node-box p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
            FAQ ACCORDION MATRIX
            ========================================================================== */
         .faq-accordion-tree {
@@ -1167,17 +1316,6 @@
             flex-direction: column;
             gap: 12px;
         }
-        .footer-brand-side .footer-logo-block {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .footer-brand-side .footer-logo-block img {
-            height: 40px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px var(--glow));
-        }
         .footer-brand-side h4 {
             font-size: 1.5rem;
             font-weight: 900;
@@ -1237,7 +1375,9 @@
            ========================================================================== */
         @media (max-width: 1024px) {
             .store-catalog-grid { grid-template-columns: repeat(2, 1fr); }
+            .appeals-panel-layout { grid-template-columns: repeat(2, 1fr); }
             .coming-soon-grid { grid-template-columns: repeat(2, 1fr); }
+            .values-matrix-grid { grid-template-columns: repeat(2, 1fr); }
             .live-status-card { grid-template-columns: 1fr; gap: 20px; }
             .status-stat-node { padding-left: 0; border-left: none; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.06); }
         }
@@ -1267,7 +1407,9 @@
         }
         @media (max-width: 480px) {
             .store-catalog-grid { grid-template-columns: 1fr; }
+            .appeals-panel-layout { grid-template-columns: 1fr; }
             .coming-soon-grid { grid-template-columns: 1fr; }
+            .values-matrix-grid { grid-template-columns: 1fr; }
             .hero-action-buttons .btn { width: 100%; }
             .form-operation-row { flex-direction: column; }
         }
@@ -1277,13 +1419,24 @@
 
     <div class="preloader" id="app-preloader">
         <div class="loader-logo">
-            <img src="logo.png" alt="SkyRise Logo" onerror="this.style.display='none'">
             <div><span class="sky-text">SKY</span><span class="rise-text">RISE</span></div>
         </div>
         <div class="loader-bar"></div>
     </div>
 
     <div class="notification-host" id="toast-container"></div>
+
+    <div class="modal-overlay" id="global-modal-shell">
+        <div class="premium-card modal-frame">
+            <i class="fa-solid fa-circle-exclamation main-icon" id="modal-display-icon"></i>
+            <h3 id="modal-display-title">Modal Header</h3>
+            <p id="modal-display-body">System execution messaging sequence description placeholder.</p>
+            <div class="modal-action-row">
+                <a href="https://discord.gg/chPWGe9Yf" target="_blank" class="btn btn-primary" id="modal-confirm-trigger">Open Discord</a>
+                <button class="btn btn-secondary" onclick="closeGlobalModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <canvas id="particle-canvas"></canvas>
 
@@ -1292,7 +1445,6 @@
         <nav class="navbar" id="app-navbar">
             <div class="container nav-inner">
                 <a href="#" class="nav-logo">
-                    <img src="logo.png" alt="SkyRise Logo" onerror="this.style.display='none'">
                     <div><span class="sky-text">SKY</span><span class="rise-text">RISE</span></div>
                 </a>
                 <div class="mobile-hamburger" id="menu-toggle">
@@ -1302,9 +1454,10 @@
                     <li><a href="#" class="nav-item active">Home</a></li>
                     <li><a href="#gamemodes" class="nav-item">Gamemodes</a></li>
                     <li><a href="#store" class="nav-item">Store</a></li>
+                    <li><a href="#appeals" class="nav-item">Appeals</a></li>
                     <li><a href="#discord" class="nav-item">Discord</a></li>
                     <li><a href="#faq" class="nav-item">FAQ</a></li>
-                    <li><a href="https://discord.gg/skyrise" target="_blank" class="nav-item nav-discord-btn"><i class="fa-brands fa-discord"></i> Join Discord</a></li>
+                    <li><a href="https://discord.gg/chPWGe9Yf" target="_blank" class="nav-item nav-discord-btn"><i class="fa-brands fa-discord"></i> Join Discord</a></li>
                 </ul>
             </div>
         </nav>
@@ -1313,16 +1466,13 @@
             <div class="hero-design-shape-1"></div>
             <div class="hero-design-shape-2"></div>
             <div class="container">
-                <div class="hero-logo-box">
-                    <img src="logo.png" alt="SkyRise Logo" class="hero-logo" onerror="this.style.display='none'">
-                </div>
                 <h1 class="hero-banner-title"><span class="sky-text">SKY</span><span class="rise-text">RISE</span> NETWORK</h1>
                 <div class="hero-tagline">Rise Above The Rest</div>
-                <p class="hero-desc">Experience competitive Minecraft gameplay, custom features, exciting events, and a growing community.</p>
+                <p class="hero-desc">Experience competitive Minecraft gameplay, custom features, exciting events and a growing community.</p>
                 
                 <div class="hero-action-buttons">
-                    <a href="#gamemodes" class="btn btn-primary"><i class="fa-solid fa-sword"></i> Play Now</a>
-                    <a href="https://discord.gg/skyrise" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-discord"></i> Join Discord</a>
+                    <a href="#gamemodes" class="btn btn-primary">Play Now</a>
+                    <a href="https://discord.gg/chPWGe9Yf" target="_blank" class="btn btn-secondary">Join Discord</a>
                 </div>
 
                 <div class="premium-card ip-copy-panel" onclick="copyServerIP()">
@@ -1361,6 +1511,16 @@
             </div>
         </section>
 
+        <div class="info-glance-bar">
+            <div class="container info-glance-inner">
+                <div class="info-node"><div class="bullet-indicator"></div> Server Online</div>
+                <div class="info-node"><i class="fa-solid fa-users" style="color: var(--primary);"></i> Live Player Count</div>
+                <div class="info-node"><i class="fa-solid fa-gamepad" style="color: var(--primary);"></i> BedWars Available</div>
+                <div class="info-node"><i class="fa-solid fa-screwdriver-wrench" style="color: var(--primary);"></i> More Gamemodes Coming Soon</div>
+                <div class="info-node"><i class="fa-solid fa-layer-group" style="color: var(--primary);"></i> 1.8 - Latest</div>
+            </div>
+        </div>
+
         <section class="featured-gamemode-anchor" id="gamemodes">
             <div class="container">
                 <div class="section-title-block reveal-node">
@@ -1378,7 +1538,6 @@
                             </div>
                             <button onclick="copyServerIP()" class="btn btn-primary">Play Now</button>
                         </div>
-                        
                         <div class="featured-graphics-css">
                             <div class="illustration-universe">
                                 <div class="illustration-shield-glow"></div>
@@ -1443,7 +1602,7 @@
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Basic Commands</div>
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> VIP Tag</div>
                         </div>
-                        <button class="btn btn-secondary" onclick="processCheckoutMock('VIP')">Purchase Rank</button>
+                        <button class="btn btn-secondary" onclick="openPurchaseModal('VIP')">Purchase Rank</button>
                     </div>
 
                     <div class="premium-card rank-card">
@@ -1458,7 +1617,7 @@
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Fun Commands</div>
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Special Join Message</div>
                         </div>
-                        <button class="btn btn-secondary" onclick="processCheckoutMock('AURA')">Purchase Rank</button>
+                        <button class="btn btn-secondary" onclick="openPurchaseModal('AURA')">Purchase Rank</button>
                     </div>
 
                     <div class="premium-card rank-card">
@@ -1473,7 +1632,7 @@
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Colored Chat</div>
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Extra Commands</div>
                         </div>
-                        <button class="btn btn-secondary" onclick="processCheckoutMock('VIP+')">Purchase Rank</button>
+                        <button class="btn btn-secondary" onclick="openPurchaseModal('VIP+')">Purchase Rank</button>
                     </div>
 
                     <div class="premium-card rank-card">
@@ -1489,7 +1648,7 @@
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Nickname Command</div>
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Extra Commands</div>
                         </div>
-                        <button class="btn btn-secondary" onclick="processCheckoutMock('ELITE')">Purchase Rank</button>
+                        <button class="btn btn-secondary" onclick="openPurchaseModal('ELITE')">Purchase Rank</button>
                     </div>
 
                     <div class="premium-card rank-card supreme-tier">
@@ -1507,7 +1666,7 @@
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Special Join Message</div>
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Exclusive Commands</div>
                         </div>
-                        <button class="btn btn-primary" onclick="processCheckoutMock('SUPREME')">Purchase Rank</button>
+                        <button class="btn btn-primary" onclick="openPurchaseModal('SUPREME')">Purchase Rank</button>
                     </div>
 
                     <div class="premium-card rank-card">
@@ -1525,7 +1684,47 @@
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Exclusive Commands</div>
                             <div class="rank-perk-leaf"><i class="fa-solid fa-circle-check"></i> Premium Support</div>
                         </div>
-                        <button class="btn btn-secondary" onclick="processCheckoutMock('CUSTOM')">Purchase Rank</button>
+                        <button class="btn btn-secondary" onclick="openPurchaseModal('CUSTOM')">Purchase Rank</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="appeals-section" id="appeals">
+            <div class="container">
+                <div class="section-title-block reveal-node">
+                    <h2>Appeals Center</h2>
+                    <p>Need to appeal a punishment? Open a ticket in our Discord server and our staff team will review your appeal.</p>
+                </div>
+                <div class="appeals-panel-layout reveal-node">
+                    
+                    <div class="premium-card appeal-ticket-card">
+                        <div class="appeal-icon-box"><i class="fa-solid fa-gavel"></i></div>
+                        <h4>Ban Appeal</h4>
+                        <p>Submit documentation to request a reversal of network-wide account access exclusions.</p>
+                        <button class="btn btn-secondary" onclick="openAppealsModal('Ban Appeal')">Open Appeal</button>
+                    </div>
+
+                    <div class="premium-card appeal-ticket-card">
+                        <div class="appeal-icon-box"><i class="fa-solid fa-comment-slash"></i></div>
+                        <h4>Mute Appeal</h4>
+                        <p>Request an administrative review regarding communication restrictions assigned to your profile.</p>
+                        <button class="btn btn-secondary" onclick="openAppealsModal('Mute Appeal')">Open Appeal</button>
+                    </div>
+
+                    <div class="premium-card appeal-ticket-card">
+                        <div class="appeal-icon-box"><i class="fa-solid fa-user-slash"></i></div>
+                        <h4>Blacklist Appeal</h4>
+                        <p>Formal application to review hardware signature blocks or permanent identity bans.</p>
+                        <button class="btn btn-secondary" onclick="openAppealsModal('Blacklist Appeal')">Open Appeal</button>
+                    </div>
+
+                    <div class="premium-card appeal-ticket-card">
+                        <div class="appeal-icon-box"><i class="fa-solid fa-folder-open"></i></div>
+                        <h4>Other Appeal</h4>
+                        <p>Address standard moderation conflicts, wipe procedures, or unlisted gameplay infractions.</p>
+                        <button class="btn btn-secondary" onclick="openAppealsModal('Other Appeal')">Open Appeal</button>
                     </div>
 
                 </div>
@@ -1540,7 +1739,7 @@
                 </div>
                 <div class="premium-card linking-dashboard-panel reveal-node">
                     <div class="linking-form-module">
-                        <p>Link your Minecraft and Discord accounts to receive rewards, verification benefits, rank synchronization, and exclusive features.</p>
+                        <p>Link your Minecraft and Discord accounts to receive rewards, verification benefits, rank synchronization and exclusive features.</p>
                         <form onsubmit="return false;">
                             <div class="form-fields-stack">
                                 <div class="form-node-group">
@@ -1609,14 +1808,62 @@
                             <div class="channel-node-card"><i class="fa-solid fa-gift"></i> <span>Giveaways</span></div>
                             <div class="channel-node-card"><i class="fa-solid fa-user-pen"></i> <span>Staff Applications</span></div>
                         </div>
-                        <a href="https://discord.gg/skyrise" target="_blank" class="btn btn-discord" style="width: 100%;"><i class="fa-brands fa-discord"></i> Join Discord</a>
+                        <a href="https://discord.gg/chPWGe9Yf" target="_blank" class="btn btn-discord" style="width: 100%;"><i class="fa-brands fa-discord"></i> Join Discord</a>
                     </div>
                     
                     <div class="premium-card feature-node-box" style="margin: 0; background: rgba(88, 101, 242, 0.05); border-color: rgba(88, 101, 242, 0.2); text-align: center; padding: 50px 30px;">
                         <i class="fa-brands fa-discord" style="font-size: 4rem; color: var(--discord); margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--discord-glow));"></i>
-                        <h4 style="font-size: 1.5rem; margin-bottom: 10px; font-family:'Montserrat'; text-transform: uppercase;">Connect Instantly</h4>
+                        <h4 style="font-size: 1.5rem; margin-bottom: 10px;">Connect Instantly</h4>
                         <p style="color: var(--text-muted); font-size: 0.95rem;">Join over thousands of community members online. Claim roles, receive automated update logs, and coordinate with staff directly inside our ecosystem layout.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-choose-section">
+            <div class="container">
+                <div class="section-title-block reveal-node">
+                    <h2>Why Choose SkyRise</h2>
+                    <p>Engineered architecture focused on preserving gameplay fidelity and user experience stability.</p>
+                </div>
+                <div class="values-matrix-grid reveal-node">
+                    
+                    <div class="premium-card feature-node-box">
+                        <i class="fa-solid fa-bolt"></i>
+                        <h4>Lag-Free Gameplay</h4>
+                        <p>Hyper-optimized core pipelines, enterprise enterprise network lines, and top-tier computational node equipment allocation.</p>
+                    </div>
+
+                    <div class="premium-card feature-node-box">
+                        <i class="fa-solid fa-shield-heart"></i>
+                        <h4>Active Staff</h4>
+                        <p>Round-the-clock moderation teams enforcing community protection guidelines and auditing support requests constantly.</p>
+                    </div>
+
+                    <div class="premium-card feature-node-box">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <h4>Custom Features</h4>
+                        <p>Bespoke custom plugins, proprietary matchmaking elements, and regular mechanics enhancements developed internally.</p>
+                    </div>
+
+                    <div class="premium-card feature-node-box">
+                        <i class="fa-solid fa-swords"></i>
+                        <h4>Competitive PvP</h4>
+                        <p>Perfect registration monitoring for hit diagnostics and balanced mechanics modeled for high-tier dynamic combat.</p>
+                    </div>
+
+                    <div class="premium-card feature-node-box">
+                        <i class="fa-solid fa-users-handshake"></i>
+                        <h4>Friendly Community</h4>
+                        <p>Welcoming gaming ecosystem containing dedicated interactive discussion areas built to accommodate fresh entrants safely.</p>
+                    </div>
+
+                    <div class="premium-card feature-node-box">
+                        <i class="fa-solid fa-code-branch"></i>
+                        <h4>Frequent Updates</h4>
+                        <p>Agile release deployments pushing hotfixes, seasonal features, and balance structural upgrades weekly.</p>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -1660,7 +1907,7 @@
                         </button>
                         <div class="faq-content-depth">
                             <div class="faq-content-inner">
-                                Locate the premium packaging grids inside the webstore tier section listed above, pick your designated package, and follow our checkout modules.
+                                Locate the premium packaging grids inside the webstore tier section listed above, pick your designated package, and follow the Discord automated helper route directions.
                             </div>
                         </div>
                     </div>
@@ -1697,16 +1944,14 @@
             <div class="container">
                 <div class="footer-top-block">
                     <div class="footer-brand-side">
-                        <div class="footer-logo-block">
-                            <img src="logo.png" alt="SkyRise Logo" onerror="this.style.display='none'">
-                            <h4><span class="sky-text">SKY</span><span class="rise-text">RISE</span></h4>
-                        </div>
+                        <h4><span class="sky-text">SKY</span><span class="rise-text">RISE</span> NETWORK</h4>
                         <p>High-caliber, hyper-optimized legacy competitive environment built to support modern gameplay specifications.</p>
                     </div>
                     <div class="footer-directory-links">
                         <div>
                             <div class="footer-group-header">Network</div>
                             <div class="footer-link-nodes">
+                                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:4px;">IP: skyrise.ddns.net:25567</p>
                                 <a href="#">Home</a>
                                 <a href="#gamemodes">Gamemodes</a>
                                 <a href="#store">Store</a>
@@ -1715,7 +1960,8 @@
                         <div>
                             <div class="footer-group-header">Support</div>
                             <div class="footer-link-nodes">
-                                <a href="https://discord.gg/skyrise" target="_blank">Discord</a>
+                                <a href="https://discord.gg/chPWGe9Yf" target="_blank">Discord Ticket Link</a>
+                                <a href="#appeals">Appeals</a>
                                 <a href="#faq">FAQ</a>
                             </div>
                         </div>
@@ -1797,6 +2043,34 @@
                 console.error("Clipboard failure trace: ", err);
             });
         }
+
+        // --- GLOBAL SYSTEM INTERACTIVE DIALOG MODALS ---
+        const modalOverlay = document.getElementById('global-modal-shell');
+        const modalIcon = document.getElementById('modal-display-icon');
+        const modalTitle = document.getElementById('modal-display-title');
+        const modalBody = document.getElementById('modal-display-body');
+
+        function openPurchaseModal(rankName) {
+            modalIcon.className = "fa-solid fa-basket-shopping main-icon";
+            modalTitle.innerText = "Purchase Rank";
+            modalBody.innerText = `To purchase the ${rankName} rank, please open a support ticket in our Discord server.`;
+            modalOverlay.classList.add('active');
+        }
+
+        function openAppealsModal(appealType) {
+            modalIcon.className = "fa-solid fa-gavel main-icon";
+            modalTitle.innerText = "Open Appeal Ticket";
+            modalBody.innerText = `To submit a ${appealType.toLowerCase()}, please create a ticket in our Discord server.`;
+            modalOverlay.classList.add('active');
+        }
+
+        function closeGlobalModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        modalOverlay.addEventListener('click', (e) => {
+            if(e.target === modalOverlay) closeGlobalModal();
+        });
 
         // --- REAL STATUS API REQUEST HANDLING MATRIX ---
         async function fetchLiveStatus() {
@@ -1901,10 +2175,6 @@
                 return;
             }
             triggerToast("Verification sequence processing inside current scope.");
-        }
-
-        function processCheckoutMock(tier) {
-            triggerToast(`Opening secure checkout dashboard gateway for package: ${tier}`);
         }
 
         // --- PARTICLE BACKGROUND DRIVER ---
