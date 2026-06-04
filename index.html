@@ -1685,7 +1685,7 @@
                     <li><a href="https://discord.gg/chPWGe9Yf" target="_blank" class="nav-item nav-discord-btn"><i class="fa-brands fa-discord"></i> Join Discord</a></li>
                     <!-- Logged Out Nav State -->
                     <li id="nav-login-item">
-                        <button class="nav-login-btn" onclick="simulateDiscordLogin()">
+                        <button class="nav-login-btn" onclick="initiateDiscordLogin()">
                             <i class="fa-brands fa-discord"></i> Login
                         </button>
                     </li>
@@ -1693,8 +1693,8 @@
                     <li id="nav-profile-item" style="display:none;">
                         <div class="nav-profile-wrapper" id="nav-profile-wrapper">
                             <button class="nav-profile-btn" id="nav-profile-trigger">
-                                <div class="nav-avatar-placeholder" id="nav-avatar">SR</div>
-                                <span id="nav-username-display">Username</span>
+                                <div class="nav-avatar-placeholder" id="nav-avatar"></div>
+                                <span id="nav-username-display"></span>
                                 <i class="fa-solid fa-chevron-down nav-profile-chevron"></i>
                             </button>
                             <div class="nav-profile-dropdown" id="nav-profile-dropdown">
@@ -2000,9 +2000,13 @@
                         </div>
                         <h3>Sign In With Discord</h3>
                         <p>Connect your Discord account to unlock rank sync, exclusive benefits, and community access directly from your profile dashboard.</p>
-                        <button class="btn btn-discord-login" onclick="simulateDiscordLogin()">
+                        <button class="btn btn-discord-login" onclick="initiateDiscordLogin()">
                             <i class="fa-brands fa-discord"></i> Login With Discord
                         </button>
+                        <div id="oauth-not-configured" style="display:none; margin-top:20px; align-items:center; gap:10px; background:rgba(255,51,102,0.08); border:1px solid rgba(255,51,102,0.25); padding:12px 20px; border-radius:8px; font-size:0.85rem; font-weight:600; color:var(--danger);">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Discord Login Not Configured
+                        </div>
                         <div class="discord-login-perks">
                             <div class="login-perk-item"><i class="fa-solid fa-circle-check"></i> Rank Synchronization</div>
                             <div class="login-perk-item"><i class="fa-solid fa-circle-check"></i> Exclusive Rewards</div>
@@ -2014,38 +2018,18 @@
                     <div class="premium-card discord-logged-in-card" id="discord-logged-in">
                         <div class="profile-header-row">
                             <div class="profile-avatar-shell">
-                                <div class="profile-avatar-placeholder-lg" id="profile-avatar-large">SR</div>
+                                <img id="profile-avatar-img" src="" alt="Discord Avatar" style="display:none; width:90px; height:90px; border-radius:50%; object-fit:cover; border:3px solid var(--discord); box-shadow:0 0 25px var(--discord-glow);">
+                                <div class="profile-avatar-placeholder-lg" id="profile-avatar-fallback" style="display:none;"></div>
                                 <div class="profile-online-dot"></div>
                             </div>
                             <div class="profile-identity-block">
-                                <div class="profile-display-name" id="profile-display-name">SkyRise User</div>
-                                <div class="profile-username-tag">@<span id="profile-username">skyriseuser</span></div>
-                                <div class="profile-join-date">
-                                    <i class="fa-solid fa-calendar"></i>
-                                    <span id="profile-join-date">Joined Jan 2024</span>
-                                </div>
+                                <div class="profile-display-name" id="profile-display-name"></div>
+                                <div class="profile-username-tag">@<span id="profile-username"></span></div>
                                 <div class="profile-action-buttons">
-                                    <button class="btn btn-discord" onclick="triggerToast('Opening your profile...')">
-                                        <i class="fa-solid fa-user"></i> View Profile
-                                    </button>
                                     <button class="btn btn-secondary" onclick="handleLogout()">
                                         <i class="fa-solid fa-right-from-bracket"></i> Logout
                                     </button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="profile-stats-row">
-                            <div class="profile-stat-tile">
-                                <label>Account Status</label>
-                                <div class="stat-val discord-color">Verified</div>
-                            </div>
-                            <div class="profile-stat-tile">
-                                <label>Platform</label>
-                                <div class="stat-val discord-color">Discord</div>
-                            </div>
-                            <div class="profile-stat-tile">
-                                <label>Network Rank</label>
-                                <div class="stat-val primary-color">Member</div>
                             </div>
                         </div>
                     </div>
@@ -2319,48 +2303,99 @@
             });
         }
 
-        // --- DISCORD LOGIN SIMULATION (FRONTEND UI ONLY) ---
-        const MOCK_USER = {
-            displayName: "SkyRise Player",
-            username: "skyriseuser",
-            joinDate: "Joined March 2024",
-            initials: "SP"
-        };
+        // --- DISCORD OAUTH LOGIN ---
+        // Replace DISCORD_CLIENT_ID and REDIRECT_URI with your actual OAuth2 app values.
+        const DISCORD_CLIENT_ID = "YOUR_CLIENT_ID_HERE";
+        const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
+        const DISCORD_OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=identify`;
 
-        function simulateDiscordLogin() {
-            // In production, this triggers the real OAuth2 Discord flow.
-            // This is a frontend UI simulation.
-            const loggedOut = document.getElementById('discord-logged-out');
-            const loggedIn = document.getElementById('discord-logged-in');
+        function initiateDiscordLogin() {
+            if (DISCORD_CLIENT_ID === "YOUR_CLIENT_ID_HERE") {
+                showOAuthNotConfigured();
+                return;
+            }
+            window.location.href = DISCORD_OAUTH_URL;
+        }
 
-            document.getElementById('profile-display-name').textContent = MOCK_USER.displayName;
-            document.getElementById('profile-username').textContent = MOCK_USER.username;
-            document.getElementById('profile-join-date').textContent = MOCK_USER.joinDate;
-            document.getElementById('profile-avatar-large').textContent = MOCK_USER.initials;
+        function showOAuthNotConfigured() {
+            const notice = document.getElementById('oauth-not-configured');
+            if (notice) notice.style.display = 'flex';
+        }
 
-            // Update navbar
+        async function handleOAuthCallback() {
+            const hash = window.location.hash;
+            if (!hash.includes('access_token')) return;
+
+            const params = new URLSearchParams(hash.replace('#', ''));
+            const token = params.get('access_token');
+            if (!token) return;
+
+            // Clean the token from the URL
+            history.replaceState(null, '', window.location.pathname);
+
+            try {
+                const res = await fetch('https://discord.com/api/users/@me', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const user = await res.json();
+                if (!user.id) return;
+
+                const avatarUrl = user.avatar
+                    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
+                    : null;
+
+                renderLoggedIn(user.global_name || user.username, user.username, avatarUrl);
+            } catch {
+                // OAuth succeeded but user fetch failed — stay on logged-out state
+            }
+        }
+
+        function renderLoggedIn(displayName, username, avatarUrl) {
+            // Profile section
+            document.getElementById('profile-display-name').textContent = displayName;
+            document.getElementById('profile-username').textContent = username;
+
+            const avatarImg = document.getElementById('profile-avatar-img');
+            const avatarFallback = document.getElementById('profile-avatar-fallback');
+            if (avatarUrl) {
+                avatarImg.src = avatarUrl;
+                avatarImg.style.display = 'block';
+                avatarFallback.style.display = 'none';
+            } else {
+                avatarFallback.textContent = username.slice(0, 2).toUpperCase();
+                avatarFallback.style.display = 'flex';
+                avatarImg.style.display = 'none';
+            }
+
+            document.getElementById('discord-logged-out').classList.add('hidden');
+            document.getElementById('discord-logged-in').classList.add('visible');
+
+            // Navbar
             document.getElementById('nav-login-item').style.display = 'none';
-            const navProfileItem = document.getElementById('nav-profile-item');
-            navProfileItem.style.display = 'flex';
-            document.getElementById('nav-username-display').textContent = MOCK_USER.username;
-            document.getElementById('nav-avatar').textContent = MOCK_USER.initials;
-
-            loggedOut.classList.add('hidden');
-            loggedIn.classList.add('visible');
-
-            triggerToast("Logged in as " + MOCK_USER.username);
+            document.getElementById('nav-profile-item').style.display = 'flex';
+            document.getElementById('nav-username-display').textContent = username;
+            const navAvatar = document.getElementById('nav-avatar');
+            navAvatar.textContent = username.slice(0, 2).toUpperCase();
         }
 
         function handleLogout() {
-            const loggedOut = document.getElementById('discord-logged-out');
-            const loggedIn = document.getElementById('discord-logged-in');
-
-            loggedOut.classList.remove('hidden');
-            loggedIn.classList.remove('visible');
+            document.getElementById('discord-logged-out').classList.remove('hidden');
+            document.getElementById('discord-logged-in').classList.remove('visible');
 
             document.getElementById('nav-login-item').style.display = 'flex';
             document.getElementById('nav-profile-item').style.display = 'none';
             if (navProfileWrapper) navProfileWrapper.classList.remove('open');
+
+            // Reset profile fields
+            document.getElementById('profile-display-name').textContent = '';
+            document.getElementById('profile-username').textContent = '';
+            document.getElementById('profile-avatar-img').style.display = 'none';
+            document.getElementById('profile-avatar-fallback').style.display = 'none';
+            document.getElementById('nav-username-display').textContent = '';
+            document.getElementById('nav-avatar').textContent = '';
+
+            const notice = document.getElementById('oauth-not-configured');
+            if (notice) notice.style.display = 'none';
 
             triggerToast("You have been logged out.");
         }
@@ -2369,6 +2404,9 @@
             if (navProfileWrapper) navProfileWrapper.classList.remove('open');
             document.getElementById('profile').scrollIntoView({ behavior: 'smooth' });
         }
+
+        // Run OAuth callback check on load
+        handleOAuthCallback();
 
         // --- GLOBAL SYSTEM INTERACTIVE DIALOG MODALS ---
         const modalOverlay = document.getElementById('global-modal-shell');
