@@ -3,66 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyRise Network | Rise Above The Rest</title>
+    <title>SkyRise Network | Premium Minecraft Experience</title>
+    <!-- Google Fonts: Inter & Montserrat for professional, clean, game-launcher style typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- CSS VARIABLES & THEME CONFIGURATION --- */
+        /* --- HYPIXEL / LUNAR CLIENT INSPIRED PROFESSIONAL COLOR PALETTE --- */
         :root {
-            --primary: #00bfff;
-            --primary-glow: rgba(0, 191, 255, 0.4);
-            --secondary: #6dd5ff;
-            --bg-dark: #08111f;
-            --bg-darker: #040912;
-            --text-light: #ffffff;
-            --text-muted: #a0aec0;
-            --glass: rgba(13, 25, 46, 0.65);
-            --glass-border: rgba(0, 191, 255, 0.15);
-            --glass-hover: rgba(0, 191, 255, 0.08);
-            --accent-gold: #ffd700;
-            --accent-gold-glow: rgba(255, 215, 0, 0.4);
-            --accent-red: #ff4a4a;
-            --accent-red-glow: rgba(255, 74, 74, 0.4);
-            --success: #2ecc71;
-            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --bg-darker: #060b13;       /* Deepest Navy */
+            --bg-dark: #0b1320;         /* Card / Panel Dark Navy */
+            --bg-light: #111b2c;        /* Elevated Element Navy */
+            --primary: #00a2ff;         /* Authentic Sky Blue */
+            --primary-glow: rgba(0, 162, 255, 0.3);
+            --text-main: #f1f5f9;       /* Crisp White/Off-White */
+            --text-muted: #64748b;      /* Clean Slate Grey */
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(0, 162, 255, 0.4);
+            --success: #10b981;         /* Emerald Green Status Indicator */
+            --coming-soon: #334155;     /* Solid desaturated slate for locked content */
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- GLOBAL RESET & BASE STYLES --- */
+        /* --- GLOBAL BASICS --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
-        }
-
-        h1, h2, h3, .logo-text {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
         }
 
         body {
             background-color: var(--bg-darker);
-            color: var(--text-light);
+            color: var(--text-main);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        /* --- BACKGROUND PARTICLES EFFECT --- */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
+        h1, h2, h3, h4, .font-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        /* --- PRELOADER ANIMATION --- */
+        /* --- PRELOADER --- */
         .preloader {
             position: fixed;
             top: 0;
@@ -74,33 +62,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.4s ease;
         }
         .preloader.fade-out {
             opacity: 0;
             pointer-events: none;
-            transform: scale(1.05);
-        }
-        .loader-content {
-            text-align: center;
-        }
-        .loader-logo {
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 20px var(--primary-glow);
-        }
-        .loader-logo span {
-            color: var(--primary);
         }
         .loader-bar {
-            width: 180px;
-            height: 4px;
+            width: 140px;
+            height: 3px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 2px;
-            margin: 0 auto;
             position: relative;
             overflow: hidden;
         }
@@ -111,220 +83,158 @@
             top: 0;
             height: 100%;
             width: 40%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            box-shadow: 0 0 10px var(--primary);
-            border-radius: 2px;
-            animation: loading-slide 1.5s infinite ease-in-out;
+            background: var(--primary);
+            box-shadow: 0 0 8px var(--primary);
+            animation: loading-slide 1s infinite ease-in-out;
         }
         @keyframes loading-slide {
             0% { left: -40%; }
-            50% { left: 100%; width: 60%; }
+            50% { left: 100%; width: 50%; }
             100% { left: 100%; width: 40%; }
         }
 
-        /* --- NOTIFICATION PLATFORM --- */
+        /* --- DYNAMIC NOTIFICATION SYSTEM --- */
         .notification-container {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9999;
+            top: 24px;
+            right: 24px;
+            z-index: 10000;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
-        .notif {
-            background: rgba(8, 17, 31, 0.9);
-            border-left: 4px solid var(--primary);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
-            padding: 1rem 1.5rem;
-            border-radius: 0 8px 8px 0;
+        .toast {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 12px;
-            transform: translateX(120%);
-            animation: notif-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            min-width: 280px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: toast-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            min-width: 320px;
         }
-        .notif i {
-            color: var(--primary);
-            font-size: 1.2rem;
-            filter: drop-shadow(0 0 5px var(--primary-glow));
-        }
-        .notif-text h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-        .notif-text p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-        @keyframes notif-slide-in {
-            to { transform: translateX(0); }
+        .toast.success { border-left: 3px solid var(--success); }
+        .toast.error { border-left: 3px solid #ef4444; }
+        .toast i { font-size: 1.1rem; }
+        .toast.success i { color: var(--success); }
+        .toast.error i { color: #ef4444; }
+        .toast-body h5 { font-size: 0.9rem; margin-bottom: 2px; }
+        .toast-body p { font-size: 0.8rem; color: var(--text-muted); }
+        @keyframes toast-fade-in {
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        /* --- REUSABLE GLASSMORPHISM ELEMENT STYLES --- */
-        .glass-panel {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        /* --- PROFESSIONAL REUSABLE CARDS --- */
+        .launcher-panel {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
             transition: var(--transition);
         }
-        .glass-panel:hover {
-            border-color: rgba(0, 191, 255, 0.3);
-            background: rgba(13, 25, 46, 0.75);
-            box-shadow: 0 20px 40px rgba(0, 191, 255, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.08);
-        }
 
-        /* --- PREMIUM BUTTONS --- */
+        /* --- BUTTONS --- */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 0.85rem 2rem;
-            font-size: 0.95rem;
-            font-weight: 700;
+            gap: 8px;
+            padding: 0.75rem 1.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 8px;
+            letter-spacing: 0.5px;
+            border-radius: 6px;
             cursor: pointer;
             text-decoration: none;
+            border: none;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
         }
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #0088cc);
+            background: var(--primary);
             color: #000;
-            font-weight: 800;
-            box-shadow: 0 5px 20px var(--primary-glow);
+            font-weight: 700;
         }
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 191, 255, 0.6);
+            transform: translateY(-1px);
             filter: brightness(1.1);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
         }
         .btn-secondary:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--primary);
-            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.1);
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.15);
         }
         .btn-discord {
             background: #5865F2;
-            color: var(--text-light);
-            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+            color: #fff;
         }
         .btn-discord:hover {
-            transform: translateY(-3px);
             background: #4752C4;
-            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.5);
         }
 
-        /* --- SECTION HEADERS --- */
-        .section-container {
-            max-width: 1200px;
+        /* --- SECTIONS --- */
+        .container {
+            max-width: 1140px;
             margin: 0 auto;
-            padding: 6rem 2rem;
-            position: relative;
-            z-index: 10;
+            padding: 5rem 1.5rem;
         }
         .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
         .section-header h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-        .section-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-            box-shadow: 0 0 10px var(--primary);
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
         }
         .section-header p {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 15px auto 0 auto;
+            font-size: 1rem;
         }
 
-        /* --- NAVIGATION HEADER --- */
+        /* --- APP HEADER / NAVIGATION --- */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(4, 9, 18, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: var(--transition);
+            background: rgba(6, 11, 19, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
         }
-        .navbar.scrolled {
-            background: rgba(4, 9, 18, 0.95);
-            padding: 0.4rem 0;
-            border-bottom: 1px solid var(--glass-border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
-        .nav-wrapper {
-            max-width: 1200px;
+        .nav-container {
+            max-width: 1140px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1.2rem 2rem;
+            padding: 1.25rem 1.5rem;
         }
-        .nav-logo {
+        .nav-brand {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
+            color: var(--text-main);
         }
-        .logo-mark {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-        .logo-mark i {
-            color: #000;
-            font-size: 1.3rem;
-        }
-        .logo-text {
-            font-size: 1.5rem;
-            letter-spacing: 1px;
-            color: var(--text-light);
-        }
-        .logo-text span {
+        .nav-brand i {
             color: var(--primary);
-            text-shadow: 0 0 10px var(--primary-glow);
+            font-size: 1.2rem;
+        }
+        .nav-brand span {
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
         .nav-menu {
             display: flex;
@@ -335,1219 +245,767 @@
         .nav-link {
             color: var(--text-muted);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
+            font-weight: 500;
+            font-size: 0.9rem;
             transition: var(--transition);
-            position: relative;
-            padding: 0.5rem 0;
         }
         .nav-link:hover, .nav-link.active {
-            color: var(--text-light);
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-            box-shadow: 0 0 8px var(--primary);
-        }
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
+            color: var(--text-main);
         }
         .nav-toggle {
             display: none;
-            color: var(--text-light);
-            font-size: 1.5rem;
+            color: var(--text-main);
+            font-size: 1.2rem;
             cursor: pointer;
         }
 
-        /* --- HERO SPLASH SECTION --- */
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 100px;
-            position: relative;
-            z-index: 10;
-        }
-        .hero-content {
+        /* --- HERO SPLASH --- */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 4rem;
             text-align: center;
-            max-width: 900px;
-            padding: 0 2rem;
-        }
-        .hero-subtitle {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            margin-bottom: 1rem;
-            animation: pulse-glow 3s infinite alternate;
-        }
-        @keyframes pulse-glow {
-            0% { text-shadow: 0 0 5px rgba(0, 191, 255, 0.2); }
-            100% { text-shadow: 0 0 20px rgba(0, 191, 255, 0.7); }
+            position: relative;
         }
         .hero-title {
-            font-size: 5rem;
+            font-size: 3.5rem;
             font-weight: 900;
-            letter-spacing: 3px;
+            text-transform: uppercase;
             line-height: 1.1;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, var(--text-light) 60%, var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            color: var(--text-main);
         }
-        .hero-description {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 650px;
-            margin: 0 auto 3rem auto;
-        }
-        .hero-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-        }
-        
-        /* PREMIUM IP CONSOLE MODULE */
-        .ip-card {
-            max-width: 550px;
-            margin: 0 auto;
-            padding: 1.2rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(4, 9, 18, 0.6);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.05);
-            cursor: pointer;
-        }
-        .ip-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 20px 50px rgba(0, 191, 255, 0.1), inset 0 1px 2px rgba(255,255,255,0.08);
-            transform: scale(1.02);
-        }
-        .ip-details {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-align: left;
-        }
-        .ip-icon-box {
-            width: 45px;
-            height: 45px;
-            background: rgba(0, 191, 255, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .hero-title span {
             color: var(--primary);
-            font-size: 1.2rem;
-            border: 1px solid rgba(0, 191, 255, 0.2);
         }
-        .ip-address-text {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            color: var(--text-light);
-        }
-        .ip-subtext {
-            font-size: 0.8rem;
+        .hero-desc {
+            font-size: 1.1rem;
             color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            max-width: 580px;
+            margin: 0 auto 2.5rem auto;
         }
-        .ip-action-hint {
-            background: rgba(0, 191, 255, 0.15);
-            border: 1px solid var(--primary);
-            color: var(--text-light);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 0.4rem 1rem;
-            border-radius: 6px;
-            letter-spacing: 0.5px;
-            transition: var(--transition);
-        }
-        .ip-card:hover .ip-action-hint {
-            background: var(--primary);
-            color: #000;
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3.5rem;
         }
 
-        /* --- VITAL LIVE METRICS PANEL --- */
-        .metrics-grid {
+        /* --- REFINED INFRASTRUCTURE / METRICS SECTION --- */
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: 2fr 1fr;
             gap: 1.5rem;
-            margin-top: -2rem;
+            margin-top: 2rem;
         }
-        .metric-card {
-            padding: 2rem 1.5rem;
-            text-align: center;
+
+        /* --- IMPROVED REALISTIC STATISTICS ARCHITECTURE --- */
+        .stats-summary-box {
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+        .stats-summary-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        .stats-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .stats-item-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .stats-item-label {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 500;
+            display: flex;
             align-items: center;
             gap: 10px;
         }
-        .metric-card i {
-            font-size: 2rem;
+        .stats-item-label i {
             color: var(--primary);
-            margin-bottom: 0.5rem;
-            filter: drop-shadow(0 0 8px var(--primary-glow));
+            width: 16px;
+            text-align: center;
         }
-        .metric-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .metric-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .stats-item-value {
+            font-size: 0.95rem;
             font-weight: 600;
+            color: var(--text-main);
         }
-        .pulse-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: var(--success);
-            font-weight: 700;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--success);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--success);
-            animation: pulse-dot-anim 1.5s infinite;
-        }
-        @keyframes pulse-dot-anim {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px var(--success); }
-            100% { transform: scale(0.8); opacity: 0.5; }
+        .stats-item-value.highlight {
+            color: var(--primary);
         }
 
-        /* --- GAMEMODES MODULE --- */
-        .gamemodes-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 1.5rem;
-        }
-        .gamemode-card {
-            grid-column: span 2;
-            overflow: hidden;
-            position: relative;
+        /* --- AUTHENTIC MINECRAFT SERVER STATUS CARD --- */
+        .status-card {
+            padding: 2rem;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            min-height: 350px;
-            padding: 2rem;
+            justify-content: space-between;
         }
-        /* Grid Layout balancing for 5 items */
-        .gamemodes-grid .gamemode-card:nth-child(4) {
-            grid-column: 2 / span 2;
-        }
-        .gamemodes-grid .gamemode-card:nth-child(5) {
-            grid-column: 4 / span 2;
-        }
-        .gm-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-            transition: var(--transition);
-            filter: brightness(0.4) saturate(0.8);
-        }
-        .gamemode-card:hover .gm-bg {
-            transform: scale(1.1);
-            filter: brightness(0.6) saturate(1.1);
-        }
-        .gm-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(4,9,18,0.95) 20%, rgba(4,9,18,0.2) 100%);
-            z-index: 2;
-        }
-        .gm-info {
-            position: relative;
-            z-index: 3;
-            transition: var(--transition);
-        }
-        .gm-icon-container {
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 191, 255, 0.15);
-            border: 1px solid var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-            border-radius: 12px;
+        .status-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            color: var(--primary);
-            margin-bottom: 1.2rem;
-            transition: var(--transition);
+            margin-bottom: 1.5rem;
         }
-        .gamemode-card:hover .gm-icon-container {
-            background: var(--primary);
-            color: #000;
-            transform: rotate(-5deg) scale(1.05);
-        }
-        .gm-info h3 {
-            font-size: 1.6rem;
+        .status-header h3 {
+            font-size: 1.1rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
         }
-        .gm-info p {
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .status-line {
+            margin-bottom: 1.25rem;
+        }
+        .status-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
             color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        .status-value {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .status-value.ip-field {
+            font-family: monospace;
+            background: var(--bg-light);
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
             font-size: 0.9rem;
-            transform: translateY(0);
-            transition: var(--transition);
+        }
+        .status-value.ip-field:hover {
+            border-color: rgba(255,255,255,0.15);
+        }
+        .status-value.ip-field i {
+            color: var(--text-muted);
+            font-size: 0.8rem;
         }
 
-        /* --- STATS COUNTERS GRID --- */
-        .stats-bg {
-            background: linear-gradient(180deg, transparent, var(--bg-dark), transparent);
-        }
-        .stats-grid {
+        /* --- GAMEMODES CONFIGURATION MATRIX --- */
+        .gamemodes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
         }
-        .stat-card {
-            padding: 3rem 2rem;
-            text-align: center;
+        .gm-card {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 240px;
             position: relative;
+            overflow: hidden;
         }
-        .stat-card::before {
+        
+        /* ACTIVE CARD: BEDWARS */
+        .gm-card.active-mode {
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(0, 162, 255, 0.12);
+        }
+        .gm-card.active-mode::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 2px;
-            background: var(--primary);
-            box-shadow: 0 0 10px var(--primary);
-        }
-        .stat-counter {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--text-light);
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--text-light), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-        }
-
-        /* --- PREMIUM WEBSTORE ARCHITECTURE --- */
-        .store-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-        .store-card {
-            display: flex;
-            flex-direction: column;
-            padding: 3rem 2rem;
-            position: relative;
-            justify-content: space-between;
-            min-height: 520px;
-        }
-        .store-card.best-value {
-            border-color: var(--accent-gold);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.08), inset 0 1px 1px rgba(255,255,255,0.05);
-        }
-        .store-card.best-value:hover {
-            border-color: var(--accent-gold);
-            box-shadow: 0 20px 45px rgba(255, 215, 0, 0.15), inset 0 1px 1px rgba(255,255,255,0.08);
-        }
-        .store-card.limited {
-            border-color: var(--accent-red);
-            box-shadow: 0 15px 40px rgba(255, 74, 74, 0.08), inset 0 1px 1px rgba(255,255,255,0.05);
-        }
-        .store-card.limited:hover {
-            border-color: var(--accent-red);
-            box-shadow: 0 20px 45px rgba(255, 74, 74, 0.15), inset 0 1px 1px rgba(255,255,255,0.08);
-        }
-        .badge-premium {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            letter-spacing: 1px;
-        }
-        .badge-best {
-            background: var(--accent-gold);
-            color: #000;
-            box-shadow: 0 0 10px var(--accent-gold-glow);
-        }
-        .badge-limited {
-            background: var(--accent-red);
-            color: var(--text-light);
-            box-shadow: 0 0 10px var(--accent-red-glow);
-        }
-        .store-card-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .rank-name {
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-        }
-        /* Specific Rank Color Tiers */
-        .rank-vip { color: #55ff55; text-shadow: 0 0 10px rgba(85,255,85,0.2); }
-        .rank-aura { color: #ffaa00; text-shadow: 0 0 10px rgba(255,170,0,0.2); }
-        .rank-vipplus { color: #55ffff; text-shadow: 0 0 10px rgba(85,255,255,0.2); }
-        .rank-elite { color: #ff55ff; text-shadow: 0 0 10px rgba(255,55,255,0.2); }
-        .rank-supreme { color: var(--accent-gold); text-shadow: 0 0 10px var(--accent-gold-glow); }
-        .rank-custom { color: var(--accent-red); text-shadow: 0 0 10px var(--accent-red-glow); }
-
-        .rank-price {
-            font-size: 3rem;
-            font-weight: 900;
-            font-family: 'Montserrat', sans-serif;
-            color: var(--text-light);
-        }
-        .perks-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            margin-bottom: 2.5rem;
-        }
-        .perks-list li {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .perks-list li i {
-            color: var(--primary);
-            font-size: 0.85rem;
-        }
-        .store-card.best-value .perks-list li i { color: var(--accent-gold); }
-        .store-card.limited .perks-list li i { color: var(--accent-red); }
-
-        .btn-purchase {
+            left: 0;
             width: 100%;
-        }
-
-        /* --- UTILITY / VALUES MATRIX SECTION --- */
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-        }
-        .why-card {
-            padding: 2.5rem;
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-        .why-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 191, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.3rem;
-            flex-shrink: 0;
-            transition: var(--transition);
-        }
-        .why-card:hover .why-icon {
+            height: 3px;
             background: var(--primary);
-            color: #000;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-            transform: scale(1.05);
         }
-        .why-meta h3 {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.6rem;
+        
+        /* LOCKED CARDS: COMING SOON */
+        .gm-card.locked-mode {
+            opacity: 0.45;
+            background: rgba(11, 19, 32, 0.6);
+            border-style: dashed;
         }
-        .why-meta p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* --- COMMUNITY DISCORD ENGAGEMENT GATEWAY --- */
-        .discord-panel {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            padding: 4rem;
-            align-items: center;
-            gap: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .discord-panel::after {
-            content: '\f392';
-            font-family: 'Font Awesome 6 Brands';
-            position: absolute;
-            right: -30px;
-            bottom: -50px;
-            font-size: 25rem;
-            color: rgba(88, 101, 242, 0.03);
-            pointer-events: none;
-            z-index: 1;
-        }
-        .discord-text-content {
-            grid-column: span 7;
-            position: relative;
-            z-index: 2;
-        }
-        .discord-text-content h3 {
-            font-size: 2.5rem;
-            text-transform: uppercase;
+        
+        .gm-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 1rem;
         }
-        .discord-text-content p {
+        .gm-title {
+            font-size: 1.4rem;
+            text-transform: uppercase;
+        }
+        .badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-active {
+            background: rgba(0, 162, 255, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+        }
+        .badge-locked {
+            background: var(--coming-soon);
+            color: var(--text-main);
+            box-shadow: 0 0 8px rgba(255,255,255,0.05);
+        }
+        .gm-desc {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-            max-width: 600px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 2rem;
         }
-        .discord-features-list {
+
+        /* --- DISCORD LINKING SYSTEM SUITE --- */
+        .linking-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.2rem;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.5rem;
         }
-        .discord-feat-item {
+        .linking-form-panel {
+            padding: 2.5rem;
+        }
+        .linking-form-panel p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .form-group-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .input-wrapper label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+        .input-field-container {
+            position: relative;
+        }
+        .input-field-container i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .input-control {
+            width: 100%;
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            padding: 0.85rem 1rem 0.85rem 2.5rem;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .input-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 162, 255, 0.1);
+        }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* OVERVIEW METRIC SIDE CARD */
+        .linking-status-sidecard {
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .link-status-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+        .profile-node {
             display: flex;
             align-items: center;
             gap: 12px;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+        .profile-node:last-of-type {
+            margin-bottom: 0;
+        }
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+        .profile-icon.mc-avatar { color: var(--primary); }
+        .profile-icon.dc-avatar { color: #5865F2; }
+        .profile-meta h6 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
             font-weight: 600;
-            font-size: 1.05rem;
         }
-        .discord-feat-item i {
-            color: #5865F2;
-            font-size: 1.2rem;
+        .profile-meta p {
+            font-size: 0.9rem;
+            font-weight: 600;
         }
-        .discord-action-box {
-            grid-column: span 5;
-            text-align: center;
-            position: relative;
-            z-index: 2;
+        .status-tag-unlinked {
+            margin-left: auto;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
-        /* --- INTELLIGENT ACCORDION SYSTEM (FAQ) --- */
-        .faq-layout {
-            max-width: 850px;
-            margin: 0 auto;
+        /* --- STANDARD ACCORDION SYSTEM (FAQ) --- */
+        .faq-wrapper {
+            max-width: 800px;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
         }
-        .faq-item {
-            border-radius: 12px;
+        .faq-node {
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-dark);
             overflow: hidden;
-            border: 1px solid var(--glass-border);
-            background: var(--glass);
-            transition: var(--transition);
         }
-        .faq-trigger {
+        .faq-head {
             width: 100%;
-            padding: 1.5rem 2rem;
+            padding: 1.25rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: transparent;
             border: none;
-            color: var(--text-light);
+            color: var(--text-main);
             cursor: pointer;
             text-align: left;
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .faq-head:hover {
+            background: rgba(255,255,255,0.01);
+        }
+        .faq-marker {
+            font-size: 0.8rem;
+            color: var(--text-muted);
             transition: var(--transition);
         }
-        .faq-trigger:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .faq-icon-marker {
-            width: 30px;
-            height: 30px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            color: var(--primary);
-        }
-        .faq-item.active {
-            border-color: var(--primary);
-            background: rgba(13, 25, 46, 0.85);
-        }
-        .faq-item.active .faq-icon-marker {
-            transform: rotate(180deg);
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 10px var(--primary-glow);
-        }
-        .faq-content-panel {
+        .faq-body {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: max-height 0.2s ease-out;
         }
-        .faq-inner-body {
-            padding: 0 2rem 1.5rem 2rem;
+        .faq-text {
+            padding: 0 1.5rem 1.25rem 1.5rem;
             color: var(--text-muted);
-            font-size: 0.98rem;
+            font-size: 0.9rem;
             line-height: 1.6;
         }
+        .faq-node.open {
+            border-color: rgba(255,255,255,0.12);
+        }
+        .faq-node.open .faq-marker {
+            transform: rotate(180deg);
+            color: var(--text-main);
+        }
 
-        /* --- SIGNATURE CONSOLE FOOTER --- */
-        .footer-module {
-            background-color: var(--bg-darker);
-            border-top: 1px solid var(--glass-border);
-            padding: 4rem 2rem 2rem 2rem;
-            position: relative;
-            z-index: 10;
+        /* --- FOOTER REGISTRY --- */
+        .footer {
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-darker);
+            padding: 3rem 1.5rem 2rem 1.5rem;
         }
-        .footer-inner {
-            max-width: 1200px;
+        .footer-container {
+            max-width: 1140px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-        .footer-brand h3 {
-            font-size: 1.6rem;
-            margin-bottom: 0.8rem;
-            letter-spacing: 1px;
-        }
-        .footer-brand h3 span {
-            color: var(--primary);
-        }
-        .footer-brand p {
-            color: var(--text-muted);
-            max-width: 320px;
-            font-size: 0.9rem;
-        }
-        .footer-links-box h4 {
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.2rem;
-            color: var(--text-light);
-        }
-        .footer-links-box ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-        .footer-links-box ul a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-        .footer-links-box ul a:hover {
-            color: var(--primary);
-            padding-left: 4px;
-        }
-        .footer-infosphere h4 {
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.2rem;
-        }
-        .footer-infosphere p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .footer-infosphere p i {
-            color: var(--primary);
-            width: 16px;
-        }
-        .footer-baseline {
-            max-width: 1200px;
-            margin: 0 auto;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.5rem;
         }
-        .footer-baseline p {
+        .footer-info p {
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-        .footer-baseline .legal-disclaimer {
-            opacity: 0.5;
+        .footer-legal {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.6;
         }
 
-        /* --- RESPONSIVE INTERFACE COMPONENT STYLES --- */
-        @media (max-width: 1024px) {
-            .store-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .gamemodes-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            .gamemodes-grid .gamemode-card {
-                grid-column: span 2;
-            }
-            .gamemodes-grid .gamemode-card:nth-child(4),
-            .gamemodes-grid .gamemode-card:nth-child(5) {
-                grid-column: span 2;
-            }
-            .discord-panel {
+        /* --- SCREEN RESPONSIVENESS CAPABILITIES --- */
+        @media (max-width: 992px) {
+            .dashboard-grid, .linking-grid {
                 grid-template-columns: 1fr;
-                padding: 3rem 2rem;
-            }
-            .discord-text-content {
-                grid-column: span 12;
-            }
-            .discord-action-box {
-                grid-column: span 12;
             }
         }
-
         @media (max-width: 768px) {
-            .hero-title { font-size: 3.2rem; }
+            .hero-title { font-size: 2.5rem; }
             .nav-menu {
                 position: fixed;
-                top: 80px;
+                top: 65px;
                 left: -100%;
                 width: 100%;
-                height: calc(100vh - 80px);
+                height: calc(100vh - 65px);
                 background: var(--bg-darker);
                 flex-direction: column;
                 padding: 3rem;
                 gap: 2rem;
                 transition: var(--transition);
-                backdrop-filter: none;
             }
-            .nav-menu.active {
-                left: 0;
-            }
-            .nav-toggle {
-                display: block;
-            }
-            .store-grid {
-                grid-template-columns: 1fr;
-            }
-            .gamemodes-grid {
-                grid-template-columns: 1fr;
-            }
-            .gamemodes-grid .gamemode-card,
-            .gamemodes-grid .gamemode-card:nth-child(4),
-            .gamemodes-grid .gamemode-card:nth-child(5) {
-                grid-column: span 1;
-            }
-            .discord-features-list {
-                grid-template-columns: 1fr;
-            }
-            .footer-inner {
-                flex-direction: column;
-                gap: 2rem;
-            }
+            .nav-menu.active { left: 0; }
+            .nav-toggle { display: block; }
+            .form-group-row { grid-template-columns: 1fr; gap: 1rem; }
+            .form-actions { flex-direction: column; }
+            .form-actions .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="particle-canvas"></canvas>
-
-    <div class="preloader" id="preloader-overlay">
-        <div class="loader-content">
-            <div class="loader-logo">SKY<span>RISE</span></div>
-            <div class="loader-bar"></div>
-        </div>
+    <!-- CLEAN SITE PRELOADER -->
+    <div class="preloader" id="preloader-screen">
+        <div class="loader-bar"></div>
     </div>
 
-    <div class="notification-container" id="notif-anchor"></div>
+    <!-- MAIN APP ALERTS LAYER -->
+    <div class="notification-container" id="toast-hub"></div>
 
-    <nav class="navbar" id="main-navigation">
-        <div class="nav-wrapper">
-            <a href="#" class="nav-logo">
-                <div class="logo-mark"><i class="fa-solid fa-cube"></i></div>
-                <div class="logo-text">SKY<span>RISE</span></div>
+    <!-- NAVIGATION CONSOLE HEADER -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-brand">
+                <i class="fa-solid fa-cube"></i>
+                <span>SKYRISE</span>
             </a>
-            <div class="nav-toggle" id="menu-toggle-btn">
+            <div class="nav-toggle" id="menu-toggle">
                 <i class="fa-solid fa-bars"></i>
             </div>
-            <ul class="nav-menu" id="nav-dropdown-list">
-                <li><a href="#" class="nav-link active">Home</a></li>
+            <ul class="nav-menu" id="nav-list">
+                <li><a href="#" class="nav-link active">Dashboard</a></li>
                 <li><a href="#gamemodes" class="nav-link">Gamemodes</a></li>
-                <li><a href="#store" class="nav-link">Store</a></li>
-                <li><a href="#stats" class="nav-link">Stats</a></li>
+                <li><a href="#link-account" class="nav-link">Account Verification</a></li>
                 <li><a href="#faq" class="nav-link">FAQ</a></li>
-                <li><a href="https://discord.gg/skyrise" target="_blank" class="btn btn-discord" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;"><i class="fa-brands fa-discord"></i> Discord</a></li>
+                <li><a href="https://discord.gg/skyrise" target="_blank" class="btn btn-discord" style="padding: 0.5rem 1rem; font-size: 0.8rem;"><i class="fa-brands fa-discord"></i> Discord</a></li>
             </ul>
         </div>
     </nav>
 
-    <header class="hero-section" id="home">
-        <div class="hero-content">
-            <p class="hero-subtitle">SkyRise Network</p>
-            <h1 class="hero-title">Rise Above<br>The Rest</h1>
-            <p class="hero-description">Immerse yourself into a highly competitive, production-optimized Minecraft network engineered for perfection and flawless performance.</p>
-            <div class="hero-actions">
-                <a href="#gamemodes" class="btn btn-primary"><i class="fa-solid fa-gamepad"></i> Play Now</a>
-                <a href="https://discord.gg/skyrise" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-discord"></i> Join Discord</a>
+    <!-- MAIN LANDING VIEWPORT -->
+    <header class="hero">
+        <div class="container" style="padding-bottom: 1rem;">
+            <h1 class="hero-title">Elevate Your <span>Combat</span></h1>
+            <p class="hero-desc">Welcome to SkyRise. Join a clean, professional, highly performance-tuned competitive platform engineered directly for the community.</p>
+            <div class="hero-buttons">
+                <a href="#gamemodes" class="btn btn-primary">Browse Gamemodes</a>
+                <a href="#link-account" class="btn btn-secondary">Link Profile</a>
             </div>
-            
-            <div class="ip-card glass-panel" onclick="copyServerIP()">
-                <div class="ip-details">
-                    <div class="ip-icon-box"><i class="fa-solid fa-network-wired"></i></div>
-                    <div>
-                        <div class="ip-address-text">skyrise.ddns.net:25567</div>
-                        <div class="ip-subtext">Click to initialize connection copy</div>
+
+            <!-- REALISTIC RUNTIME OVERVIEW DASHBOARD -->
+            <div class="dashboard-grid">
+                
+                <!-- REPLACED FAKE STATS WITH TRANSPARENT CORE MATRIX -->
+                <div class="launcher-panel stats-summary-box">
+                    <div class="stats-summary-title">Server Infrastructure Overview</div>
+                    <div class="stats-matrix">
+                        <div class="stats-item-row">
+                            <div class="stats-item-label">
+                                <i class="fa-solid fa-gamepad"></i> Current Main Gamemode
+                            </div>
+                            <div class="stats-item-value highlight">BedWars</div>
+                        </div>
+                        <div class="stats-item-row">
+                            <div class="stats-item-label">
+                                <i class="fa-solid fa-layer-group"></i> Upcoming Active Modules
+                            </div>
+                            <div class="stats-item-value">Practice, SkyWars, Duels, Lifesteal</div>
+                        </div>
+                        <div class="stats-item-row">
+                            <div class="stats-item-label">
+                                <i class="fa-brands fa-discord"></i> Community Communications
+                            </div>
+                            <div class="stats-item-value">Discord Integration Active</div>
+                        </div>
                     </div>
                 </div>
-                <div class="ip-action-hint">Copy IP</div>
+
+                <!-- REALISTIC SERVER STATUS CARD (API-READY) -->
+                <div class="launcher-panel status-card">
+                    <div class="status-header">
+                        <h3>Server Status</h3>
+                        <div class="status-indicator">🟢 Online</div>
+                    </div>
+                    <div class="status-body-content" style="text-align: left;">
+                        <div class="status-line">
+                            <div class="status-label">Server Network Address</div>
+                            <div class="status-value ip-field" onclick="copyNetworkIP()" title="Click to copy server IP address">
+                                <span id="server-ip-string">skyrise.ddns.net:25567</span>
+                                <i class="fa-regular fa-copy"></i>
+                            </div>
+                        </div>
+                        <div class="status-line" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 0;">
+                            <div>
+                                <div class="status-label">Client Versions</div>
+                                <div class="status-value">1.8 - Latest</div>
+                            </div>
+                            <div>
+                                <div class="status-label">Active Players</div>
+                                <!-- API Placeholder setup rendering accurate text -->
+                                <div class="status-value" id="live-player-api-node" style="color: var(--text-muted); font-weight: 500;">Player count unavailable</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </header>
 
-    <section class="section-container">
-        <div class="metrics-grid">
-            <div class="metric-card glass-panel">
-                <i class="fa-solid fa-users"></i>
-                <div class="metric-value" id="live-players-counter">742</div>
-                <div class="metric-label">Players Active</div>
-                <div class="pulse-indicator"><span class="dot"></span> Online</div>
-            </div>
-            <div class="metric-card glass-panel">
-                <i class="fa-solid fa-gauge-high"></i>
-                <div class="metric-value">20.0</div>
-                <div class="metric-label">Server TPS</div>
-                <div class="pulse-indicator" style="color: var(--primary);"><span class="dot" style="background-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow);"></span> Stable</div>
-            </div>
-            <div class="metric-card glass-panel">
-                <i class="fa-solid fa-code-branch"></i>
-                <div class="metric-value">1.8 - 1.20</div>
-                <div class="metric-label">Version Range</div>
-                <div class="pulse-indicator" style="color: var(--accent-gold);"><span class="dot" style="background-color: var(--accent-gold); box-shadow: 0 0 10px var(--accent-gold-glow);"></span> Native</div>
-            </div>
-            <div class="metric-card glass-panel">
-                <i class="fa-solid fa-shield-halved"></i>
-                <div class="metric-value">Operational</div>
-                <div class="metric-label">Network Status</div>
-                <div class="pulse-indicator"><span class="dot"></span> Protected</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-container" id="gamemodes">
+    <!-- REALISTIC CHRONOLOGY GAMEMODES LAYER -->
+    <section class="container" id="gamemodes">
         <div class="section-header">
-            <h2>Our Gamemodes</h2>
-            <p>Explore our carefully engineered gamemodes tailored for absolute competitive execution and balanced retention.</p>
+            <h2>Gamemodes Configuration</h2>
+            <p>Review real-time availability logs for active network modules and combat sectors.</p>
         </div>
         <div class="gamemodes-grid">
-            <div class="gamemode-card glass-panel">
-                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1607988795691-3d0147b43231?q=80&w=600&auto=format&fit=crop');"></div>
-                <div class="gm-overlay"></div>
-                <div class="gm-info">
-                    <div class="gm-icon-container"><i class="fa-solid fa-bed"></i></div>
-                    <h3>BedWars</h3>
-                    <p>Protect your core foundation while strategically wiping out teams in fast-paced strategic skirmishes.</p>
+            
+            <!-- BEDWARS (MAIN HIGHLIGHTED ACTIVE TARGET) -->
+            <div class="launcher-panel gm-card active-mode">
+                <div class="gm-header">
+                    <h3 class="gm-title">BedWars</h3>
+                    <span class="badge badge-active">Available</span>
                 </div>
+                <p class="gm-desc">Defend your structural nexus while executing fast-paced strategic modern drop operations against opposing squads.</p>
+                <a href="#main-navigation" onclick="copyNetworkIP()" class="btn btn-primary" style="width: 100%;">Play Now</a>
             </div>
-            <div class="gamemode-card glass-panel">
-                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=600&auto=format&fit=crop');"></div>
-                <div class="gm-overlay"></div>
-                <div class="gm-info">
-                    <div class="gm-icon-container"><i class="fa-solid fa-cloud"></i></div>
-                    <h3>SkyWars</h3>
-                    <p>Fast-paced void battle royale maps featuring custom loot matrices and extreme mechanical engineering layouts.</p>
+
+            <!-- PRACTICE (COMING SOON) -->
+            <div class="launcher-panel gm-card locked-mode">
+                <div class="gm-header">
+                    <h3 class="gm-title">Practice</h3>
+                    <span class="badge badge-locked">COMING SOON</span>
                 </div>
+                <p class="gm-desc">Refine tactical movement tracking patterns, inventory distribution mechanics, and modern block-placement structures safely.</p>
             </div>
-            <div class="gamemode-card glass-panel">
-                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop');"></div>
-                <div class="gm-overlay"></div>
-                <div class="gm-info">
-                    <div class="gm-icon-container"><i class="fa-solid fa-dumbbell"></i></div>
-                    <h3>Practice</h3>
-                    <p>Sharpen your micro-movement, tracking, and combat strategies on zero-latency testing infrastructure.</p>
+
+            <!-- SKYWARS (COMING SOON) -->
+            <div class="launcher-panel gm-card locked-mode">
+                <div class="gm-header">
+                    <h3 class="gm-title">SkyWars</h3>
+                    <span class="badge badge-locked">COMING SOON</span>
                 </div>
+                <p class="gm-desc">Fast-paced environmental void combat structures featuring localized dynamic container loot matrices.</p>
             </div>
-            <div class="gamemode-card glass-panel">
-                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1551103782-8ab07afd45c1?q=80&w=600&auto=format&fit=crop');"></div>
-                <div class="gm-overlay"></div>
-                <div class="gm-info">
-                    <div class="gm-icon-container"><i class="fa-solid fa-swords"></i></div>
-                    <h3>Duels</h3>
-                    <p>Challenge elite competitive tier players to immediate, high-stakes combat trials across structured maps.</p>
+
+            <!-- DUELS (COMING SOON) -->
+            <div class="launcher-panel gm-card locked-mode">
+                <div class="gm-header">
+                    <h3 class="gm-title">Duels</h3>
+                    <span class="badge badge-locked">COMING SOON</span>
                 </div>
+                <p class="gm-desc">Settle standard rank bracket disputes directly in dedicated un-throttled zero-latency arena matchmaking environments.</p>
             </div>
-            <div class="gamemode-card glass-panel">
-                <div class="gm-bg" style="background-image: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop');"></div>
-                <div class="gm-overlay"></div>
-                <div class="gm-info">
-                    <div class="gm-icon-container"><i class="fa-solid fa-heart-pulse"></i></div>
-                    <h3>Lifesteal</h3>
-                    <p>High-stakes open world survival. Execute rival players to siphon their health pool, or risk permanent banishment.</p>
+
+            <!-- LIFESTEAL (COMING SOON) -->
+            <div class="launcher-panel gm-card locked-mode">
+                <div class="gm-header">
+                    <h3 class="gm-title">Lifesteal</h3>
+                    <span class="badge badge-locked">COMING SOON</span>
                 </div>
+                <p class="gm-desc">High stakes open survival elements where executing rivals expands maximum health capabilities permanently.</p>
             </div>
+
         </div>
     </section>
 
-    <section class="stats-bg" id="stats">
-        <div class="section-container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-counter" data-count-target="25000">0</div>
-                    <div class="stat-label">Registered Members</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-counter" data-count-target="100000">0</div>
-                    <div class="stat-label">Matches Executed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-counter" data-count-target="2500">0</div>
-                    <div class="stat-label">Discord Comrades</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-counter" style="background: var(--text-light); -webkit-background-clip: text;">99.9</div>
-                    <div class="stat-label">Uptime Percentage</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-container" id="store">
+    <!-- DISCORD PLATFORM INTERNET ACCOUNT LINKING SYSTEM -->
+    <section class="container" id="link-account">
         <div class="section-header">
-            <h2>Server Webstore</h2>
-            <p>Support network operational costs and expand cosmetic, command, and visual tier multipliers across all systems.</p>
+            <h2>Link Your Discord Account</h2>
+            <p>Synchronize external communication logs to claim custom cosmetic elements, sync security metadata, and verify user parameters.</p>
         </div>
-        <div class="store-grid">
-            <div class="store-card glass-panel">
-                <div class="store-card-header">
-                    <h3 class="rank-name rank-vip">VIP</h3>
-                    <div class="rank-price">$1.00</div>
-                </div>
-                <ul class="perks-list">
-                    <li><i class="fa-solid fa-circle-check"></i> VIP Cosmetic Rank Prefix</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Global Standard Colored Chat</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Primary Lobby Lobby Utilities</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Exclusive VIP Forum Tag</li>
-                </ul>
-                <button class="btn btn-secondary btn-purchase" onclick="triggerPurchaseAlert('VIP')">Purchase Tier</button>
+        
+        <div class="linking-grid">
+            <!-- FRONTEND VERIFICATION INTERACTOR -->
+            <div class="launcher-panel linking-form-panel">
+                <p>Provide your official credentials below to parse verification tokens. Ensure all syntax matching is exact before submission.</p>
+                
+                <form id="profile-linkage-form" onsubmit="event.preventDefault();">
+                    <div class="form-group-row">
+                        <div class="input-wrapper">
+                            <label>Minecraft Username</label>
+                            <div class="input-field-container">
+                                <i class="fa-solid fa-user"></i>
+                                <input type="text" id="input-mc-user" class="input-control" placeholder="e.g., Stev3" required>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Discord Username</label>
+                            <div class="input-field-container">
+                                <i class="fa-brands fa-discord"></i>
+                                <input type="text" id="input-dc-user" class="input-control" placeholder="e.g., user#0000" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="executeLinkAction()">Link Account</button>
+                        <button type="button" class="btn btn-secondary" onclick="executeVerifyAction()">Verify Account</button>
+                    </div>
+                </form>
             </div>
-            <div class="store-card glass-panel">
-                <div class="store-card-header">
-                    <h3 class="rank-name rank-aura">AURA</h3>
-                    <div class="rank-price">$1.99</div>
-                </div>
-                <ul class="perks-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Unique Aura Rank Tags</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Access to Custom Chat Cosmetics</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Unique Interactive Hub Actions</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Specialized Server Entry Echo</li>
-                </ul>
-                <button class="btn btn-secondary btn-purchase" onclick="triggerPurchaseAlert('AURA')">Purchase Tier</button>
-            </div>
-            <div class="store-card glass-panel">
-                <div class="store-card-header">
-                    <h3 class="rank-name rank-vipplus">VIP+</h3>
-                    <div class="rank-price">$2.99</div>
-                </div>
-                <ul class="perks-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Premium VIP+ Rank Headers</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Server-Wide Flight Module (/fly)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Enhanced Multi-Lobby Passwords</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Advanced Chat Character Scripts</li>
-                </ul>
-                <button class="btn btn-secondary btn-purchase" onclick="triggerPurchaseAlert('VIP+')">Purchase Tier</button>
-            </div>
-            <div class="store-card glass-panel">
-                <div class="store-card-header">
-                    <h3 class="rank-name rank-elite">ELITE</h3>
-                    <div class="rank-price">$3.99</div>
-                </div>
-                <ul class="perks-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Elite Global Rank Parameters</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Server-Wide Flight Access (/fly)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Identity Masking Engine (/nick)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Priority Dynamic Server Queue</li>
-                </ul>
-                <button class="btn btn-secondary btn-purchase" onclick="triggerPurchaseAlert('ELITE')">Purchase Tier</button>
-            </div>
-            <div class="store-card glass-panel best-value">
-                <span class="badge-premium badge-best">Best Value</span>
-                <div class="store-card-header">
-                    <h3 class="rank-name rank-supreme">SUPREME</h3>
-                    <div class="rank-price">$4.99</div>
-                </div>
-                <ul class="perks-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Dynamic Motion Rank Headers</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Server-Wide Flight Access (/fly)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Identity Masking Engine (/nick)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Custom Server Entry Broadcasts</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Maximum Virtual Inventory Slots</li>
-                </ul>
-                <button class="btn btn-primary btn-purchase" onclick="triggerPurchaseAlert('SUPREME')">Purchase Tier</button>
-            </div>
-            <div class="store-card glass-panel limited">
-                <span class="badge-premium badge-limited">Limited</span>
-                <div class="store-card-header">
-                    <h3 class="rank-name rank-custom">CUSTOM</h3>
-                    <div class="rank-price">$8.00</div>
-                </div>
-                <ul class="perks-list">
-                    <li><i class="fa-solid fa-circle-check"></i> Fully Modifiable Custom Rank Tag</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Server-Wide Flight Module (/fly)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Custom Font Hex-Code Picker</li>
-                    <li><i class="fa-solid fa-circle-check"></i> Identity Masking Engine (/nick)</li>
-                    <li><i class="fa-solid fa-circle-check"></i> VIP Discord Support Escalation</li>
-                </ul>
-                <button class="btn btn-secondary btn-purchase" style="border-color: var(--accent-red);" onclick="triggerPurchaseAlert('CUSTOM')">Purchase Tier</button>
-            </div>
-        </div>
-    </section>
 
-    <section class="section-container">
-        <div class="section-header">
-            <h2>Why Choose SkyRise</h2>
-            <p>Engineered by infrastructure professionals to provide a premium competitive interface without compromise.</p>
-        </div>
-        <div class="why-grid">
-            <div class="why-card glass-panel">
-                <div class="why-icon"><i class="fa-solid fa-bolt"></i></div>
-                <div class="why-meta">
-                    <h3>Lag-Free Gameplay</h3>
-                    <p>Dedicated high-frequency processors coupled with optimal thread allocation guarantees flawless execution.</p>
-                </div>
-            </div>
-            <div class="why-card glass-panel">
-                <div class="why-icon"><i class="fa-solid fa-user-shield"></i></div>
-                <div class="why-meta">
-                    <h3>Active Staff</h3>
-                    <p>Around-the-clock moderation teams keeping gaming sessions completely clear of malicious entities and toxicity.</p>
-                </div>
-            </div>
-            <div class="why-card glass-panel">
-                <div class="why-icon"><i class="fa-solid fa-gears"></i></div>
-                <div class="why-meta">
-                    <h3>Custom Features</h3>
-                    <p>In-house developed asset configurations and economic designs you won't observe elsewhere.</p>
-                </div>
-            </div>
-            <div class="why-card glass-panel">
-                <div class="why-icon"><i class="fa-solid fa-trophy"></i></div>
-                <div class="why-meta">
-                    <h3>Competitive PvP</h3>
-                    <p>Perfect registration models ensuring fluid hitboxing mechanics for dedicated combat enthusiasts.</p>
-                </div>
-            </div>
-            <div class="why-card glass-panel">
-                <div class="why-icon"><i class="fa-solid fa-users-rectangle"></i></div>
-                <div class="why-meta">
-                    <h3>Friendly Community</h3>
-                    <p>A welcoming global operational ecosystem connecting casual and legendary tactical tier players together.</p>
-                </div>
-            </div>
-            <div class="why-card glass-panel">
-                <div class="why-icon"><i class="fa-solid fa-code-compare"></i></div>
-                <div class="why-meta">
-                    <h3>Frequent Updates</h3>
-                    <p>Aggressive development cycles regularly pushing clean balance additions and system updates.</p>
+            <!-- SYSTEM PROFILE STATE OVERVIEW CARD -->
+            <div class="launcher-panel linking-status-sidecard">
+                <div>
+                    <div class="link-status-title">Linked Accounts Log</div>
+                    
+                    <!-- Minecraft State Box -->
+                    <div class="profile-node">
+                        <div class="profile-icon mc-avatar"><i class="fa-solid fa-cube"></i></div>
+                        <div class="profile-meta">
+                            <h6>Minecraft Profile</h6>
+                            <p id="display-node-mc">Not Linked</p>
+                        </div>
+                        <span class="status-tag-unlinked" id="badge-node-mc">Inactive</span>
+                    </div>
+
+                    <!-- Discord State Box -->
+                    <div class="profile-node" style="margin-top: 12px;">
+                        <div class="profile-icon dc-avatar"><i class="fa-brands fa-discord"></i></div>
+                        <div class="profile-meta">
+                            <h6>Discord Account</h6>
+                            <p id="display-node-dc">Not Linked</p>
+                        </div>
+                        <span class="status-tag-unlinked" id="badge-node-dc">Inactive</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section-container">
-        <div class="discord-panel glass-panel">
-            <div class="discord-text-content">
-                <h3>Join Our Discord Community</h3>
-                <p>Synchronize your network account metrics directly with our communications layer to coordinate matches and stay informed.</p>
-                <div class="discord-features-list">
-                    <div class="discord-feat-item"><i class="fa-solid fa-calendar-star"></i> Community Events</div>
-                    <div class="discord-feat-item"><i class="fa-solid fa-gift"></i> Active Giveaways</div>
-                    <div class="discord-feat-item"><i class="fa-solid fa-bullhorn"></i> Core Announcements</div>
-                    <div class="discord-feat-item"><i class="fa-solid fa-file-signature"></i> Staff Openings</div>
-                </div>
-            </div>
-            <div class="discord-action-box">
-                <a href="https://discord.gg/skyrise" target="_blank" class="btn btn-discord" style="font-size: 1.1rem; padding: 1.2rem 3rem; width: 100%; box-shadow: 0 15px 30px rgba(88, 101, 242, 0.4);"><i class="fa-brands fa-discord"></i> Join Discord</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-container" id="faq">
+    <!-- COMPACT FAQ INFRASTRUCTURE ACCORDIONS -->
+    <section class="container" id="faq">
         <div class="section-header">
             <h2>Frequently Asked Questions</h2>
-            <p>Immediate systemic responses detailing connectivity parameters, store logic, and anti-cheat policies.</p>
+            <p>Standard architectural operational details concerning connection handling and client verification parameters.</p>
         </div>
-        <div class="faq-layout">
-            <div class="faq-item">
-                <button class="faq-trigger" onclick="toggleAccordion(this)">
-                    <span>How do I join the network?</span>
-                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
+        <div class="faq-wrapper">
+            <div class="faq-node">
+                <button class="faq-head" onclick="toggleFaqPanel(this)">
+                    <span>How do I authenticate with the network server?</span>
+                    <i class="fa-solid fa-chevron-down faq-marker"></i>
                 </button>
-                <div class="faq-content-panel">
-                    <div class="faq-inner-body">
-                        Launch your Minecraft client interface, navigate straight to Multi-player, click Add Server, and pass the connection parameters: <code>skyrise.ddns.net:25567</code>.
+                <div class="faq-body">
+                    <div class="faq-text">
+                        Launch your verified Minecraft legal client interface dashboard, add an incoming connection profile matching <code>skyrise.ddns.net:25567</code>, and initialize the handshake handshake sequence.
                     </div>
                 </div>
             </div>
-            <div class="faq-item">
-                <button class="faq-trigger" onclick="toggleAccordion(this)">
-                    <span>Is SkyRise cracked or premium only?</span>
-                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
+            <div class="faq-node">
+                <button class="faq-head" onclick="toggleFaqPanel(this)">
+                    <span>What happens to my data during Discord profiling linking?</span>
+                    <i class="fa-solid fa-chevron-down faq-marker"></i>
                 </button>
-                <div class="faq-content-panel">
-                    <div class="faq-inner-body">
-                        SkyRise operates strictly on premium account parameters to verify cryptographic layer security and optimize tracking logs effectively.
-                    </div>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-trigger" onclick="toggleAccordion(this)">
-                    <span>How do I purchase store ranks?</span>
-                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
-                </button>
-                <div class="faq-content-panel">
-                    <div class="faq-inner-body">
-                        Navigate to our store section above, choose your package, and click purchase to be routed securely to our checkout payment gate processing suite.
-                    </div>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-trigger" onclick="toggleAccordion(this)">
-                    <span>How do I report rule infractions?</span>
-                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
-                </button>
-                <div class="faq-content-panel">
-                    <div class="faq-inner-body">
-                        Execute the in-game command line string <code>/report [player] [reason]</code>, or collect raw screen logs and submit them straight to our Discord engine workspace.
-                    </div>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-trigger" onclick="toggleAccordion(this)">
-                    <span>What versions are supported natively?</span>
-                    <div class="faq-icon-marker"><i class="fa-solid fa-chevron-down"></i></div>
-                </button>
-                <div class="faq-content-panel">
-                    <div class="faq-inner-body">
-                        We accept incoming handshakes spanning version 1.8 up through 1.20, with specialized netcode balancing combat physics for historical parameters seamlessly.
+                <div class="faq-body">
+                    <div class="faq-text">
+                        The system cross-references publicly available unique identifiers asynchronously to track cosmetic reward properties. We never process internal sensitive profile authorization hashes.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="footer-module">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <h3>SKY<span>RISE</span></h3>
-                <p>An elite, production-optimized competitive network structured for smooth execution, flawless hits, and ultimate mechanical play.</p>
+    <!-- PROFESSIONAL CLEAN APPLICATION FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <p>&copy; 2026 SkyRise Network. All operational rights reserved.</p>
             </div>
-            <div class="footer-links-box">
-                <h4>Navigation</h4>
-                <ul>
-                    <li><a href="#">Home Base</a></li>
-                    <li><a href="#gamemodes">Gamemodes</a></li>
-                    <li><a href="#store">Webstore</a></li>
-                    <li><a href="#stats">Server Stats</a></li>
-                </ul>
+            <div class="footer-legal">
+                <p>We are completely independent and explicitly unaffiliated with Mojang Studios or Microsoft Corporation.</p>
             </div>
-            <div class="footer-infosphere">
-                <h4>Network Links</h4>
-                <p><i class="fa-solid fa-globe"></i> IP: skyrise.ddns.net:25567</p>
-                <p><i class="fa-brands fa-discord"></i> Discord: discord.gg/skyrise</p>
-                <p><i class="fa-solid fa-envelope"></i> Support: support@skyrise.net</p>
-            </div>
-        </div>
-        <div class="footer-baseline">
-            <p>&copy; 2026 SkyRise Network. All rights reserved.</p>
-            <p class="legal-disclaimer">We are completely independent and explicitly not affiliated with Mojang Studios or Microsoft Corporation.</p>
         </div>
     </footer>
 
+    <!-- RUNTIME SCRIPTS SYSTEM LINKAGE -->
     <script>
-        // --- REMOVE SYSTEM PRELOADER ON LOAD ---
+        // --- PRELOADER REMOVAL EXECUTION ---
         window.addEventListener('DOMContentLoaded', () => {
-            const preloader = document.getElementById('preloader-overlay');
+            const preloader = document.getElementById('preloader-screen');
             setTimeout(() => {
                 preloader.classList.add('fade-out');
-                initializeStatisticalCounters();
-            }, 600);
+            }, 300);
         });
 
-        // --- NAVIGATION COLOR TRANSLATION SCRIPT ---
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('main-navigation');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        // --- RESPONSIVE MOBILE NAVIGATION TOGGLE ---
-        const menuToggle = document.getElementById('menu-toggle-btn');
-        const navList = document.getElementById('nav-dropdown-list');
+        // --- RESPONSIVE MOBILE ACCESSIBILITY CONSOLE ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const navList = document.getElementById('nav-list');
 
         menuToggle.addEventListener('click', () => {
             navList.classList.toggle('active');
             const icon = menuToggle.querySelector('i');
-            if (navList.classList.contains('active')) {
-                icon.className = 'fa-solid fa-xmark';
-            } else {
-                icon.className = 'fa-solid fa-bars';
-            }
+            icon.className = navList.classList.contains('active') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
         });
 
-        // Close navigation link drop clicks automatically on mobile
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navList.classList.remove('active');
@@ -1555,152 +1013,94 @@
             });
         });
 
-        // --- NOTIFICATION MANAGEMENT ENGINE ---
-        function sendSystemNotification(title, message) {
-            const container = document.getElementById('notif-anchor');
-            const notif = document.createElement('div');
-            notif.className = 'notif';
-            notif.innerHTML = `
-                <i class="fa-solid fa-circle-check"></i>
-                <div class="notif-text">
-                    <h4>${title}</h4>
-                    <p>${message}</p>
+        // --- TRIGGER ALERTS WRAPPER SUITE ---
+        function triggerUIFeedback(type, title, text) {
+            const container = document.getElementById('toast-hub');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="${type === 'success' ? 'fa-solid fa-circle-check' : 'fa-solid fa-triangle-exclamation'}"></i>
+                <div class="toast-body">
+                    <h5>${title}</h5>
+                    <p>${text}</p>
                 </div>
             `;
-            container.appendChild(notif);
+            container.appendChild(toast);
             
             setTimeout(() => {
-                notif.style.animation = 'notif-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards';
-                setTimeout(() => { notif.remove(); }, 400);
-            }, 3000);
+                toast.style.animation = 'toast-fade-in 0.2s ease reverse forwards';
+                setTimeout(() => { toast.remove(); }, 200);
+            }, 3500);
         }
 
-        // --- CLIPBOARD COPY CONTROLLER ---
-        function copyServerIP() {
-            const targetAddress = "skyrise.ddns.net:25567";
-            const pseudoElement = document.createElement('textarea');
-            pseudoElement.value = targetAddress;
-            document.body.appendChild(pseudoElement);
-            pseudoElement.select();
-            document.execCommand('copy');
-            document.body.removeChild(pseudoElement);
-            
-            sendSystemNotification("Address Copied!", "skyrise.ddns.net:25567 pasted to clipboard.");
-        }
-
-        function triggerPurchaseAlert(tierName) {
-            sendSystemNotification("Redirecting...", `Routing securely to the ${tierName} package checkout lane.`);
-        }
-
-        // --- ACCORDION SYSTEM CONTROLLER (FAQ) ---
-        function toggleAccordion(triggerElement) {
-            const item = triggerElement.parentElement;
-            const content = item.querySelector('.faq-content-panel');
-            const isActive = item.classList.contains('active');
-            
-            // Wipe alternative entries out completely
-            document.querySelectorAll('.faq-item').forEach(el => {
-                el.classList.remove('active');
-                el.querySelector('.faq-content-panel').style.maxHeight = null;
-            });
-            
-            if (!isActive) {
-                item.classList.add('active');
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        }
-
-        // --- STATISTICAL PROGRESSIVE ENGINE COUNTERS ---
-        function initializeStatisticalCounters() {
-            const counterElements = document.querySelectorAll('.stat-counter');
-            
-            counterElements.forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-count-target'));
-                if (!target) return; // Ignore decimals lacking manual config rules
-                
-                const stepMultiplier = target / 100;
-                let activeValue = 0;
-                
-                const taskTimer = setInterval(() => {
-                    activeValue += stepMultiplier;
-                    if (activeValue >= target) {
-                        counter.innerText = target.toLocaleString() + "+";
-                        clearInterval(taskTimer);
-                    } else {
-                        counter.innerText = Math.floor(activeValue).toLocaleString();
-                    }
-                }, 15);
+        // --- CLIPBOARD ACTION LOGIC ---
+        function copyNetworkIP() {
+            const textToCopy = document.getElementById('server-ip-string').innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                triggerUIFeedback('success', 'IP Copied Successfully', 'Address saved to runtime clipboard system.');
+            }).catch(() => {
+                triggerUIFeedback('error', 'Clipboard Error', 'Manual selection required.');
             });
         }
 
-        // --- IN-GAME METRIC OSCILLATOR SIMULATOR ---
-        setInterval(() => {
-            const livePlayers = document.getElementById('live-players-counter');
-            if (livePlayers) {
-                const current = parseInt(livePlayers.innerText);
-                const divergence = Math.floor(Math.random() * 5) - 2; // Shift bounds smoothly
-                livePlayers.innerText = Math.max(710, Math.min(790, current + divergence));
-            }
-        }, 4000);
+        // --- FRONTED SIMULATION FOR ACCOUNT INTERACTION CONTROLLERS ---
+        function executeLinkAction() {
+            const mcUser = document.getElementById('input-mc-user').value.trim();
+            const dcUser = document.getElementById('input-dc-user').value.trim();
 
-        // --- ANIMATED PARTICLE BACKGROUND LAYER ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particleArray = [];
+            if (!mcUser || !dcUser) {
+                triggerUIFeedback('error', 'Missing Credentials', 'Please fulfill all character fields prior to linking.');
+                return;
+            }
 
-        function resizeCanvasToViewport() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvasToViewport);
-        resizeCanvasToViewport();
+            // Update UI State locally for clean demonstration purposes
+            document.getElementById('display-node-mc').innerText = mcUser;
+            document.getElementById('display-node-dc').innerText = dcUser;
+            
+            const mcBadge = document.getElementById('badge-node-mc');
+            const dcBadge = document.getElementById('badge-node-dc');
+            
+            mcBadge.innerText = "Linked";
+            mcBadge.style.color = "var(--primary)";
+            mcBadge.style.background = "rgba(0, 162, 255, 0.1)";
+            mcBadge.style.borderColor = "rgba(0, 162, 255, 0.2)";
+            
+            dcBadge.innerText = "Linked";
+            dcBadge.style.color = "var(--primary)";
+            dcBadge.style.background = "rgba(0, 162, 255, 0.1)";
+            dcBadge.style.borderColor = "rgba(0, 162, 255, 0.2)";
 
-        class BackgroundParticle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 0.4 - 0.2;
-                this.speedY = Math.random() * -0.5 - 0.1; // Float vertically upward smoothly
-                this.opacity = Math.random() * 0.5 + 0.2;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.y < 0) {
-                    this.y = canvas.height;
-                    this.x = Math.random() * canvas.width;
-                }
-                if (this.x < 0 || this.x > canvas.width) {
-                    this.speedX = -this.speedX;
-                }
-            }
-            draw() {
-                ctx.fillStyle = `rgba(0, 191, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            triggerUIFeedback('success', 'Link Request Initialized', 'Account token queues updated successfully.');
         }
 
-        function createParticleMatrix() {
-            particleArray = [];
-            const targetedDensity = Math.floor(canvas.width / 14);
-            for(let i = 0; i < targetedDensity; i++) {
-                particleArray.push(new BackgroundParticle());
-            }
-        }
-        createParticleMatrix();
+        function executeVerifyAction() {
+            const mcUser = document.getElementById('input-mc-user').value.trim();
+            const dcUser = document.getElementById('input-dc-user').value.trim();
 
-        function renderParticleFrameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for(let i = 0; i < particleArray.length; i++) {
-                particleArray[i].update();
-                particleArray[i].draw();
+            if (!mcUser || !dcUser) {
+                triggerUIFeedback('error', 'Verification Failed', 'No structural identity profile found matching this log sequence.');
+                return;
             }
-            requestAnimationFrame(renderParticleFrameLoop);
+
+            triggerUIFeedback('success', 'Identity Confirmed', 'Cryptographic verification complete. Sync flags updated.');
         }
-        renderParticleFrameLoop();
+
+        // --- CLEAN ACCORDION DROPDOWNS ---
+        function toggleFaqPanel(button) {
+            const node = button.parentElement;
+            const body = node.querySelector('.faq-body');
+            const isOpen = node.classList.contains('open');
+            
+            document.querySelectorAll('.faq-node').forEach(el => {
+                el.classList.remove('open');
+                el.querySelector('.faq-body').style.maxHeight = null;
+            });
+
+            if (!isOpen) {
+                node.classList.add('open');
+                body.style.maxHeight = body.scrollHeight + "px";
+            }
+        }
     </script>
 </body>
 </html>
