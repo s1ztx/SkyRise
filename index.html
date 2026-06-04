@@ -3,907 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyRise Network | Competitive Practice Club</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Skyrise Network | Store</title>
     <style>
+        /* CSS Variables for Easy Customization */
         :root {
-            --bg-dark: #0a0c10;
-            --panel-dark: #12161f;
-            --panel-border: rgba(123, 237, 159, 0.1);
-            --accent-green: #2ed573;
-            --accent-glow: rgba(46, 213, 115, 0.3);
-            --text-white: #ffffff;
-            --text-gray: #9ca3af;
-            --btn-green-grad: linear-gradient(135deg, #2ed573 0%, #1f9451 100%);
-            --card-hover-bg: #161b26;
+            --dark-blue: #0b132b;
+            --secondary-dark: #1c2541;
+            --sky-blue: #00b4d8;
+            --sky-blue-hover: #90e0ef;
+            --white: #ffffff;
+            --text-gray: #a0aec0;
         }
 
+        /* Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            user-select: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-white);
+            background-color: var(--dark-blue);
+            color: var(--white);
+            line-height: 1.6;
             overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
         }
 
-        /* --- BACKGROUND PARTICLES CANVAS --- */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* --- AMBIENT GLOW BACKDROP BACKGROUND --- */
-        .ambient-glow-1 {
-            position: fixed;
-            top: 20%;
-            left: -10%;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(46, 213, 115, 0.08) 0%, rgba(0,0,0,0) 70%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .ambient-glow-2 {
-            position: fixed;
-            bottom: 15%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(46, 213, 115, 0.06) 0%, rgba(0,0,0,0) 70%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .wrapper {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            width: 100%;
-            padding: 30px 50px;
+        /* Navigation Bar */
+        nav {
+            background-color: var(--secondary-dark);
+            padding: 1.2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
+            border-bottom: 2px solid var(--sky-blue);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        .logo span { color: var(--accent-green); }
-
-        nav { display: flex; gap: 35px; }
-        nav a {
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
             letter-spacing: 1px;
-            transition: color 0.2s ease;
         }
-        nav a:hover { color: var(--accent-green); }
 
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 60px 20px;
+        .logo span {
+            color: var(--sky-blue);
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--sky-blue);
+        }
+
+        /* Hero Header Section */
+        header {
+            text-align: center;
+            padding: 5rem 1rem 3rem 1rem;
+            background: linear-gradient(180deg, var(--secondary-dark) 0%, var(--dark-blue) 100%);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        header h1 span {
+            color: var(--sky-blue);
+        }
+
+        header p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Store Container */
+        .store-container {
             max-width: 1200px;
             margin: 0 auto;
-            width: 100%;
+            padding: 2rem 1rem 5rem 1rem;
         }
 
-        .hero-text {
+        .category-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
             text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .hero-text h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #fff;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-
-        .hero-text p {
-            font-size: 1.1rem;
-            color: var(--text-gray);
-            max-width: 650px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* --- IP COPY BAR --- */
-        .ip-controller {
-            background: var(--panel-dark);
-            border: 1px solid var(--panel-border);
-            padding: 12px 24px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: all 0.25s ease;
-            margin-bottom: 70px;
-        }
-
-        .ip-controller:hover {
-            border-color: var(--accent-green);
-            box-shadow: 0 0 20px rgba(46, 213, 115, 0.15);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-green);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent-green);
-        }
-        .status-dot.offline {
-            background-color: #ff4757;
-            box-shadow: 0 0 8px #ff4757;
-        }
-
-        .ip-text {
-            font-family: monospace;
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #fff;
-        }
-
-        .player-counter {
-            background: rgba(46, 213, 115, 0.1);
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--accent-green);
-        }
-
-        /* --- HUB CARD GRID MATRIX --- */
-        .grid-matrix {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-
-        .matrix-card {
-            background: var(--panel-dark);
-            border: 1px solid var(--panel-border);
-            border-radius: 12px;
-            padding: 30px;
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-        }
-
-        .matrix-card:hover {
-            background: var(--card-hover-bg);
-            border-color: rgba(46, 213, 115, 0.3);
-        }
-
-        .card-icon {
-            font-size: 1.8rem;
-            color: var(--accent-green);
-            margin-bottom: 15px;
-        }
-
-        .matrix-card h3 {
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .matrix-card p {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        /* Live Stat Rows inside Card */
-        .stat-rows {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            padding-bottom: 6px;
-        }
-        .stat-label { color: var(--text-gray); }
-        .stat-value { color: #fff; font-weight: 600; font-family: monospace; }
-
-        .action-arrow {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent-green);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: gap 0.2s ease;
-        }
-        .matrix-card:hover .action-arrow {
-            gap: 10px;
-        }
-        .action-arrow i {
-            transition: transform 0.2s ease;
-        }
-        /* Rotates down when active */
-        .matrix-card.panel-open .action-arrow i {
-            transform: rotate(90deg);
-        }
-
-        /* --- SMART SLIDE DOWN PANEL ANIMATION --- */
-        .slide-panel-container {
-            width: 100%;
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            margin-bottom: 60px;
-        }
-        
-        .slide-panel-container.expanded {
-            grid-template-rows: 1fr;
-        }
-
-        .slide-panel-content {
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .inner-stats-dashboard {
-            background: var(--panel-dark);
-            border: 1px solid var(--panel-border);
-            border-radius: 12px;
-            padding: 35px;
-            margin-top: 5px;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-        }
-
-        .dashboard-layout-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 25px;
-            margin-top: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-layout-grid { grid-template-columns: 1fr; }
-        }
-
-        .dashboard-box {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.04);
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .box-title {
-            font-size: 0.8rem;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-        }
-        .box-title i { color: var(--accent-green); }
-
-        .dashboard-title-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 12px;
-        }
-        .dashboard-title-header h2 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .player-list-scroll {
-            max-height: 140px;
-            overflow-y: auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .player-pill {
-            background: rgba(46, 213, 115, 0.1);
-            border: 1px solid rgba(46, 213, 115, 0.2);
-            color: var(--accent-green);
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            font-family: monospace;
-        }
-
-        .empty-players {
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            font-style: italic;
-        }
-
-        /* --- SHOP SECTION --- */
-        .store-section {
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 20px;
-        }
-
-        .store-title {
-            text-align: center;
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .store-subtitle {
-            text-align: center;
-            color: var(--text-gray);
-            margin-bottom: 45px;
-            font-size: 0.95rem;
-        }
-
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        .shop-card {
-            background: var(--panel-dark);
-            border: 1px solid var(--panel-border);
-            border-radius: 12px;
-            padding: 30px;
             position: relative;
+        }
+
+        .category-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--sky-blue);
+            margin: 0.5rem auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Rank Cards Grid Grid Layout */
+        .ranks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Individual Rank Card Design */
+        .rank-card {
+            background-color: var(--secondary-dark);
+            border: 1px solid rgba(0, 180, 216, 0.1);
+            border-radius: 12px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
             display: flex;
             flex-direction: column;
-            transition: all 0.25s ease;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .shop-card:hover {
-            background: var(--card-hover-bg);
-            border-color: var(--accent-green);
-            transform: translateY(-4px);
-        }
-
-        .shop-card.limited { border-color: rgba(241, 196, 15, 0.4); }
-        .shop-card.best { border-color: rgba(255, 71, 87, 0.4); }
-
-        .tag-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(241, 196, 15, 0.15);
-            color: #f1c40f;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        .tag-badge.best-deal {
-            background: rgba(255, 71, 87, 0.15);
-            color: #ff4757;
+        .rank-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--sky-blue);
+            box-shadow: 0 10px 20px rgba(0, 180, 216, 0.1);
         }
 
         .rank-name {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 4px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Custom Colors for High-Tier Ranks to pop slightly */
+        .rank-card.staff-tier .rank-name {
+            color: var(--sky-blue);
         }
 
         .rank-price {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            color: var(--accent-green);
-            margin-bottom: 25px;
+            color: var(--white);
+            margin: 1rem 0;
         }
 
-        .perk-list {
-            list-style: none;
-            margin-bottom: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            flex-grow: 1;
-        }
-
-        .perk-list li {
-            font-size: 0.85rem;
+        .rank-price span {
+            font-size: 1rem;
             color: var(--text-gray);
+            font-weight: 400;
+        }
+
+        .rank-features {
+            list-style: none;
+            margin: 1.5rem 0 2.5rem 0;
+            text-align: left;
+        }
+
+        .rank-features li {
+            margin-bottom: 0.75rem;
+            color: var(--text-gray);
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
-            gap: 10px;
         }
 
-        .perk-list li i {
-            color: var(--accent-green);
-            font-size: 0.8rem;
+        .rank-features li::before {
+            content: '✓';
+            color: var(--sky-blue);
+            font-weight: bold;
+            margin-right: 10px;
         }
 
+        /* Purchase Button pointing directly to your ticket channel */
         .buy-btn {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: #fff;
-            padding: 12px;
-            border-radius: 6px;
-            text-align: center;
+            display: block;
+            background-color: var(--sky-blue);
+            color: var(--dark-blue);
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.85rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: all 0.2s ease;
+            transition: background-color 0.3s ease, transform 0.1s ease;
         }
 
-        .shop-card:hover .buy-btn {
-            background: var(--btn-green-grad);
-            border-color: transparent;
-            box-shadow: 0 5px 15px rgba(46, 213, 115, 0.2);
+        .buy-btn:hover {
+            background-color: var(--sky-blue-hover);
         }
 
+        .buy-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Footer */
         footer {
-            width: 100%;
-            padding: 40px;
+            background-color: var(--secondary-dark);
             text-align: center;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.15);
-            border-top: 1px solid rgba(255,255,255,0.02);
-            margin-top: 80px;
+            padding: 2rem;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        @media (max-width: 768px) {
-            header { padding: 20px; flex-direction: column; gap: 15px; }
-            .hero-text h1 { font-size: 2.5rem; }
-            .shop-grid { grid-template-columns: 1fr; }
+        footer span {
+            color: var(--white);
         }
     </style>
 </head>
 <body>
 
-    <canvas id="particle-canvas"></canvas>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">SKYRISE<span>NETWORK</span></div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#" style="color: var(--sky-blue);">Store</a>
+            <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank">Support</a>
+        </div>
+    </nav>
 
-    <div class="ambient-glow-1"></div>
-    <div class="ambient-glow-2"></div>
+    <!-- Header Section -->
+    <header>
+        <h1>Skyrise Server <span>Store</span></h1>
+        <p>Select a rank below to purchase. Clicking purchase will instantly redirect you to our secure server ticket channel to fulfill your transaction.</p>
+    </header>
 
-    <div class="wrapper">
-        <header>
-            <div class="logo">Sky<span>Rise</span></div>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#store">Store</a>
-                <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer">Discord</a>
-            </nav>
-        </header>
-
-        <main>
-            <div class="hero-text">
-                <h1>The Ultimate Arena</h1>
-                <p>Dominate the rush lanes. Zero latency mechanics, custom 1v1 BedFight practice, and a hardened community arena.</p>
-            </div>
-
-            <div class="ip-controller" onclick="copyNetworkIP('skyrise.ddns.net:25567')">
-                <div class="status-dot" id="network-dot"></div>
-                <div class="ip-text" id="target-ip">SKYRISE.DDNS.NET:25567</div>
-                <div class="player-counter" id="live-count">PINGING...</div>
-            </div>
-
-            <div class="grid-matrix" id="features">
-                <div class="matrix-card" id="stats-trigger-card" onclick="toggleServerStatsPanel()">
-                    <div>
-                        <div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div>
-                        <h3>Server Stats</h3>
-                        <div class="stat-rows">
-                            <div class="stat-item">
-                                <span class="stat-label">Network Status</span>
-                                <span class="stat-value" id="card-status" style="color: #ff4757;">OFFLINE</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Engine Version</span>
-                                <span class="stat-value" id="card-version">1.8.x - 1.20.x</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="action-arrow">Server Stats <i class="fa-solid fa-arrow-down"></i></div>
+    <!-- Store Section Container -->
+    <div class="store-container">
+        
+        <!-- DONOR RANKS (Arranged Price Wise: Lowest to Highest) -->
+        <h2 class="category-title">Player Donor Ranks</h2>
+        <div class="ranks-grid">
+            
+            <!-- VIP -->
+            <div class="rank-card">
+                <div>
+                    <div class="rank-name">VIP</div>
+                    <div class="rank-price">$5.00<span> / Permanent</span></div>
+                    <ul class="rank-features">
+                        <li>Basic Green VIP Prefix</li>
+                        <li>Join full servers</li>
+                        <li>Access to /feed command (10m cooldown)</li>
+                        <li>+3 Player Vault slots</li>
+                    </ul>
                 </div>
-
-                <a href="#store" class="matrix-card">
-                    <div>
-                        <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
-                        <h3>Rank Store</h3>
-                        <p>Unlock premium server features, custom profile tags, particle streaks, and lobby cosmetic modifiers. Keep the network online with zero pay-to-win elements.</p>
-                    </div>
-                    <div class="action-arrow">Explore Shop <i class="fa-solid fa-arrow-right"></i></div>
-                </a>
-
-                <a href="https://discord.gg/3NvrYh2d" class="matrix-card" target="_blank" rel="noopener noreferrer">
-                    <div>
-                        <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
-                        <h3>Secure Discord</h3>
-                        <p>Pair your in-game layout safely using our custom 2FA Discord bot. View server announcements, log performance bugs, and run competitive tournaments.</p>
-                    </div>
-                    <div class="action-arrow">Join Server <i class="fa-solid fa-arrow-right"></i></div>
-                </a>
+                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
             </div>
 
-            <div class="slide-panel-container" id="stats-sliding-container">
-                <div class="slide-panel-content">
-                    <div class="inner-stats-dashboard">
-                        <div class="dashboard-title-header">
-                            <i class="fa-solid fa-circle-info" style="color: var(--accent-green); font-size: 1.4rem;"></i>
-                            <h2>Live Diagnostics Dashboard</h2>
-                        </div>
-
-                        <div class="dashboard-layout-grid">
-                            <div class="dashboard-box">
-                                <div class="box-title"><i class="fa-solid fa-server"></i> System Metrics</div>
-                                <div class="stat-rows" style="margin: 0;">
-                                    <div class="stat-item"><span class="stat-label">Node Connection</span><span class="stat-value" id="drop-status" style="color:#ff4757;">OFFLINE</span></div>
-                                    <div class="stat-item"><span class="stat-label">Protocol Software</span><span class="stat-value" id="drop-version">1.8 - 1.20</span></div>
-                                    <div class="stat-item"><span class="stat-label">Allocated Slots</span><span class="stat-value" id="drop-slots">-- / --</span></div>
-                                    <div class="stat-item"><span class="stat-label">Host Domain</span><span class="stat-value">skyrise.ddns.net</span></div>
-                                    <div class="stat-item"><span class="stat-label">Dedicated Port</span><span class="stat-value">25567</span></div>
-                                </div>
-                            </div>
-
-                            <div class="dashboard-box">
-                                <div class="box-title"><i class="fa-solid fa-users"></i> Online Players</div>
-                                <div class="player-list-scroll" id="drop-player-list">
-                                    <span class="empty-players">No players currently connected.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- VIP+ -->
+            <div class="rank-card">
+                <div>
+                    <div class="rank-name">VIP+</div>
+                    <div class="rank-price">$10.00<span> / Permanent</span></div>
+                    <ul class="rank-features">
+                        <li>Teal VIP+ Custom Prefix</li>
+                        <li>All perks of previous tier</li>
+                        <li>Access to /heal command (15m cooldown)</li>
+                        <li>+5 Player Vault slots</li>
+                    </ul>
                 </div>
+                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
             </div>
 
-            <section class="store-section" id="store">
-                <h2 class="store-title">Network Shop</h2>
-                <p class="store-subtitle">Support development and customize your identity profile in-game</p>
-                
-                <div class="shop-grid">
-                    <div class="shop-card limited">
-                        <div class="tag-badge">Limited</div>
-                        <div class="rank-name">Custom Rank</div>
-                        <div class="rank-price">$8.00</div>
-                        <ul class="perk-list">
-                            <li><i class="fa-solid fa-square-check"></i> Fully Custom Prefix</li>
-                            <li><i class="fa-solid fa-square-check"></i> Fly Command Access</li>
-                            <li><i class="fa-solid fa-square-check"></i> Custom Chat Color</li>
-                            <li><i class="fa-solid fa-square-check"></i> Nickname Command</li>
-                            <li><i class="fa-solid fa-square-check"></i> Premium Network Support</li>
-                        </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
-                    </div>
-
-                    <div class="shop-card best">
-                        <div class="tag-badge best-deal">Popular</div>
-                        <div class="rank-name">Supreme</div>
-                        <div class="rank-price">$4.99</div>
-                        <ul class="perk-list">
-                            <li><i class="fa-solid fa-square-check"></i> Animated Dynamic Prefix</li>
-                            <li><i class="fa-solid fa-square-check"></i> Fly Command Access</li>
-                            <li><i class="fa-solid fa-square-check"></i> Nickname Toggle</li>
-                            <li><i class="fa-solid fa-square-check"></i> Colored Custom Chat</li>
-                            <li><i class="fa-solid fa-square-check"></i> Custom Join Message</li>
-                        </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
-                    </div>
-
-                    <div class="shop-card">
-                        <div class="rank-name">Elite</div>
-                        <div class="rank-price">$3.99</div>
-                        <ul class="perk-list">
-                            <li><i class="fa-solid fa-square-check"></i> Elite Server Prefix</li>
-                            <li><i class="fa-solid fa-square-check"></i> Fly Command Access</li>
-                            <li><i class="fa-solid fa-square-check"></i> Colored Chat Grid</li>
-                            <li><i class="fa-solid fa-square-check"></i> Extra Perks Access</li>
-                        </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
-                    </div>
-
-                    <div class="shop-card">
-                        <div class="rank-name">VIP+</div>
-                        <div class="rank-price">$2.99</div>
-                        <ul class="perk-list">
-                            <li><i class="fa-solid fa-square-check"></i> VIP+ Server Tag</li>
-                            <li><i class="fa-solid fa-square-check"></i> Fly Command Access</li>
-                            <li><i class="fa-solid fa-square-check"></i> Chat Formatting Access</li>
-                        </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
-                    </div>
-
-                    <div class="shop-card">
-                        <div class="rank-name">Aura</div>
-                        <div class="rank-price">$1.99</div>
-                        <ul class="perk-list">
-                            <li><i class="fa-solid fa-square-check"></i> Unique Aura Prefix</li>
-                            <li><i class="fa-solid fa-square-check"></i> Colored Chat Access</li>
-                            <li><i class="fa-solid fa-square-check"></i> Special Log Message</li>
-                        </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
-                    </div>
-
-                    <div class="shop-card">
-                        <div class="rank-name">VIP</div>
-                        <div class="rank-price">$1.00</div>
-                        <ul class="perk-list">
-                            <li><i class="fa-solid fa-square-check"></i> Green VIP Tag Line</li>
-                            <li><i class="fa-solid fa-square-check"></i> Essential Lobby Access</li>
-                        </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
-                    </div>
-
-                    <div class="shop-card">
-                        <div class="rank-name">Chat Color</div>
-                        <div class="rank-price">$3.00</div>
-                        <ul class="perk-list">
-                            <li><i class="fa-solid fa-square-check"></i> Selectable Chat Colors</li>
-                            <li><i class="fa-solid fa-square-check"></i> Stand Out Globally</li>
-                        </ul>
-                        <a href="https://discord.gg/3NvrYh2d" target="_blank" rel="noopener noreferrer" class="buy-btn">Unlock Rank</a>
-                    </div>
+            <!-- ELITE -->
+            <div class="rank-card">
+                <div>
+                    <div class="rank-name">ELITE</div>
+                    <div class="rank-price">$15.00<span> / Permanent</span></div>
+                    <ul class="rank-features">
+                        <li>Cyan Bold ELITE Prefix</li>
+                        <li>All perks of previous tiers</li>
+                        <li>Access to /wb (portable workbench)</li>
+                        <li>Access to /hat cosmetics</li>
+                    </ul>
                 </div>
-            </section>
-        </main>
+                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
+            </div>
 
-        <footer>
-            &copy; 2026 SkyRise Network. This project is not affiliated with Mojang Studios or Microsoft Corporation.
-        </footer>
+            <!-- AURA -->
+            <div class="rank-card">
+                <div>
+                    <div class="rank-name">AURA</div>
+                    <div class="rank-price">$25.00<span> / Permanent</span></div>
+                    <ul class="rank-features">
+                        <li>Exclusive Aqua AURA Prefix</li>
+                        <li>All perks of previous tiers</li>
+                        <li>Access to premium particles /fly in hubs</li>
+                        <li>Priority Queue Placement</li>
+                    </ul>
+                </div>
+                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
+            </div>
+
+            <!-- SUPREME -->
+            <div class="rank-card">
+                <div>
+                    <div class="rank-name">SUPREME</div>
+                    <div class="rank-price">$40.00<span> / Permanent</span></div>
+                    <ul class="rank-features">
+                        <li>Premium White/SkyBlue Glow Prefix</li>
+                        <li>All perks of previous tiers</li>
+                        <li>Access to /condense and /craft</li>
+                        <li>Maximum priority support tickets</li>
+                    </ul>
+                </div>
+                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
+            </div>
+
+        </div>
+
+        <!-- STAFF RANKS (Arranged Hierarchically / Value Wise) -->
+        <h2 class="category-title">Staff & Administration Applications</h2>
+        <div class="ranks-grid">
+            
+            <!-- TRIAL MOD -->
+            <div class="rank-card staff-tier">
+                <div>
+                    <div class="rank-name">Trial Mod</div>
+                    <div class="rank-price">Apply<span> / Free</span></div>
+                    <ul class="rank-features">
+                        <li>Basic Staff Moderation permissions</li>
+                        <li>Access to basic log checkers</li>
+                        <li>Dedicated Staff Chat channel access</li>
+                    </ul>
+                </div>
+                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Open Application Ticket</a>
+            </div>
+
+            <!-- MOD -->
+            <div class="rank-card staff-tier">
+                <div>
+                    <div class="rank-name">Moderator</div>
+                    <div class="rank-price">Promo<span> / Staff Only</span></div>
+                    <ul class="rank-features">
+                        <li>Full kick, mute, and temporary ban permissions</li>
+                        <li>Vanishing toolsets access (/v)</li>
+                        <li>Ticket management privileges</li>
+                    </ul>
+                </div>
+                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Open Inquiry Ticket</a>
+            </div>
+
+            <!-- ADMIN -->
+            <div class="rank-card staff-tier">
+                <div>
+                    <div class="rank-name">Admin</div>
+                    <div class="rank-price">Secure<span> / Management</span></div>
+                    <ul class="rank-features">
+                        <li>Full Network management capabilities</li>
+                        <li>LuckPerms configuration system management</li>
+                        <li>Server backend access and deployment toolsets</li>
+                    </ul>
+                </div>
+                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Contact Management</a>
+            </div>
+
+        </div>
+
     </div>
 
-    <script>
-        // --- BACKGROUND PARTICLES CANVAS ENGINE ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
+    <!-- Footer Area -->
+    <footer>
+        <p>&copy; 2026 <span>Skyrise Network</span>. We are not affiliated with Mojang Studios or Microsoft.</p>
+    </footer>
 
-        let particlesArray = [];
-        const maxParticles = 85; 
-        const mouse = { x: null, y: null, radius: 140 };
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-
-        window.addEventListener('mouseout', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = (Math.random() - 0.5) * 0.6;
-                this.speedY = (Math.random() - 0.5) * 0.6;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
-                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
-
-                if (mouse.x != null && mouse.y != null) {
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < mouse.radius) {
-                        this.x -= dx * 0.02;
-                        this.y -= dy * 0.02;
-                    }
-                }
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(46, 213, 115, 0.45)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particlesArray = [];
-            for (let i = 0; i < maxParticles; i++) {
-                particlesArray.push(new Particle());
-            }
-        }
-
-        function connectParticles() {
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let dx = particlesArray[a].x - particlesArray[b].x;
-                    let dy = particlesArray[a].y - particlesArray[b].y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 110) {
-                        let opacity = (1 - (distance / 110)) * 0.12;
-                        ctx.strokeStyle = `rgba(46, 213, 115, ${opacity})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
-            connectParticles();
-            requestAnimationFrame(animateParticles);
-        }
-
-        initParticles();
-        animateParticles();
-
-
-        // --- DROPDOWN PANEL ACCORDION INTERACTION CONTROLLER ---
-        function toggleServerStatsPanel() {
-            const container = document.getElementById('stats-sliding-container');
-            const cardTrigger = document.getElementById('stats-trigger-card');
-            
-            container.classList.toggle('expanded');
-            cardTrigger.classList.toggle('panel-open');
-        }
-
-
-        // --- MINECRAFT SERVER API ENGINE STATUS CORES ---
-        async function updateLiveNetworkMetrics() {
-            const counter = document.getElementById('live-count');
-            const dot = document.getElementById('network-dot');
-            
-            // Base Card Nodes
-            const cardStatus = document.getElementById('card-status');
-            const cardVersion = document.getElementById('card-version');
-
-            // Dropdown Inner Dashboard Nodes
-            const dropStatus = document.getElementById('drop-status');
-            const dropVersion = document.getElementById('drop-version');
-            const dropSlots = document.getElementById('drop-slots');
-            const dropPlayerList = document.getElementById('drop-player-list');
-
-            try {
-                const response = await fetch('https://api.mcsrvstat.us/3/skyrise.ddns.net:25567');
-                const data = await response.json();
-                
-                if (data.online) {
-                    const onlineCount = data.players.online;
-                    const maxSlots = data.players.max;
-
-                    dot.classList.remove('offline');
-                    counter.innerHTML = `<span style="color:#fff;">${onlineCount}</span> PLAYERS`;
-                    
-                    // Main layout components
-                    cardStatus.innerText = "ONLINE";
-                    cardStatus.style.color = "var(--accent-green)";
-                    if (data.version) cardVersion.innerText = data.version;
-
-                    // Expanded Sliding Dropdown Panel components
-                    dropStatus.innerText = "ONLINE";
-                    dropStatus.style.color = "var(--accent-green)";
-                    if (data.version) dropVersion.innerText = data.version;
-                    dropSlots.innerText = `${onlineCount} / ${maxSlots}`;
-
-                    // Check live online profiles lists
-                    if (data.players.list && data.players.list.length > 0) {
-                        dropPlayerList.innerHTML = '';
-                        data.players.list.forEach(player => {
-                            const pill = document.createElement('span');
-                            pill.classList.add('player-pill');
-                            pill.innerText = player.name;
-                            dropPlayerList.appendChild(pill);
-                        });
-                    } else {
-                        dropPlayerList.innerHTML = '<span class="empty-players">No players currently connected.</span>';
-                    }
-
-                } else {
-                    // Offline defaults
-                    dot.classList.add('offline');
-                    counter.innerText = "OFFLINE";
-                    
-                    cardStatus.innerText = "OFFLINE";
-                    cardStatus.style.color = "#ff4757";
-
-                    dropStatus.innerText = "OFFLINE";
-                    dropStatus.style.color = "#ff4757";
-                    dropSlots.innerText = "0 / 0";
-                    dropPlayerList.innerHTML = '<span class="empty-players">No players currently connected.</span>';
-                }
-            } catch (err) {
-                // Fail-safe fallbacks
-                counter.innerText = "ONLINE";
-                cardStatus.innerText = "ONLINE";
-                cardStatus.style.color = "var(--accent-green)";
-            }
-        }
-        
-        updateLiveNetworkMetrics();
-        setInterval(updateLiveNetworkMetrics, 30000);
-
-        function copyNetworkIP(ipString) {
-            navigator.clipboard.writeText(ipString);
-            const textElement = document.getElementById('target-ip');
-            const initialText = textElement.innerText;
-            textElement.innerText = "COPIED TO CLIPBOARD!";
-            setTimeout(() => { textElement.innerText = initialText; }, 2000);
-        }
-    </script>
 </body>
 </html>
