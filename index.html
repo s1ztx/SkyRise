@@ -3,580 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyrise Network | Store</title>
-    <style>
-        /* CSS Variables mapped to Theme Engine */
-        :root {
-            --bg-main: #0b132b;
-            --bg-card: #1c2541;
-            --primary-sky: #00b4d8;
-            --primary-hover: #90e0ef;
-            --text-main: #ffffff;
-            --text-muted: #a0aec0;
-            --border-color: rgba(0, 180, 216, 0.15);
-        }
-
-        /* Light Theme Mapping */
-        [data-theme="light"] {
-            --bg-main: #f0f4f8;
-            --bg-card: #ffffff;
-            --primary-sky: #0077b6;
-            --primary-hover: #0096c7;
-            --text-main: #1a202c;
-            --text-muted: #4a5568;
-            --border-color: rgba(0, 119, 182, 0.2);
-        }
-
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        /* Navigation Bar */
-        nav {
-            background-color: var(--bg-card);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--primary-sky);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        .logo span {
-            color: var(--primary-sky);
-        }
-
-        /* Menu controls layout */
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        /* Theme Settings Dropdown Wrapper */
-        .theme-selector {
-            position: relative;
-            display: inline-block;
-        }
-
-        .theme-btn {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            border: 1px solid var(--primary-sky);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        .theme-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: var(--bg-card);
-            min-width: 220px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 0.5rem;
-            z-index: 101;
-            border: 1px solid var(--border-color);
-        }
-
-        .theme-dropdown.show {
-            display: block;
-        }
-
-        .theme-option {
-            width: 100%;
-            padding: 0.5rem;
-            background: none;
-            border: none;
-            color: var(--text-main);
-            text-align: left;
-            cursor: pointer;
-            font-weight: 500;
-            border-radius: 4px;
-        }
-
-        .theme-option:hover {
-            background-color: var(--bg-main);
-            color: var(--primary-sky);
-        }
-
-        .custom-picker-group {
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-            font-size: 0.8rem;
-        }
-
-        .color-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .color-row input[type="color"] {
-            border: none;
-            width: 30px;
-            height: 20px;
-            cursor: pointer;
-            background: transparent;
-        }
-
-        /* Discord Integration Header Panel */
-        .discord-linker-panel {
-            max-width: 600px;
-            margin: 2rem auto 0 auto;
-            background-color: var(--bg-card);
-            border: 1px dashed var(--primary-sky);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .discord-input-container {
-            display: flex;
-            gap: 0.5rem;
-            max-width: 400px;
-            margin: 1rem auto 0 auto;
-        }
-
-        .discord-input-container input {
-            flex: 1;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-size: 0.9rem;
-        }
-
-        .discord-input-container button {
-            background-color: var(--primary-sky);
-            color: white;
-            border: none;
-            padding: 0 1.2rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .discord-input-container button:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .profile-display {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-            padding: 0.5rem;
-            background-color: var(--bg-main);
-            border-radius: 8px;
-        }
-
-        .profile-display img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-sky);
-        }
-
-        .profile-info {
-            text-align: left;
-        }
-
-        .profile-name {
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .profile-status {
-            font-size: 0.75rem;
-            color: #10b981;
-            font-weight: 600;
-        }
-
-        /* Main Container setup */
-        header {
-            text-align: center;
-            padding: 3rem 1rem 1rem 1rem;
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-        }
-
-        header h1 span {
-            color: var(--primary-sky);
-        }
-
-        header p {
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-
-        .store-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1rem 5rem 1rem;
-        }
-
-        .category-title {
-            font-size: 1.8rem;
-            margin: 3rem 0 1.5rem 0;
-            text-align: center;
-        }
-
-        /* Store Card Grids */
-        .ranks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .rank-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .rank-card:hover {
-            border-color: var(--primary-sky);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-
-        .rank-name {
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .rank-price {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin: 0.5rem 0 1.5rem 0;
-        }
-
-        .rank-price span {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .rank-features {
-            list-style: none;
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-
-        .rank-features li {
-            margin-bottom: 0.6rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .rank-features li::before {
-            content: '✓';
-            color: var(--primary-sky);
-            font-weight: bold;
-            margin-right: 8px;
-        }
-
-        .buy-btn {
-            display: block;
-            background-color: var(--primary-sky);
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 700;
-            padding: 0.8rem;
-            border-radius: 6px;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-        }
-
-        .buy-btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        footer {
-            background-color: var(--bg-card);
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 5rem;
-            border-top: 1px solid var(--border-color);
-        }
-    </style>
+    <title>SkyRise Network</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for clean icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <nav>
-        <div class="logo">SKYRISE<span>NETWORK</span></div>
-        <div class="nav-controls">
-            <div class="theme-selector">
-                <button class="theme-btn" onclick="toggleThemeDropdown()">🎨 Change Theme</button>
-                <div class="theme-dropdown" id="themeDropdown">
-                    <button class="theme-option" onclick="setTheme('dark')">🌌 Dark Theme</button>
-                    <button class="theme-option" onclick="setTheme('light')">☀️ White Theme</button>
-                    <button class="theme-option" onclick="setTheme('custom')">⚙️ Custom Theme</button>
-                    
-                    <div class="custom-picker-group">
-                        <div class="color-row">
-                            <label>Background:</label>
-                            <input type="color" id="customBg" value="#0f172a" onchange="applyCustomColors()">
-                        </div>
-                        <div class="color-row">
-                            <label>Card Panels:</label>
-                            <input type="color" id="customCard" value="#1e293b" onchange="applyCustomColors()">
-                        </div>
-                        <div class="color-row">
-                            <label>Accent Sky:</label>
-                            <input type="color" id="customAccent" value="#38bdf8" onchange="applyCustomColors()">
-                        </div>
-                        <div class="color-row">
-                            <label>Text Main:</label>
-                            <input type="color" id="customText" value="#ffffff" onchange="applyCustomColors()">
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">SKY<span class="sky-text">RISE</span></div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-item active" data-target="home">Home</a></li>
+                <li><a href="#" class="nav-item" data-target="store">Store</a></li>
+                <li><a href="#" class="nav-item" data-target="punishments">Punishments</a></li>
+                <li><a href="https://discord.gg/skyrise" target="_blank" class="nav-item"><i class="fab fa-discord"></i> Discord</a></li>
+            </ul>
         </div>
     </nav>
 
-    <header>
-        <h1>Skyrise Server <span>Store</span></h1>
-        <p>Order ranks safely. All purchase requests resolve through open Discord support tickets.</p>
-    </header>
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="content-wrapper">
 
-    <div class="discord-linker-panel">
-        <h3 style="font-size: 1.1rem; font-weight: 700;">🔗 Link Discord Account</h3>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Enter your User ID to verify the checkout destination profile.</p>
-        
-        <div class="discord-input-container">
-            <input type="text" id="discordIdInput" placeholder="Paste Discord User ID (e.g., 4510993...)">
-            <button onclick="linkDiscordProfile()">Link Account</button>
-        </div>
-
-        <div class="profile-display" id="profileDisplay">
-            <img id="avatarTarget" src="" alt="Avatar">
-            <div class="profile-info">
-                <div class="profile-name" id="usernameTarget">Loading...</div>
-                <div class="profile-status">Connected to Session</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="store-container">
-        
-        <h2 class="category-title">Player Donor Ranks</h2>
-        <div class="ranks-grid">
-            
-            <div class="rank-card">
-                <div>
-                    <div class="rank-name">VIP</div>
-                    <div class="rank-price">$5.00<span> / Permanent</span></div>
-                    <ul class="rank-features">
-                        <li>Basic Green VIP Prefix</li>
-                        <li>Join fully populated nodes</li>
-                        <li>Access to /feed commands</li>
-                    </ul>
+        <!-- HOME PAGE -->
+        <section id="home" class="page-section active">
+            <div class="hero">
+                <h1>Welcome to <span class="sky-glow">SkyRise Network</span></h1>
+                <p>Experience the ultimate Minecraft adventure with custom features, balanced gameplay, and an amazing community.</p>
+                
+                <div class="server-status" id="ip-button" onclick="copyIP()">
+                    <div class="status-icon"><i class="fas fa-server"></i></div>
+                    <div class="status-info">
+                        <span class="ip-text">play.skyrisenetwork.com</span>
+                        <span class="player-count"><span class="pulse-dot"></span> <span id="online-count">142</span> Players Online</span>
+                    </div>
+                    <div class="copy-hint">Click to Copy</div>
                 </div>
-                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
             </div>
 
-            <div class="rank-card">
-                <div>
-                    <div class="rank-name">VIP+</div>
-                    <div class="rank-price">$10.00<span> / Permanent</span></div>
-                    <ul class="rank-features">
-                        <li>Teal VIP+ Custom Prefix</li>
-                        <li>All perks of previous tier</li>
-                        <li>Access to /heal commands</li>
-                    </ul>
+            <!-- FEATURES SECTION -->
+            <div class="section-title">
+                <h2>Why Choose Us?</h2>
+                <div class="title-line"></div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <h3>Lag-Free Gameplay</h3>
+                    <p>Optimized systems ensuring high TPS and smooth connection mechanics for everyone.</p>
                 </div>
-                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
-            </div>
-
-            <div class="rank-card">
-                <div>
-                    <div class="rank-name">ELITE</div>
-                    <div class="rank-price">$15.00<span> / Permanent</span></div>
-                    <ul class="rank-features">
-                        <li>Cyan Bold ELITE Prefix</li>
-                        <li>Access to portable workbenches</li>
-                        <li>Access to custom cosmetics</li>
-                    </ul>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3>Active Staff</h3>
+                    <p>Dedicated team members working around the clock to keep the network toxic and cheater free.</p>
                 </div>
-                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
-            </div>
-
-            <div class="rank-card">
-                <div>
-                    <div class="rank-name">AURA</div>
-                    <div class="rank-price">$25.00<span> / Permanent</span></div>
-                    <ul class="rank-features">
-                        <li>Exclusive Aqua AURA Prefix</li>
-                        <li>Premium lobby cosmetic nodes</li>
-                        <li>Priority Queue Access paths</li>
-                    </ul>
+                <div class="feature-card">
+                    <i class="fas fa-cogs feature-icon"></i>
+                    <h3>Custom Features</h3>
+                    <p>Unique plugins, features, and tailored economies that you won't find anywhere else.</p>
                 </div>
-                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
+            </div>
+        </section>
+
+
+        <!-- STORE PAGE -->
+        <section id="store" class="page-section">
+            <div class="section-title">
+                <h2>Server Webstore</h2>
+                <p>Support the network and unlock premium cosmic tiers and enhancements!</p>
+                <div class="title-line"></div>
             </div>
 
-            <div class="rank-card">
-                <div>
-                    <div class="rank-name">SUPREME</div>
-                    <div class="rank-price">$40.00<span> / Permanent</span></div>
-                    <ul class="rank-features">
-                        <li>Premium Dual Glow Prefix</li>
-                        <li>Full automated stack inventory utilities</li>
-                        <li>Highest Priority checkout lane queues</li>
+            <div class="store-grid">
+                <!-- VIP CARD -->
+                <div class="store-card">
+                    <h3 class="rank-title vip-color">VIP</h3>
+                    <div class="price">$5.00</div>
+                    <ul class="perks-list">
+                        <li><i class="fas fa-check"></i> VIP Prefix</li>
+                        <li><i class="fas fa-check"></i> Colored Chat</li>
+                        <li><i class="fas fa-check"></i> Basic Commands</li>
+                        <li><i class="fas fa-check"></i> VIP Tag</li>
                     </ul>
+                    <button class="buy-btn">Add to Cart</button>
                 </div>
-                <a href="https://discord.com/channels/@me/1504524612183261205" target="_blank" class="buy-btn">Purchase Rank</a>
+
+                <!-- VIP+ CARD -->
+                <div class="store-card">
+                    <h3 class="rank-title vipplus-color">VIP+</h3>
+                    <div class="price">$10.00</div>
+                    <ul class="perks-list">
+                        <li><i class="fas fa-check"></i> VIP+ Prefix</li>
+                        <li><i class="fas fa-check"></i> Fly Command Access</li>
+                        <li><i class="fas fa-check"></i> Colored Chat</li>
+                        <li><i class="fas fa-check"></i> Extra Commands</li>
+                    </ul>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+
+                <!-- ELITE CARD -->
+                <div class="store-card">
+                    <h3 class="rank-title elite-color">ELITE</h3>
+                    <div class="price">$15.00</div>
+                    <ul class="perks-list">
+                        <li><i class="fas fa-check"></i> Elite Prefix</li>
+                        <li><i class="fas fa-check"></i> Fly Command Access</li>
+                        <li><i class="fas fa-check"></i> Colored Chat</li>
+                        <li><i class="fas fa-check"></i> Nickname Command</li>
+                        <li><i class="fas fa-check"></i> Extra Commands</li>
+                    </ul>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+
+                <!-- AURA CARD -->
+                <div class="store-card">
+                    <h3 class="rank-title aura-color">AURA</h3>
+                    <div class="price">$25.00</div>
+                    <ul class="perks-list">
+                        <li><i class="fas fa-check"></i> Aura Prefix</li>
+                        <li><i class="fas fa-check"></i> Colored Chat</li>
+                        <li><i class="fas fa-check"></i> Fun Commands</li>
+                        <li><i class="fas fa-check"></i> Special Join Message</li>
+                    </ul>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+
+                <!-- SUPREME CARD (BEST VALUE) -->
+                <div class="store-card best-value">
+                    <div class="ribbon">BEST VALUE</div>
+                    <h3 class="rank-title supreme-color">SUPREME</h3>
+                    <div class="price">$40.00</div>
+                    <ul class="perks-list">
+                        <li><i class="fas fa-check"></i> Animated Prefix</li>
+                        <li><i class="fas fa-check"></i> Fly Command Access</li>
+                        <li><i class="fas fa-check"></i> Nickname Command</li>
+                        <li><i class="fas fa-check"></i> Colored Chat</li>
+                        <li><i class="fas fa-check"></i> Special Join Message</li>
+                        <li><i class="fas fa-check"></i> Exclusive Commands</li>
+                    </ul>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+
+                <!-- CHAT COLOR CARD (ADD-ON) -->
+                <div class="store-card add-on-card">
+                    <h3 class="rank-title chatcolor-color">CHAT COLOR</h3>
+                    <div class="price">$2.50</div>
+                    <ul class="perks-list">
+                        <li><i class="fas fa-paint-brush"></i> Choose Custom Chat Color</li>
+                        <li><i class="fas fa-star"></i> Unique Chat Appearance</li>
+                        <li><i class="fas fa-eye"></i> Stand Out In Chat</li>
+                        <li><i class="fas fa-user-shield"></i> Premium Player Identity</li>
+                    </ul>
+                    <button class="buy-btn">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- PUNISHMENTS PAGE -->
+        <section id="punishments" class="page-section">
+            <div class="section-title">
+                <h2>Punishment History</h2>
+                <p>Public accountability logs keeping our community safe and clean.</p>
+                <div class="title-line"></div>
             </div>
 
-        </div>
-    </div>
+            <div class="table-container">
+                <table class="punishments-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Type</th>
+                            <th>Reason</th>
+                            <th>Staff Member</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="player-name">xX_Gamer_Xx</span></td>
+                            <td><span class="badge ban">BAN</span></td>
+                            <td>Unfair Advantage (Killaura)</td>
+                            <td>Console</td>
+                            <td><span class="status-perm">Permanent</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="player-name">ToxicPlayer1</span></td>
+                            <td><span class="badge mute">MUTE</span></td>
+                            <td>Chat Toxicity & Chat Flood</td>
+                            <td>Mod_Sky</td>
+                            <td><span class="status-active">2 Hours Left</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="player-name">GriefMaster</span></td>
+                            <td><span class="badge ban">BAN</span></td>
+                            <td>Severe Wilderness Griefing</td>
+                            <td>Admin_Dave</td>
+                            <td><span class="status-expired">Expired</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-    <footer>
-        <p>&copy; 2026 <span>Skyrise Network</span>. Not affiliated with Mojang Studios.</p>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 SkyRise Network. All rights reserved.</p>
+        <p class="disclaimer">We are not affiliated with Mojang AB or Microsoft.</p>
     </footer>
 
-    <script>
-        // Dropdown toggle system
-        function toggleThemeDropdown() {
-            document.getElementById('themeDropdown').classList.toggle('show');
-        }
-
-        // Close theme option container when context changes outside elements
-        window.onclick = function(event) {
-            if (!event.target.matches('.theme-btn') && !event.target.closest('.theme-dropdown')) {
-                var dropdowns = document.getElementsByClassName("theme-dropdown");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-
-        // Core Theme Dispatcher
-        function setTheme(themeMode) {
-            const root = document.documentElement;
-            root.removeAttribute('data-theme');
-            
-            if (themeMode === 'dark') {
-                root.style.removeProperty('--bg-main');
-                root.style.removeProperty('--bg-card');
-                root.style.removeProperty('--primary-sky');
-                root.style.removeProperty('--primary-hover');
-                root.style.removeProperty('--text-main');
-                root.style.removeProperty('--text-muted');
-                root.style.removeProperty('--border-color');
-            } else if (themeMode === 'light') {
-                root.setAttribute('data-theme', 'light');
-                root.style.removeProperty('--bg-main');
-                root.style.removeProperty('--bg-card');
-                root.style.removeProperty('--primary-sky');
-                root.style.removeProperty('--primary-hover');
-                root.style.removeProperty('--text-main');
-                root.style.removeProperty('--text-muted');
-                root.style.removeProperty('--border-color');
-            } else if (themeMode === 'custom') {
-                applyCustomColors();
-            }
-        }
-
-        // Runtime customization evaluation
-        function applyCustomColors() {
-            const root = document.documentElement;
-            const bg = document.getElementById('customBg').value;
-            const card = document.getElementById('customCard').value;
-            const accent = document.getElementById('customAccent').value;
-            const text = document.getElementById('customText').value;
-
-            root.style.setProperty('--bg-main', bg);
-            root.style.setProperty('--bg-card', card);
-            root.style.setProperty('--primary-sky', accent);
-            root.style.setProperty('--primary-hover', accent + 'cc'); // auto-opacity for action hover frames
-            root.style.setProperty('--text-main', text);
-            root.style.setProperty('--text-muted', text + 'aa'); 
-            root.style.setProperty('--border-color', accent + '33');
-        }
-
-        // Profile API Connector
-        async function linkDiscordProfile() {
-            const userId = document.getElementById('discordIdInput').value.trim();
-            if (!userId) return alert("Please enter a valid numeric Discord User ID.");
-
-            const nameTarget = document.getElementById('usernameTarget');
-            const avatarTarget = document.getElementById('avatarTarget');
-            const displayBox = document.getElementById('profileDisplay');
-
-            try {
-                nameTarget.innerText = "Searching profile...";
-                displayBox.style.display = "flex";
-
-                // Fetches standard Discord profile datasets via open public worker proxies securely
-                const res = await fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`);
-                if (!res.ok) throw new Error("Profile not found");
-                
-                const data = await res.json();
-                
-                // Set metadata values parsed from network payload
-                nameTarget.innerText = data.global_name ? `${data.global_name} (@${data.username})` : `@${data.username}`;
-                
-                if (data.avatar && data.avatar.id) {
-                    avatarTarget.src = `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar.id}.png`;
-                } else {
-                    // Fallback to random default Discord UI avatars if account has no primary customized profile picture
-                    avatarTarget.src = `https://cdn.discordapp.com/embed/avatars/${Math.floor(Math.random() * 5)}.png`;
-                }
-            } catch (err) {
-                alert("Could not load account details. Make sure your User ID is correct.");
-                displayBox.style.display = "none";
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
