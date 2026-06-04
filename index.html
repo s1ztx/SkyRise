@@ -7,11 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
-
-<style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
         /* --- DESIGN SYSTEM & CSS VARIABLES --- */
         :root {
             --primary: #00bfff;
@@ -2000,20 +1998,12 @@
                         <div class="dc-icon-ring">
                             <i class="fa-brands fa-discord"></i>
                         </div>
-                        <h3>Sign In With Discord</h3>
-                        <p>Connect your Discord account to unlock rank sync, exclusive benefits, and community access directly from your profile dashboard.</p>
+                        <h3>Sign in with Discord</h3>
+                        <p>Connect your Discord account for a personalized SkyRise experience.</p>
                         <button class="btn btn-discord-login" onclick="initiateDiscordLogin()">
                             <i class="fa-brands fa-discord"></i> Login With Discord
                         </button>
-                        <div id="oauth-not-configured" style="display:none; margin-top:20px; align-items:center; gap:10px; background:rgba(255,51,102,0.08); border:1px solid rgba(255,51,102,0.25); padding:12px 20px; border-radius:8px; font-size:0.85rem; font-weight:600; color:var(--danger);">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                            Discord Login Not Configured
-                        </div>
-                        <div class="discord-login-perks">
-                            <div class="login-perk-item"><i class="fa-solid fa-circle-check"></i> Rank Synchronization</div>
-                            <div class="login-perk-item"><i class="fa-solid fa-circle-check"></i> Exclusive Rewards</div>
-                            <div class="login-perk-item"><i class="fa-solid fa-circle-check"></i> Community Verification</div>
-                        </div>
+                        <span class="badge-soon" style="margin-top:20px;">Coming Soon</span>
                     </div>
 
                     <!-- LOGGED IN STATE -->
@@ -2307,57 +2297,44 @@
 
         // --- DISCORD OAUTH LOGIN ---
         // Replace DISCORD_CLIENT_ID and REDIRECT_URI with your actual OAuth2 app values.
-const AUTH0_DOMAIN = "dev-zc4g0m0kunxe3im5.us.auth0.com";
-const AUTH0_CLIENT_ID = "cvTnj3qaOmBxIIhnc1oyEUIxeAYUlVZN";
+        const DISCORD_CLIENT_ID = "YOUR_CLIENT_ID_HERE";
+        const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
+        const DISCORD_OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=identify`;
 
-let auth0Client;
-
-async function initiateDiscordLogin() {
-    await auth0Client.loginWithRedirect({
-        authorizationParams: {
-            connection: "discord"
+        function initiateDiscordLogin() {
+            if (DISCORD_CLIENT_ID === "YOUR_CLIENT_ID_HERE") return;
+            window.location.href = DISCORD_OAUTH_URL;
         }
-    });
-}
 
-async function initializeAuth() {
+        async function handleOAuthCallback() {
+            const hash = window.location.hash;
+            if (!hash.includes('access_token')) return;
 
-    auth0Client = await auth0.createAuth0Client({
-        domain: AUTH0_DOMAIN,
-        clientId: AUTH0_CLIENT_ID,
-        authorizationParams: {
-            redirect_uri: window.location.origin + window.location.pathname
+            const params = new URLSearchParams(hash.replace('#', ''));
+            const token = params.get('access_token');
+            if (!token) return;
+
+            // Clean the token from the URL
+            history.replaceState(null, '', window.location.pathname);
+
+            try {
+                const res = await fetch('https://discord.com/api/users/@me', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const user = await res.json();
+                if (!user.id) return;
+
+                const avatarUrl = user.avatar
+                    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
+                    : null;
+
+                renderLoggedIn(user.global_name || user.username, user.username, avatarUrl);
+            } catch {
+                // OAuth succeeded but user fetch failed — stay on logged-out state
+            }
         }
-    });
 
-    if (
-        window.location.search.includes("code=") &&
-        window.location.search.includes("state=")
-    ) {
-
-        await auth0Client.handleRedirectCallback();
-
-        window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-        );
-    }
-
-    const isAuthenticated =
-        await auth0Client.isAuthenticated();
-
-    if (!isAuthenticated) return;
-
-    const user =
-        await auth0Client.getUser();
-
-    renderLoggedIn(
-        user.nickname || user.name,
-        user.nickname || user.name,
-        user.picture
-    );
-}
+        function renderLoggedIn(displayName, username, avatarUrl) {
             // Profile section
             document.getElementById('profile-display-name').textContent = displayName;
             document.getElementById('profile-username').textContent = username;
@@ -2401,9 +2378,6 @@ async function initializeAuth() {
             document.getElementById('nav-username-display').textContent = '';
             document.getElementById('nav-avatar').textContent = '';
 
-            const notice = document.getElementById('oauth-not-configured');
-            if (notice) notice.style.display = 'none';
-
             triggerToast("You have been logged out.");
         }
 
@@ -2413,7 +2387,7 @@ async function initializeAuth() {
         }
 
         // Run OAuth callback check on load
-        initializeAuth();
+        handleOAuthCallback();
 
         // --- GLOBAL SYSTEM INTERACTIVE DIALOG MODALS ---
         const modalOverlay = document.getElementById('global-modal-shell');
