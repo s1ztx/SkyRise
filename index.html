@@ -2305,52 +2305,57 @@
 
         // --- DISCORD OAUTH LOGIN ---
         // Replace DISCORD_CLIENT_ID and REDIRECT_URI with your actual OAuth2 app values.
-        const DISCORD_CLIENT_ID = "YOUR_CLIENT_ID_HERE";
-        const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
-        const DISCORD_OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=identify`;
+const AUTH0_DOMAIN = "dev-zc4g0m0kunxe3im5.us.auth0.com";
+const AUTH0_CLIENT_ID = "cvTnj3qaOmBxIIhnc1oyEUIxeAYUlVZN";
 
-        function initiateDiscordLogin() {
-            if (DISCORD_CLIENT_ID === "YOUR_CLIENT_ID_HERE") {
-                showOAuthNotConfigured();
-                return;
-            }
-            window.location.href = DISCORD_OAUTH_URL;
+let auth0Client;
+
+async function initiateDiscordLogin() {
+    await auth0Client.loginWithRedirect({
+        authorizationParams: {
+            connection: "discord"
         }
+    });
+}
 
-        function showOAuthNotConfigured() {
-            const notice = document.getElementById('oauth-not-configured');
-            if (notice) notice.style.display = 'flex';
+async function initializeAuth() {
+
+    auth0Client = await auth0.createAuth0Client({
+        domain: AUTH0_DOMAIN,
+        clientId: AUTH0_CLIENT_ID,
+        authorizationParams: {
+            redirect_uri: window.location.origin + window.location.pathname
         }
+    });
 
-        async function handleOAuthCallback() {
-            const hash = window.location.hash;
-            if (!hash.includes('access_token')) return;
+    if (
+        window.location.search.includes("code=") &&
+        window.location.search.includes("state=")
+    ) {
 
-            const params = new URLSearchParams(hash.replace('#', ''));
-            const token = params.get('access_token');
-            if (!token) return;
+        await auth0Client.handleRedirectCallback();
 
-            // Clean the token from the URL
-            history.replaceState(null, '', window.location.pathname);
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
+    }
 
-            try {
-                const res = await fetch('https://discord.com/api/users/@me', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                const user = await res.json();
-                if (!user.id) return;
+    const isAuthenticated =
+        await auth0Client.isAuthenticated();
 
-                const avatarUrl = user.avatar
-                    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
-                    : null;
+    if (!isAuthenticated) return;
 
-                renderLoggedIn(user.global_name || user.username, user.username, avatarUrl);
-            } catch {
-                // OAuth succeeded but user fetch failed — stay on logged-out state
-            }
-        }
+    const user =
+        await auth0Client.getUser();
 
-        function renderLoggedIn(displayName, username, avatarUrl) {
+    renderLoggedIn(
+        user.nickname || user.name,
+        user.nickname || user.name,
+        user.picture
+    );
+}
             // Profile section
             document.getElementById('profile-display-name').textContent = displayName;
             document.getElementById('profile-username').textContent = username;
