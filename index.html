@@ -426,6 +426,147 @@
         .nav-discord-btn::after {
             display: none !important;
         }
+
+        /* --- NAVBAR LOGIN/PROFILE BUTTON --- */
+        .nav-login-btn {
+            background: var(--discord);
+            padding: 9px 20px;
+            border-radius: 6px;
+            color: var(--text) !important;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px var(--discord-glow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            border: none;
+        }
+        .nav-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--discord);
+        }
+        .nav-login-btn::after {
+            display: none !important;
+        }
+
+        .nav-profile-wrapper {
+            position: relative;
+        }
+        .nav-profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(88, 101, 242, 0.08);
+            border: 1px solid rgba(88, 101, 242, 0.25);
+            padding: 7px 14px 7px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .nav-profile-btn:hover {
+            background: rgba(88, 101, 242, 0.18);
+            border-color: rgba(88, 101, 242, 0.5);
+        }
+        .nav-avatar-img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--discord);
+        }
+        .nav-avatar-placeholder {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--discord), #7289da);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #fff;
+            border: 2px solid var(--discord);
+            flex-shrink: 0;
+        }
+        .nav-profile-chevron {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+        .nav-profile-wrapper.open .nav-profile-chevron {
+            transform: rotate(180deg);
+        }
+        .nav-profile-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 200px;
+            background: rgba(8, 17, 31, 0.97);
+            border: 1px solid rgba(88, 101, 242, 0.25);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(88, 101, 242, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .nav-profile-wrapper.open .nav-profile-dropdown {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            letter-spacing: 0.3px;
+        }
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+        }
+        .dropdown-item i {
+            width: 16px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .dropdown-item:hover i {
+            color: var(--primary);
+        }
+        .dropdown-item.danger:hover {
+            background: rgba(255, 51, 102, 0.08);
+            color: var(--danger);
+        }
+        .dropdown-item.danger:hover i {
+            color: var(--danger);
+        }
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 4px 0;
+        }
+
         .mobile-hamburger {
             display: none;
             font-size: 1.5rem;
@@ -700,7 +841,7 @@
         }
 
         /* ==========================================================================
-           FEATURED GAMEMODE SECTOR (BEDWARS FOCUS - NO FILES USED)
+           FEATURED GAMEMODE SECTOR
            ========================================================================== */
         .featured-gamemode-anchor {
             background: linear-gradient(180deg, transparent, rgba(15, 27, 51, 0.3) 50%, transparent);
@@ -1014,147 +1155,229 @@
         }
 
         /* ==========================================================================
-           DISCORD ACCOUNT LINKING MODULE UI
+           DISCORD LOGIN / PROFILE SECTION
            ========================================================================== */
-        .linking-dashboard-panel {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            gap: 30px;
-            align-items: stretch;
+        .discord-login-section {
+            background: linear-gradient(180deg, transparent, rgba(88, 101, 242, 0.04) 50%, transparent);
         }
-        .linking-form-module {
-            padding: 45px;
-        }
-        .linking-form-module p {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            font-size: 0.95rem;
-        }
-        .form-fields-stack {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .form-node-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .form-node-group label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--primary);
-            letter-spacing: 0.5px;
-        }
-        .input-icon-shell {
-            position: relative;
-            width: 100%;
-        }
-        .input-icon-shell i {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-        .input-control-element {
-            width: 100%;
-            background: rgba(8, 17, 31, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 14px 16px 14px 44px;
-            border-radius: 6px;
-            color: var(--text);
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-        .input-control-element:focus {
-            border-color: var(--primary);
-            background: rgba(8, 17, 31, 0.8);
-            box-shadow: 0 0 15px rgba(0, 191, 255, 0.1);
-        }
-        .form-operation-row {
-            display: flex;
-            gap: 15px;
-        }
-        .form-operation-row .btn {
-            flex: 1;
+        .discord-profile-layout {
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .linking-status-module {
-            padding: 45px 35px;
-            background: rgba(88, 101, 242, 0.04);
-            border-color: rgba(88, 101, 242, 0.15);
+        /* Logged Out State */
+        .discord-logged-out-card {
+            padding: 70px 50px;
+            text-align: center;
+            border-color: rgba(88, 101, 242, 0.2);
+            background: linear-gradient(135deg, rgba(15, 27, 51, 0.7), rgba(88, 101, 242, 0.05));
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-        }
-        .status-module-header {
-            display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 15px;
+            gap: 0;
         }
-        .status-module-header i {
-            font-size: 1.5rem;
-            color: var(--discord);
-        }
-        .status-module-header h4 {
-            font-size: 1.1rem;
-            text-transform: uppercase;
-        }
-        .profile-status-cards-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .profile-status-pill {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 14px 20px;
-            background: rgba(15, 27, 51, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 8px;
-        }
-        .pill-brand-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.02);
+        .discord-logged-out-card .dc-icon-ring {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(88, 101, 242, 0.1);
+            border: 2px solid rgba(88, 101, 242, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 2.8rem;
+            color: var(--discord);
+            margin-bottom: 28px;
+            filter: drop-shadow(0 0 20px var(--discord-glow));
+            animation: discord-float 3s ease-in-out infinite alternate;
         }
-        .pill-brand-avatar.mc-type { color: var(--primary); }
-        .pill-brand-avatar.dc-type { color: var(--discord); }
-        .pill-meta-text h5 {
-            font-size: 0.75rem;
+        @keyframes discord-float {
+            0% { transform: translateY(0); box-shadow: 0 0 20px var(--discord-glow); }
+            100% { transform: translateY(-8px); box-shadow: 0 0 35px var(--discord); }
+        }
+        .discord-logged-out-card h3 {
+            font-size: 2rem;
             text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .discord-logged-out-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 480px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+        .btn-discord-login {
+            background: var(--discord);
+            color: var(--text);
+            box-shadow: 0 0 25px var(--discord-glow);
+            padding: 16px 48px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+        .btn-discord-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px var(--discord), 0 10px 30px rgba(0, 0, 0, 0.3);
+            filter: brightness(1.1);
+        }
+        .discord-login-perks {
+            display: flex;
+            gap: 30px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .login-perk-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .login-perk-item i {
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        /* Logged In State */
+        .discord-logged-in-card {
+            display: none;
+            padding: 45px;
+            border-color: rgba(88, 101, 242, 0.25);
+            background: linear-gradient(135deg, rgba(15, 27, 51, 0.8), rgba(88, 101, 242, 0.06));
+        }
+        .discord-logged-in-card.visible {
+            display: block;
+        }
+        .discord-logged-out-card.hidden {
+            display: none;
+        }
+        .profile-header-row {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 35px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .profile-avatar-shell {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .profile-avatar-shell img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--discord);
+            box-shadow: 0 0 25px var(--discord-glow);
+            display: block;
+        }
+        .profile-avatar-placeholder-lg {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--discord), #7289da);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            border: 3px solid var(--discord);
+            box-shadow: 0 0 25px var(--discord-glow);
+        }
+        .profile-online-dot {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--success);
+            border: 3px solid var(--bg);
+            box-shadow: 0 0 8px var(--success);
+        }
+        .profile-identity-block {
+            flex-grow: 1;
+        }
+        .profile-display-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+        .profile-username-tag {
+            font-size: 0.9rem;
             color: var(--text-muted);
             font-weight: 600;
+            margin-bottom: 10px;
         }
-        .pill-meta-text p {
-            font-size: 0.95rem;
-            font-weight: 700;
+        .profile-username-tag span {
+            color: var(--discord);
         }
-        .pill-status-tag {
-            margin-left: auto;
-            font-size: 0.65rem;
-            font-weight: 800;
+        .profile-join-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 5px 12px;
+            border-radius: 20px;
             text-transform: uppercase;
-            color: var(--danger);
-            background: rgba(255, 51, 102, 0.1);
-            border: 1px solid rgba(255, 51, 102, 0.2);
-            padding: 3px 8px;
-            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+        .profile-join-date i {
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+        .profile-action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .profile-stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .profile-stat-tile {
+            padding: 22px 25px;
+            background: rgba(15, 27, 51, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        .profile-stat-tile:hover {
+            border-color: rgba(88, 101, 242, 0.3);
+            background: rgba(88, 101, 242, 0.06);
+        }
+        .profile-stat-tile label {
+            display: block;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+        .profile-stat-tile .stat-val {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .profile-stat-tile .stat-val.discord-color {
+            color: var(--discord);
+        }
+        .profile-stat-tile .stat-val.primary-color {
+            color: var(--primary);
         }
 
         /* ==========================================================================
@@ -1380,15 +1603,14 @@
             .values-matrix-grid { grid-template-columns: repeat(2, 1fr); }
             .live-status-card { grid-template-columns: 1fr; gap: 20px; }
             .status-stat-node { padding-left: 0; border-left: none; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.06); }
+            .profile-stats-row { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
             .hero-banner-title { font-size: 3.4rem; }
             .hero-tagline { font-size: 1.3rem; letter-spacing: 2px; }
             .featured-main-card { grid-template-columns: 1fr; padding: 35px 25px; }
             .featured-graphics-css { margin-top: 20px; }
-            .linking-dashboard-panel { grid-template-columns: 1fr; }
             .discord-integration-layout { grid-template-columns: 1fr; }
-            .form-fields-stack { grid-template-columns: 1fr; }
             .navbar { height: 70px; }
             .nav-links-box {
                 position: fixed;
@@ -1404,6 +1626,9 @@
             }
             .nav-links-box.active { left: 0; }
             .mobile-hamburger { display: block; }
+            .profile-header-row { flex-direction: column; text-align: center; }
+            .profile-action-buttons { justify-content: center; }
+            .profile-stats-row { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
             .store-catalog-grid { grid-template-columns: 1fr; }
@@ -1411,7 +1636,7 @@
             .coming-soon-grid { grid-template-columns: 1fr; }
             .values-matrix-grid { grid-template-columns: 1fr; }
             .hero-action-buttons .btn { width: 100%; }
-            .form-operation-row { flex-direction: column; }
+            .discord-login-perks { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -1458,6 +1683,34 @@
                     <li><a href="#discord" class="nav-item">Discord</a></li>
                     <li><a href="#faq" class="nav-item">FAQ</a></li>
                     <li><a href="https://discord.gg/chPWGe9Yf" target="_blank" class="nav-item nav-discord-btn"><i class="fa-brands fa-discord"></i> Join Discord</a></li>
+                    <!-- Logged Out Nav State -->
+                    <li id="nav-login-item">
+                        <button class="nav-login-btn" onclick="simulateDiscordLogin()">
+                            <i class="fa-brands fa-discord"></i> Login
+                        </button>
+                    </li>
+                    <!-- Logged In Nav State -->
+                    <li id="nav-profile-item" style="display:none;">
+                        <div class="nav-profile-wrapper" id="nav-profile-wrapper">
+                            <button class="nav-profile-btn" id="nav-profile-trigger">
+                                <div class="nav-avatar-placeholder" id="nav-avatar">SR</div>
+                                <span id="nav-username-display">Username</span>
+                                <i class="fa-solid fa-chevron-down nav-profile-chevron"></i>
+                            </button>
+                            <div class="nav-profile-dropdown" id="nav-profile-dropdown">
+                                <button class="dropdown-item" onclick="scrollToProfile()">
+                                    <i class="fa-solid fa-user"></i> Profile
+                                </button>
+                                <button class="dropdown-item" onclick="triggerToast('Settings coming soon.')">
+                                    <i class="fa-solid fa-gear"></i> Settings
+                                </button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item danger" onclick="handleLogout()">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -1731,65 +1984,72 @@
             </div>
         </section>
 
-        <section class="linking-section" id="linking">
+        <!-- DISCORD LOGIN / PROFILE SECTION -->
+        <section class="discord-login-section" id="profile">
             <div class="container">
                 <div class="section-title-block reveal-node">
-                    <h2>Link Your Discord Account</h2>
-                    <p>Establish persistent correlation signatures between platform profiles seamlessly.</p>
+                    <h2>Discord Profile</h2>
+                    <p>Login with Discord to access your profile, link your account and unlock exclusive features.</p>
                 </div>
-                <div class="premium-card linking-dashboard-panel reveal-node">
-                    <div class="linking-form-module">
-                        <p>Link your Minecraft and Discord accounts to receive rewards, verification benefits, rank synchronization and exclusive features.</p>
-                        <form onsubmit="return false;">
-                            <div class="form-fields-stack">
-                                <div class="form-node-group">
-                                    <label>Minecraft Username</label>
-                                    <div class="input-icon-shell">
-                                        <i class="fa-solid fa-user-gamepad"></i>
-                                        <input type="text" class="input-control-element" id="mc-name-input" placeholder="e.g., Notch">
-                                    </div>
-                                </div>
-                                <div class="form-node-group">
-                                    <label>Discord Username</label>
-                                    <div class="input-icon-shell">
-                                        <i class="fa-brands fa-discord"></i>
-                                        <input type="text" class="input-control-element" id="dc-name-input" placeholder="e.g., skyriseuser">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-operation-row">
-                                <button class="btn btn-primary" onclick="executeProfileLink()"><i class="fa-solid fa-link"></i> Link Account</button>
-                                <button class="btn btn-secondary" onclick="executeProfileVerify()"><i class="fa-solid fa-shield-check"></i> Verify Account</button>
-                            </div>
-                        </form>
+                <div class="discord-profile-layout reveal-node">
+
+                    <!-- LOGGED OUT STATE -->
+                    <div class="premium-card discord-logged-out-card" id="discord-logged-out">
+                        <div class="dc-icon-ring">
+                            <i class="fa-brands fa-discord"></i>
+                        </div>
+                        <h3>Sign In With Discord</h3>
+                        <p>Connect your Discord account to unlock rank sync, exclusive benefits, and community access directly from your profile dashboard.</p>
+                        <button class="btn btn-discord-login" onclick="simulateDiscordLogin()">
+                            <i class="fa-brands fa-discord"></i> Login With Discord
+                        </button>
+                        <div class="discord-login-perks">
+                            <div class="login-perk-item"><i class="fa-solid fa-circle-check"></i> Rank Synchronization</div>
+                            <div class="login-perk-item"><i class="fa-solid fa-circle-check"></i> Exclusive Rewards</div>
+                            <div class="login-perk-item"><i class="fa-solid fa-circle-check"></i> Community Verification</div>
+                        </div>
                     </div>
-                    
-                    <div class="premium-card linking-status-module">
-                        <div>
-                            <div class="status-module-header">
-                                <i class="fa-brands fa-discord"></i>
-                                <h4>Identity Registry</h4>
+
+                    <!-- LOGGED IN STATE -->
+                    <div class="premium-card discord-logged-in-card" id="discord-logged-in">
+                        <div class="profile-header-row">
+                            <div class="profile-avatar-shell">
+                                <div class="profile-avatar-placeholder-lg" id="profile-avatar-large">SR</div>
+                                <div class="profile-online-dot"></div>
                             </div>
-                            <div class="profile-status-cards-stack">
-                                <div class="profile-status-pill">
-                                    <div class="pill-brand-avatar mc-type"><i class="fa-solid fa-cube"></i></div>
-                                    <div class="pill-meta-text">
-                                        <h5>Minecraft Account</h5>
-                                        <p id="label-mc-display">Not Linked</p>
-                                    </div>
-                                    <span class="pill-status-tag" id="label-mc-tag">Not Linked</span>
+                            <div class="profile-identity-block">
+                                <div class="profile-display-name" id="profile-display-name">SkyRise User</div>
+                                <div class="profile-username-tag">@<span id="profile-username">skyriseuser</span></div>
+                                <div class="profile-join-date">
+                                    <i class="fa-solid fa-calendar"></i>
+                                    <span id="profile-join-date">Joined Jan 2024</span>
                                 </div>
-                                <div class="profile-status-pill">
-                                    <div class="pill-brand-avatar dc-type"><i class="fa-brands fa-discord"></i></div>
-                                    <div class="pill-meta-text">
-                                        <h5>Discord Account</h5>
-                                        <p id="label-dc-display">Not Linked</p>
-                                    </div>
-                                    <span class="pill-status-tag" id="label-dc-tag">Not Linked</span>
+                                <div class="profile-action-buttons">
+                                    <button class="btn btn-discord" onclick="triggerToast('Opening your profile...')">
+                                        <i class="fa-solid fa-user"></i> View Profile
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="handleLogout()">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                        <div class="profile-stats-row">
+                            <div class="profile-stat-tile">
+                                <label>Account Status</label>
+                                <div class="stat-val discord-color">Verified</div>
+                            </div>
+                            <div class="profile-stat-tile">
+                                <label>Platform</label>
+                                <div class="stat-val discord-color">Discord</div>
+                            </div>
+                            <div class="profile-stat-tile">
+                                <label>Network Rank</label>
+                                <div class="stat-val primary-color">Member</div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -1831,7 +2091,7 @@
                     <div class="premium-card feature-node-box">
                         <i class="fa-solid fa-bolt"></i>
                         <h4>Lag-Free Gameplay</h4>
-                        <p>Hyper-optimized core pipelines, enterprise enterprise network lines, and top-tier computational node equipment allocation.</p>
+                        <p>Hyper-optimized core pipelines, enterprise network lines, and top-tier computational node equipment allocation.</p>
                     </div>
 
                     <div class="premium-card feature-node-box">
@@ -1988,7 +2248,7 @@
             initParticleCanvas();
             initScrollReveal();
             fetchLiveStatus();
-            setInterval(fetchLiveStatus, 30000); 
+            setInterval(fetchLiveStatus, 30000);
         });
 
         // --- NAVSTICK ACTION EVENT TRACKER ---
@@ -2001,7 +2261,7 @@
             }
         });
 
-        // --- HAMBURGER BURGER DISPLAY CONTROLLER ---
+        // --- HAMBURGER DISPLAY CONTROLLER ---
         const menuToggle = document.getElementById('menu-toggle');
         const navLinks = document.getElementById('nav-links');
         menuToggle.addEventListener('click', () => {
@@ -2017,6 +2277,21 @@
                 const icon = menuToggle.querySelector('i');
                 icon.className = "fa-solid fa-bars";
             });
+        });
+
+        // --- NAVBAR PROFILE DROPDOWN TOGGLE ---
+        const navProfileWrapper = document.getElementById('nav-profile-wrapper');
+        const navProfileTrigger = document.getElementById('nav-profile-trigger');
+
+        if (navProfileTrigger) {
+            navProfileTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navProfileWrapper.classList.toggle('open');
+            });
+        }
+
+        document.addEventListener('click', () => {
+            if (navProfileWrapper) navProfileWrapper.classList.remove('open');
         });
 
         // --- TOAST PLUG DISPATCH MECHANISM ---
@@ -2044,6 +2319,57 @@
             });
         }
 
+        // --- DISCORD LOGIN SIMULATION (FRONTEND UI ONLY) ---
+        const MOCK_USER = {
+            displayName: "SkyRise Player",
+            username: "skyriseuser",
+            joinDate: "Joined March 2024",
+            initials: "SP"
+        };
+
+        function simulateDiscordLogin() {
+            // In production, this triggers the real OAuth2 Discord flow.
+            // This is a frontend UI simulation.
+            const loggedOut = document.getElementById('discord-logged-out');
+            const loggedIn = document.getElementById('discord-logged-in');
+
+            document.getElementById('profile-display-name').textContent = MOCK_USER.displayName;
+            document.getElementById('profile-username').textContent = MOCK_USER.username;
+            document.getElementById('profile-join-date').textContent = MOCK_USER.joinDate;
+            document.getElementById('profile-avatar-large').textContent = MOCK_USER.initials;
+
+            // Update navbar
+            document.getElementById('nav-login-item').style.display = 'none';
+            const navProfileItem = document.getElementById('nav-profile-item');
+            navProfileItem.style.display = 'flex';
+            document.getElementById('nav-username-display').textContent = MOCK_USER.username;
+            document.getElementById('nav-avatar').textContent = MOCK_USER.initials;
+
+            loggedOut.classList.add('hidden');
+            loggedIn.classList.add('visible');
+
+            triggerToast("Logged in as " + MOCK_USER.username);
+        }
+
+        function handleLogout() {
+            const loggedOut = document.getElementById('discord-logged-out');
+            const loggedIn = document.getElementById('discord-logged-in');
+
+            loggedOut.classList.remove('hidden');
+            loggedIn.classList.remove('visible');
+
+            document.getElementById('nav-login-item').style.display = 'flex';
+            document.getElementById('nav-profile-item').style.display = 'none';
+            if (navProfileWrapper) navProfileWrapper.classList.remove('open');
+
+            triggerToast("You have been logged out.");
+        }
+
+        function scrollToProfile() {
+            if (navProfileWrapper) navProfileWrapper.classList.remove('open');
+            document.getElementById('profile').scrollIntoView({ behavior: 'smooth' });
+        }
+
         // --- GLOBAL SYSTEM INTERACTIVE DIALOG MODALS ---
         const modalOverlay = document.getElementById('global-modal-shell');
         const modalIcon = document.getElementById('modal-display-icon');
@@ -2054,6 +2380,8 @@
             modalIcon.className = "fa-solid fa-basket-shopping main-icon";
             modalTitle.innerText = "Purchase Rank";
             modalBody.innerText = `To purchase the ${rankName} rank, please open a support ticket in our Discord server.`;
+            document.getElementById('modal-confirm-trigger').href = "https://discord.gg/chPWGe9Yf";
+            document.getElementById('modal-confirm-trigger').innerText = "Open Discord";
             modalOverlay.classList.add('active');
         }
 
@@ -2061,6 +2389,8 @@
             modalIcon.className = "fa-solid fa-gavel main-icon";
             modalTitle.innerText = "Open Appeal Ticket";
             modalBody.innerText = `To submit a ${appealType.toLowerCase()}, please create a ticket in our Discord server.`;
+            document.getElementById('modal-confirm-trigger').href = "https://discord.gg/chPWGe9Yf";
+            document.getElementById('modal-confirm-trigger').innerText = "Open Discord";
             modalOverlay.classList.add('active');
         }
 
@@ -2069,58 +2399,43 @@
         }
 
         modalOverlay.addEventListener('click', (e) => {
-            if(e.target === modalOverlay) closeGlobalModal();
+            if (e.target === modalOverlay) closeGlobalModal();
         });
 
         // --- REAL STATUS API REQUEST HANDLING MATRIX ---
         async function fetchLiveStatus() {
-            const apiTarget = "https://api.mcsrvstat.us/3/skyrise.ddns.net:25567";
-            
             const apiWrapper = document.getElementById('api-status-wrapper');
-            const statusIcon = document.getElementById('api-status-icon');
             const statusText = document.getElementById('api-status-text');
             const motdText = document.getElementById('api-motd-text');
             const playerCount = document.getElementById('api-player-count');
             const versionString = document.getElementById('api-version-string');
 
             try {
-                const response = await fetch(apiTarget);
-                if (!response.ok) throw new Error("Network validation dropped.");
-                
-                const data = await response.json();
-                
-                if (data.online === true) {
+                const res = await fetch("https://api.mcsrvstat.us/3/skyrise.ddns.net:25567");
+                const data = await res.json();
+
+                if (data.online) {
                     apiWrapper.classList.remove('offline');
-                    statusIcon.className = "fa-solid fa-signal";
                     statusText.innerText = "Server Online";
-                    
-                    if (data.motd && data.motd.clean && data.motd.clean.length > 0) {
-                        motdText.innerText = data.motd.clean.join(' ').trim();
-                    } else {
-                        motdText.innerText = "Welcome to SkyRise Network!";
-                    }
-
-                    const onlinePlayers = data.players.online !== undefined ? data.players.online : 0;
-                    const maxPlayers = data.players.max !== undefined ? data.players.max : 0;
-                    playerCount.innerHTML = `${onlinePlayers} <span>/</span> ${maxPlayers}`;
-                    
-                    versionString.innerText = data.version ? data.version : "1.8 - Latest";
+                    motdText.innerText = data.motd?.clean?.join(' ').trim() || "Welcome to SkyRise Network!";
+                    playerCount.innerHTML = `${data.players?.online ?? 0} <span>/</span> ${data.players?.max ?? 0}`;
+                    versionString.innerText = data.version || "1.8 - Latest";
                 } else {
-                    setOfflineState(apiWrapper, statusText, motdText, playerCount, versionString);
+                    apiWrapper.classList.add('offline');
+                    statusText.innerText = "Offline";
+                    motdText.innerText = "Server is currently offline.";
+                    playerCount.innerText = "Player Count Unavailable";
+                    playerCount.style.fontSize = "1.1rem";
+                    versionString.innerText = "--";
                 }
-            } catch (error) {
-                console.error("Runtime trace exception captured parsing server state logs: ", error);
-                setOfflineState(apiWrapper, statusText, motdText, playerCount, versionString);
+            } catch {
+                apiWrapper.classList.add('offline');
+                statusText.innerText = "Offline";
+                motdText.innerText = "Could not reach the server.";
+                playerCount.innerText = "Player Count Unavailable";
+                playerCount.style.fontSize = "1.1rem";
+                versionString.innerText = "--";
             }
-        }
-
-        function setOfflineState(wrapper, statusTxt, motdTxt, countTxt, verTxt) {
-            wrapper.classList.add('offline');
-            statusTxt.innerText = "Offline";
-            motdTxt.innerText = "Undergoing systematic configuration staging.";
-            countTxt.innerText = "Player Count Unavailable";
-            countTxt.style.fontSize = "1.1rem";
-            verTxt.innerText = "--";
         }
 
         // --- ACCORDION SYSTEM CONTROLLER MATRIX ---
@@ -2141,41 +2456,6 @@
                 }
             });
         });
-
-        // --- PROFILE CONTROL ASSIGNMENT MOCKS ---
-        function executeProfileLink() {
-            const mc = document.getElementById('mc-name-input').value.trim();
-            const dc = document.getElementById('dc-name-input').value.trim();
-
-            if (!mc || !dc) {
-                triggerToast("Error: Identity values missing.");
-                return;
-            }
-
-            document.getElementById('label-mc-display').innerText = mc;
-            document.getElementById('label-dc-display').innerText = dc;
-
-            const mcTag = document.getElementById('label-mc-tag');
-            const dcTag = document.getElementById('label-dc-tag');
-
-            [mcTag, dcTag].forEach(tag => {
-                tag.innerText = "Linked";
-                tag.style.color = "var(--success)";
-                tag.style.background = "rgba(0, 255, 170, 0.1)";
-                tag.style.borderColor = "rgba(0, 255, 170, 0.2)";
-            });
-
-            triggerToast("Profile linkage recorded into local memory framework.");
-        }
-
-        function executeProfileVerify() {
-            const mc = document.getElementById('mc-name-input').value.trim();
-            if(!mc) {
-                triggerToast("Error: Supply validation keys first.");
-                return;
-            }
-            triggerToast("Verification sequence processing inside current scope.");
-        }
 
         // --- PARTICLE BACKGROUND DRIVER ---
         function initParticleCanvas() {
