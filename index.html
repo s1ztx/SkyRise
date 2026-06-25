@@ -2014,10 +2014,10 @@ document.getElementById('discord-modal').addEventListener('click', function(e) {
 
 function initiateDiscordOAuth() {
   const params = new URLSearchParams({
-    client_id: DISCORD_CLIENT_ID,
-    redirect_uri: DISCORD_REDIRECT,
-    response_type: 'token',
-    scope: DISCORD_SCOPES,
+    client_id: '1507957022380003409',  // Your client ID as a string
+    redirect_uri: 'https://skyrise.fun',  // ← YOUR WEBSITE URL ONLY!
+    response_type: 'token',  // Using 'token' for implicit grant
+    scope: 'identify guilds guilds.members.read',  // ← ONLY these 3 scopes
   });
   window.location.href = `https://discord.com/api/oauth2/authorize?${params}`;
 }
