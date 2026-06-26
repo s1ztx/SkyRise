@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews — SkyRise Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --cyan: #00d4ff; --navy: #1a1a2e; --red: #e94560; --navy2: #16213e; --glass: rgba(255,255,255,0.05); --glass-border: rgba(0,212,255,0.15); }
+  html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: #e0e6f0; font-family: 'Inter', sans-serif; cursor: none; overflow-x: hidden; }
+  #cursor-dot { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  #cursor-ring { width: 36px; height: 36px; border: 2px solid rgba(0,212,255,0.5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .15s ease; }
+  #scroll-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--red)); z-index: 9997; transition: width .1s; }
+  
+  nav { position: fixed; top: 3px; left: 0; right: 0; z-index: 1000; background: rgba(26,26,46,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 64px; }
+  .nav-logo { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900; color: var(--cyan); letter-spacing: 2px; text-decoration: none; }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 1.8rem; align-items: center; list-style: none; }
+  .nav-links a { color: #a0b0c8; text-decoration: none; font-size: .85rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+  .nav-discord { background: #5865F2; color: #fff !important; padding: .4rem 1rem; border-radius: 6px; }
+  .nav-ip { font-family: 'Orbitron', sans-serif; font-size: .75rem; color: var(--cyan); border: 1px solid var(--glass-border); padding: .3rem .8rem; border-radius: 4px; cursor: pointer; }
+
+  .nav-right { display: flex; align-items: center; gap: .8rem; }
+  #dc-login-btn {
+    display: flex; align-items: center; gap: .5rem;
+    background: #5865F2; color: #fff; border: none; border-radius: 6px;
+    font-family: 'Orbitron', sans-serif; font-size: .7rem; font-weight: 700;
+    letter-spacing: 1px; padding: .4rem 1rem; cursor: pointer; transition: background .2s;
+    white-space: nowrap;
+  }
+  #dc-login-btn:hover { background: #4752c4; }
+  #dc-login-btn svg { flex-shrink: 0; }
+  
+  #user-chip {
+    display: none; align-items: center; gap: .5rem;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 20px; padding: .25rem .7rem .25rem .25rem; cursor: pointer; position: relative;
+  }
+  #user-chip img { width: 28px; height: 28px; border-radius: 50%; }
+  #user-chip-name { font-size: .75rem; font-weight: 600; color: #e0e6f0; }
+  #user-chip-dropdown {
+    display: none; position: absolute; top: calc(100% + 6px); right: 0;
+    background: var(--navy2); border: 1px solid var(--glass-border); border-radius: 8px;
+    min-width: 160px; overflow: hidden; z-index: 200;
+  }
+  #user-chip:hover #user-chip-dropdown { display: block; }
+  #user-chip-dropdown button {
+    display: block; width: 100%; text-align: left; padding: .65rem 1rem;
+    font-size: .82rem; color: #a0b0c8; text-decoration: none; background: none;
+    border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: background .15s;
+  }
+  #user-chip-dropdown button:hover { background: rgba(0,212,255,0.07); color: var(--cyan); }
+
+  .page-header { padding: 9rem 2rem 3rem; text-align: center; background: radial-gradient(ellipse at 50% 60%, rgba(0,212,255,0.07) 0%, transparent 55%), var(--navy); }
+  .page-header .badge { display: inline-block; font-size: .65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan); border: 1px solid rgba(0,212,255,0.3); padding: .3rem 1rem; border-radius: 20px; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: #fff; margin-bottom: .8rem; }
+  .page-header p { color: #7a8fa8; font-size: 1rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+  .reviews-section { padding: 2rem 2rem 4rem; }
+  .container { max-width: 1160px; margin: 0 auto; }
+
+  /* REVIEW STATS */
+  .review-stats { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; margin-bottom: 3rem; padding: 2rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; }
+  .review-stat { text-align: center; }
+  .review-stat-value { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900; color: var(--cyan); }
+  .review-stat-label { font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; color: #60728a; margin-top: .2rem; }
+  .stars-display { color: #f5c518; font-size: 1.4rem; letter-spacing: 2px; }
+
+  /* REVIEW FORM */
+  .review-form-container { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 2.5rem; margin-bottom: 3rem; }
+  .review-form-title { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: .5rem; }
+  .review-form-sub { color: #7a8fa8; font-size: .85rem; margin-bottom: 1.5rem; }
+  
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: .8rem; font-weight: 600; color: #a0b0c8; margin-bottom: .4rem; letter-spacing: 1px; text-transform: uppercase; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: .75rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 8px; color: #e0e6f0; font-size: .9rem; font-family: 'Inter', sans-serif; transition: border .2s; outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--cyan); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  
+  .star-rating { display: flex; gap: .4rem; font-size: 2rem; cursor: pointer; }
+  .star-rating .star { color: #3a4a60; transition: color .15s; }
+  .star-rating .star.active { color: #f5c518; }
+  .star-rating .star:hover { color: #f5c518; }
+
+  .btn-submit-review { background: var(--cyan); color: var(--navy); font-family: 'Orbitron', sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: 2px; padding: .8rem 2.2rem; border-radius: 6px; border: none; cursor: pointer; transition: all .2s; }
+  .btn-submit-review:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,255,0.4); }
+  .btn-submit-review:disabled { opacity: 0.5; cursor: not-allowed; }
+  
+  .login-prompt { text-align: center; padding: 3rem 2rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; }
+  .login-prompt-icon { font-size: 4rem; color: #5865F2; margin-bottom: 1rem; }
+  .login-prompt h3 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; margin-bottom: .5rem; }
+  .login-prompt p { color: #7a8fa8; margin-bottom: 1.5rem; }
+
+  /* REVIEWS LIST */
+  .reviews-list { display: flex; flex-direction: column; gap: 1.2rem; }
+  .review-item {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px;
+    padding: 1.5rem; transition: all .25s;
+  }
+  .review-item:hover { border-color: rgba(0,212,255,0.3); }
+  .review-header { display: flex; align-items: center; gap: 1rem; margin-bottom: .8rem; }
+  .review-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--glass-border); object-fit: cover; }
+  .review-user { flex: 1; }
+  .review-username { font-weight: 700; font-size: .95rem; color: #fff; }
+  .review-rank { font-size: .7rem; color: var(--cyan); background: rgba(0,212,255,0.08); padding: .1rem .5rem; border-radius: 4px; display: inline-block; }
+  .review-date { font-size: .7rem; color: #3a4a60; }
+  .review-stars { color: #f5c518; font-size: 1rem; letter-spacing: 1px; margin-bottom: .4rem; }
+  .review-title { font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: .4rem; }
+  .review-content { color: #7a8fa8; font-size: .9rem; line-height: 1.7; }
+  .review-empty { text-align: center; padding: 4rem 2rem; color: #60728a; }
+  .review-empty .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: all .5s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  footer { background: var(--navy2); border-top: 1px solid var(--glass-border); padding: 3rem 2rem 1.5rem; }
+  .footer-inner { max-width: 1160px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+  .footer-brand p { font-size: .85rem; color: #60728a; line-height: 1.7; max-width: 260px; margin-top: .6rem; }
+  .footer-col h4 { font-family: 'Orbitron', sans-serif; font-size: .75rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .footer-col a { font-size: .85rem; color: #60728a; text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--cyan); }
+  .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 1.2rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+  .footer-bottom p { font-size: .75rem; color: #40506a; }
+
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--cyan); color: var(--navy); font-family: 'Orbitron', sans-serif;
+    font-size: .75rem; font-weight: 700; padding: .6rem 1.4rem; border-radius: 6px;
+    z-index: 9999; transition: transform .3s; pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media(max-width:768px) {
+    .nav-links { display: none; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .review-stats { flex-direction: column; gap: 1rem; }
+    .review-form-container { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-bar"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Sky<span>Rise</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="store.html">Store</a></li>
+    <li><a href="rules.html">Rules</a></li>
+    <li><a href="staff.html">Staff</a></li>
+    <li><a href="reviews.html" class="active">Reviews</a></li>
+    <li><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="nav-discord">Discord</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-ip" onclick="copyIP()">play.skyrise.net</div>
+    <button id="dc-login-btn" onclick="discordLogin()">
+      <svg width="18" height="14" viewBox="0 0 71 55" fill="currentColor"><path d="M60.1 4.9A58.5 58.5 0 0 0 45.6.7a40.8 40.8 0 0 0-1.8 3.7 54.1 54.1 0 0 0-16.2 0A40.8 40.8 0 0 0 25.8.7 58.3 58.3 0 0 0 11.2 5C1.6 19.2-1 33 .3 46.6a58.9 58.9 0 0 0 17.9 9.1 44 44 0 0 0 3.8-6.2 38.3 38.3 0 0 1-6-2.9l1.5-1.1a42.1 42.1 0 0 0 36 0l1.5 1.1a38.3 38.3 0 0 1-6 2.9 44 44 0 0 0 3.8 6.2 58.7 58.7 0 0 0 17.9-9.1c1.5-15.7-2.5-29.4-10.6-41.7ZM23.7 38.2c-3.5 0-6.4-3.2-6.4-7.2s2.8-7.2 6.4-7.2c3.5 0 6.4 3.2 6.3 7.2 0 4-2.8 7.2-6.3 7.2Zm23.6 0c-3.5 0-6.4-3.2-6.4-7.2s2.8-7.2 6.4-7.2c3.5 0 6.4 3.2 6.3 7.2 0 4-2.8 7.2-6.3 7.2Z"/></svg>
+      Login with Discord
+    </button>
+    <div id="user-chip">
+      <img id="user-avatar" src="" alt="avatar">
+      <span id="user-chip-name"></span>
+      <div id="user-chip-dropdown">
+        <button onclick="dcLogout()">Log Out</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="badge">Player Reviews</div>
+  <h1>Real Reviews, Real Players</h1>
+  <p>Share your experience with the SkyRise community. Your voice helps us improve and grow.</p>
+</div>
+
+<section class="reviews-section">
+  <div class="container">
+
+    <!-- REVIEW STATS -->
+    <div class="review-stats reveal" id="review-stats">
+      <div class="review-stat">
+        <div class="review-stat-value" id="total-reviews">0</div>
+        <div class="review-stat-label">Total Reviews</div>
+      </div>
+      <div class="review-stat">
+        <div class="review-stat-value" id="avg-rating">0.0</div>
+        <div class="review-stat-label">Average Rating</div>
+      </div>
+      <div class="review-stat">
+        <div class="stars-display" id="stars-display">☆☆☆☆☆</div>
+        <div class="review-stat-label">Overall Rating</div>
+      </div>
+    </div>
+
+    <!-- REVIEW FORM / LOGIN PROMPT -->
+    <div class="review-form-container reveal" id="review-form-container">
+      <div id="form-logged-in" style="display:none;">
+        <div class="review-form-title">✍️ Write Your Review</div>
+        <div class="review-form-sub">Share your honest experience. Reviews help new players discover SkyRise.</div>
+        <form id="review-form" onsubmit="submitReview(event)">
+          <div class="form-group">
+            <label>Your Rating</label>
+            <div class="star-rating" id="star-rating">
+              <span class="star" data-value="1" onclick="setRating(1)">★</span>
+              <span class="star" data-value="2" onclick="setRating(2)">★</span>
+              <span class="star" data-value="3" onclick="setRating(3)">★</span>
+              <span class="star" data-value="4" onclick="setRating(4)">★</span>
+              <span class="star" data-value="5" onclick="setRating(5)">★</span>
+            </div>
+            <input type="hidden" id="rating-value" value="0">
+          </div>
+          <div class="form-group">
+            <label>Review Title</label>
+            <input type="text" id="review-title" placeholder="Summarize your experience..." required maxlength="100">
+          </div>
+          <div class="form-group">
+            <label>Your Review</label>
+            <textarea id="review-content" placeholder="Tell us about your journey on SkyRise... What do you love? What could be better?" required maxlength="500"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Your Rank</label>
+            <select id="review-rank">
+              <option value="Basic">Basic</option>
+              <option value="VIP">VIP</option>
+              <option value="VIP+">VIP+</option>
+              <option value="Elite">Elite</option>
+              <option value="Legend">Legend</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit-review" id="submit-btn">Submit Review</button>
+        </form>
+      </div>
+
+      <div id="form-logged-out" class="login-prompt">
+        <div class="login-prompt-icon"><i class="fab fa-discord" style="font-family:'Inter',sans-serif;">💬</i></div>
+        <h3>Login to Write a Review</h3>
+        <p>Connect your Discord account to share your experience with the community.</p>
+        <button class="btn-submit-review" onclick="discordLogin()" style="background:#5865F2;color:#fff;">
+          <svg width="18" height="14" viewBox="0 0 71 55" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:8px;"><path d="M60.1 4.9A58.5 58.5 0 0 0 45.6.7a40.8 40.8 0 0 0-1.8 3.7 54.1 54.1 0 0 0-16.2 0A40.8 40.8 0 0 0 25.8.7 58.3 58.3 0 0 0 11.2 5C1.6 19.2-1 33 .3 46.6a58.9 58.9 0 0 0 17.9 9.1 44 44 0 0 0 3.8-6.2 38.3 38.3 0 0 1-6-2.9l1.5-1.1a42.1 42.1 0 0 0 36 0l1.5 1.1a38.3 38.3 0 0 1-6 2.9 44 44 0 0 0 3.8 6.2 58.7 58.7 0 0 0 17.9-9.1c1.5-15.7-2.5-29.4-10.6-41.7ZM23.7 38.2c-3.5 0-6.4-3.2-6.4-7.2s2.8-7.2 6.4-7.2c3.5 0 6.4 3.2 6.3 7.2 0 4-2.8 7.2-6.3 7.2Zm23.6 0c-3.5 0-6.4-3.2-6.4-7.2s2.8-7.2 6.4-7.2c3.5 0 6.4 3.2 6.3 7.2 0 4-2.8 7.2-6.3 7.2Z"/></svg>
+          Login with Discord
+        </button>
+      </div>
+    </div>
+
+    <!-- REVIEWS LIST -->
+    <div id="reviews-list" class="reviews-list reveal">
+      <!-- Reviews will be rendered here by JavaScript -->
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Sky<span style="color:var(--red)">Rise</span></a>
+        <p>Rise Above The Rest. Your voice matters — leave a review and help us improve.</p>
+      </div>
+      <div class="footer-col"><h4>Network</h4><ul><li><a href="index.html">Home</a></li><li><a href="store.html">Store</a></li><li><a href="rules.html">Rules</a></li><li><a href="staff.html">Staff</a></li><li><a href="reviews.html">Reviews</a></li></ul></div>
+      <div class="footer-col"><h4>Community</h4><ul><li><a href="https://discord.gg/MyGvcFNYd" target="_blank">Discord</a></li></ul></div>
+      <div class="footer-col"><h4>Connect</h4><ul><li><a href="#" onclick="copyIP()">play.skyrise.net</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2024 SkyRise Network. Not affiliated with Mojang or Microsoft.</p></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DISCORD OAUTH CONFIG
+   ============================================================ */
+const DC_CLIENT_ID  = '1507957022380003409';
+const DC_REDIRECT   = 'https://skyrise.fun';
+const DC_SCOPES     = 'identify';
+
+function discordLogin() {
+  const state = crypto.randomUUID();
+  sessionStorage.setItem('dc_oauth_state', state);
+  const url = new URL('https://discord.com/oauth2/authorize');
+  url.searchParams.set('client_id', DC_CLIENT_ID);
+  url.searchParams.set('redirect_uri', DC_REDIRECT);
+  url.searchParams.set('response_type', 'token');
+  url.searchParams.set('scope', DC_SCOPES);
+  url.searchParams.set('state', state);
+  window.location.href = url.toString();
+}
+
+function dcLogout() {
+  localStorage.removeItem('dc_user');
+  localStorage.removeItem('dc_token');
+  location.reload();
+}
+
+/* ── Handle OAuth callback ── */
+(function handleCallback() {
+  const hash = window.location.hash.slice(1);
+  if (!hash.includes('access_token')) return;
+  const params = new URLSearchParams(hash);
+  const token = params.get('access_token');
+  if (token) {
+    localStorage.setItem('dc_token', token);
+    history.replaceState(null, '', window.location.pathname);
+    fetch('https://discord.com/api/users/@me', {
+      headers: { Authorization: 'Bearer ' + token }
+    }).then(r => r.json()).then(user => {
+      localStorage.setItem('dc_user', JSON.stringify(user));
+      renderUser(user);
+      checkReviewStatus(user.id);
+    });
+  }
+})();
+
+/* ── Render logged-in state ── */
+function renderUser(user) {
+  if (!user) return;
+  const loginBtn = document.getElementById('dc-login-btn');
+  const chip = document.getElementById('user-chip');
+  const avatar = document.getElementById('user-avatar');
+  const name = document.getElementById('user-chip-name');
+  loginBtn.style.display = 'none';
+  chip.style.display = 'flex';
+  const avatarUrl = user.avatar
+    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`
+    : `https://cdn.discordapp.com/embed/avatars/${(BigInt(user.id) >> 22n) % 6n}.png`;
+  avatar.src = avatarUrl;
+  name.textContent = user.username || user.global_name || 'User';
+
+  document.getElementById('form-logged-in').style.display = 'block';
+  document.getElementById('form-logged-out').style.display = 'none';
+}
+
+/* ── Restore session ── */
+(function restoreSession() {
+  try {
+    const raw = localStorage.getItem('dc_user');
+    if (raw) {
+      const user = JSON.parse(raw);
+      renderUser(user);
+      checkReviewStatus(user.id);
+    }
+  } catch {}
+})();
+
+/* ============================================================
+   REVIEW SYSTEM
+   ============================================================ */
+let currentUser = null;
+let hasReviewed = false;
+
+// Get current user
+function getCurrentUser() {
+  try {
+    const raw = localStorage.getItem('dc_user');
+    if (raw) {
+      currentUser = JSON.parse(raw);
+      return currentUser;
+    }
+  } catch {}
+  return null;
+}
+
+// Check if user has already reviewed
+function checkReviewStatus(userId) {
+  const reviews = getReviews();
+  hasReviewed = reviews.some(r => r.userId === userId);
+  if (hasReviewed) {
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('submit-btn').textContent = '✅ You Already Reviewed';
+    showToast('You have already submitted a review!');
+  } else {
+    document.getElementById('submit-btn').disabled = false;
+    document.getElementById('submit-btn').textContent = 'Submit Review';
+  }
+}
+
+// Get reviews from localStorage
+function getReviews() {
+  try {
+    return JSON.parse(localStorage.getItem('skyrise_reviews')) || [];
+  } catch {
+    return [];
+  }
+}
+
+// Save reviews to localStorage
+function saveReviews(reviews) {
+  localStorage.setItem('skyrise_reviews', JSON.stringify(reviews));
+}
+
+// Star rating
+let selectedRating = 0;
+
+function setRating(val) {
+  selectedRating = val;
+  document.getElementById('rating-value').value = val;
+  document.querySelectorAll('.star-rating .star').forEach((star, index) => {
+    star.classList.toggle('active', index < val);
+  });
+}
+
+// Submit review
+function submitReview(e) {
+  e.preventDefault();
+  if (hasReviewed) {
+    showToast('You have already submitted a review!');
+    return;
+  }
+
+  const user = getCurrentUser();
+  if (!user) {
+    showToast('Please login first!');
+    return;
+  }
+
+  const rating = parseInt(document.getElementById('rating-value').value);
+  if (rating === 0) {
+    showToast('Please select a star rating!');
+    return;
+  }
+
+  const title = document.getElementById('review-title').value.trim();
+  const content = document.getElementById('review-content').value.trim();
+  const rank = document.getElementById('review-rank').value;
+
+  if (!title || !content) {
+    showToast('Please fill in all fields!');
+    return;
+  }
+
+  const avatarUrl = user.avatar
+    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`
+    : `https://cdn.discordapp.com/embed/avatars/${(BigInt(user.id) >> 22n) % 6n}.png`;
+
+  const review = {
+    id: Date.now(),
+    userId: user.id,
+    username: user.username || user.global_name || 'User',
+    avatar: avatarUrl,
+    rating: rating,
+    title: title,
+    content: content,
+    rank: rank,
+    date: new Date().toISOString()
+  };
+
+  const reviews = getReviews();
+  reviews.unshift(review);
+  saveReviews(reviews);
+  hasReviewed = true;
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('submit-btn').textContent = '✅ Review Submitted!';
+  document.getElementById('review-form').reset();
+  setRating(0);
+
+  showToast('🎉 Review submitted successfully!');
+  renderReviews();
+  updateStats();
+}
+
+// Render reviews
+function renderReviews() {
+  const reviews = getReviews();
+  const container = document.getElementById('reviews-list');
+
+  if (reviews.length === 0) {
+    container.innerHTML = `
+      <div class="review-empty">
+        <div class="empty-icon">📝</div>
+        <h3 style="font-family:'Orbitron',sans-serif;color:#fff;font-size:1.1rem;margin-bottom:.5rem;">No Reviews Yet</h3>
+        <p style="color:#60728a;">Be the first to leave a review and share your SkyRise experience!</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = reviews.map(r => `
+    <div class="review-item">
+      <div class="review-header">
+        <img src="${r.avatar}" class="review-avatar" alt="${r.username}" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+        <div class="review-user">
+          <div class="review-username">${r.username}</div>
+          <span class="review-rank">${r.rank}</span>
+          <span class="review-date" style="margin-left:.5rem;">${formatDate(r.date)}</span>
+        </div>
+      </div>
+      <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+      <div class="review-title">${r.title}</div>
+      <div class="review-content">${r.content}</div>
+    </div>
+  `).join('');
+}
+
+// Update stats
+function updateStats() {
+  const reviews = getReviews();
+  const total = reviews.length;
+  document.getElementById('total-reviews').textContent = total;
+
+  if (total === 0) {
+    document.getElementById('avg-rating').textContent = '0.0';
+    document.getElementById('stars-display').textContent = '☆☆☆☆☆';
+    return;
+  }
+
+  const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / total;
+  document.getElementById('avg-rating').textContent = avg.toFixed(1);
+  const fullStars = Math.round(avg);
+  document.getElementById('stars-display').textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+}
+
+// Format date
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+// Toast notification
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Copy IP
+function copyIP() {
+  navigator.clipboard.writeText('play.skyrise.net');
+  showToast('✅ IP Copied!');
+}
+
+/* ============================================================
+   CURSOR & SCROLL
+   ============================================================ */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  dot.style.left = e.clientX + 'px';
+  dot.style.top = e.clientY + 'px';
+  ring.style.left = e.clientX + 'px';
+  ring.style.top = e.clientY + 'px';
+});
+
+document.querySelectorAll('a, button, [onclick]').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+    ring.style.borderColor = 'var(--cyan)';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.borderColor = 'rgba(0,212,255,0.5)';
+  });
+});
+
+window.addEventListener('scroll', () => {
+  document.getElementById('scroll-bar').style.width =
+    (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+});
+
+document.querySelectorAll('.reveal').forEach(el =>
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }, { threshold: 0.08 }).observe(el)
+);
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderReviews();
+updateStats();
+const user = getCurrentUser();
+if (user) checkReviewStatus(user.id);
+</script>
+</body>
+</html>
