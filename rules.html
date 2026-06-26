@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rules — SkyRise Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --cyan: #00d4ff; --navy: #1a1a2e; --red: #e94560; --navy2: #16213e; --glass: rgba(255,255,255,0.05); --glass-border: rgba(0,212,255,0.15); }
+  html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: #e0e6f0; font-family: 'Inter', sans-serif; cursor: none; overflow-x: hidden; }
+  #cursor-dot { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  #cursor-ring { width: 36px; height: 36px; border: 2px solid rgba(0,212,255,0.5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .15s ease; }
+  #scroll-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--red)); z-index: 9997; }
+  nav { position: fixed; top: 3px; left: 0; right: 0; z-index: 1000; background: rgba(26,26,46,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 64px; }
+  .nav-logo { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900; color: var(--cyan); letter-spacing: 2px; text-decoration: none; }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 1.8rem; align-items: center; list-style: none; }
+  .nav-links a { color: #a0b0c8; text-decoration: none; font-size: .85rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+  .nav-discord { background: #5865F2; color: #fff !important; padding: .4rem 1rem; border-radius: 6px; }
+  .nav-ip { font-family: 'Orbitron', sans-serif; font-size: .75rem; color: var(--cyan); border: 1px solid var(--glass-border); padding: .3rem .8rem; border-radius: 4px; cursor: pointer; }
+  .page-header { padding: 9rem 2rem 4rem; text-align: center; background: radial-gradient(ellipse at 50% 60%, rgba(233,69,96,0.07) 0%, transparent 60%), var(--navy); }
+  .page-header .badge { display: inline-block; font-size: .65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--red); border: 1px solid rgba(233,69,96,0.3); padding: .3rem 1rem; border-radius: 20px; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: #fff; margin-bottom: .8rem; }
+  .page-header p { color: #7a8fa8; font-size: 1rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+  /* LAYOUT */
+  .rules-layout { display: grid; grid-template-columns: 260px 1fr; gap: 2.5rem; max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; align-items: start; }
+  /* SIDEBAR */
+  .rules-sidebar { position: sticky; top: 90px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1.5rem; }
+  .sidebar-title { font-family: 'Orbitron', sans-serif; font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; color: #60728a; margin-bottom: 1rem; }
+  .sidebar-link { display: block; font-size: .82rem; color: #7a8fa8; text-decoration: none; padding: .4rem .6rem; border-radius: 6px; transition: all .2s; border-left: 2px solid transparent; margin-bottom: .2rem; }
+  .sidebar-link:hover, .sidebar-link.active { color: var(--cyan); background: rgba(0,212,255,0.07); border-left-color: var(--cyan); }
+  /* CONTENT */
+  .rules-content { }
+  .rule-section { margin-bottom: 3rem; }
+  .rule-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--glass-border); }
+  .rule-num { font-family: 'Orbitron', sans-serif; font-size: .7rem; font-weight: 900; color: var(--cyan); background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); padding: .3rem .7rem; border-radius: 4px; white-space: nowrap; }
+  .rule-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700; color: #fff; }
+  .rule-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; padding: 1.2rem 1.4rem; margin-bottom: .8rem; }
+  .rule-item-header { display: flex; align-items: flex-start; gap: .8rem; margin-bottom: .4rem; }
+  .severity { font-size: .6rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; padding: .2rem .6rem; border-radius: 4px; white-space: nowrap; }
+  .sev-warn { background: rgba(255,165,0,0.15); color: #ffa500; border: 1px solid rgba(255,165,0,0.2); }
+  .sev-temp { background: rgba(0,212,255,0.1); color: var(--cyan); border: 1px solid var(--glass-border); }
+  .sev-perm { background: rgba(233,69,96,0.15); color: var(--red); border: 1px solid rgba(233,69,96,0.2); }
+  .rule-item-title { font-size: .88rem; font-weight: 600; color: #d0dde8; }
+  .rule-item-desc { font-size: .82rem; color: #7a8fa8; line-height: 1.7; }
+  .rules-intro { background: rgba(0,212,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px; padding: 1.5rem; margin-bottom: 2.5rem; font-size: .88rem; color: #8899b0; line-height: 1.8; }
+  .rules-intro strong { color: var(--cyan); }
+  /* PUNISHMENT TABLE */
+  .punish-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: .82rem; }
+  .punish-table th { background: rgba(0,212,255,0.08); color: var(--cyan); font-family: 'Orbitron', sans-serif; font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; padding: .7rem 1rem; text-align: left; border-bottom: 1px solid var(--glass-border); }
+  .punish-table td { padding: .65rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: #8899b0; }
+  .punish-table tr:last-child td { border-bottom: none; }
+  .reveal { opacity: 0; transform: translateY(20px); transition: all .5s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  footer { background: var(--navy2); border-top: 1px solid var(--glass-border); padding: 3rem 2rem 1.5rem; }
+  .footer-inner { max-width: 1160px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+  .footer-brand p { font-size: .85rem; color: #60728a; line-height: 1.7; max-width: 260px; margin-top: .6rem; }
+  .footer-col h4 { font-family: 'Orbitron', sans-serif; font-size: .75rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .footer-col a { font-size: .85rem; color: #60728a; text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--cyan); }
+  .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 1.2rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+  .footer-bottom p { font-size: .75rem; color: #40506a; }
+  @media(max-width:860px) { .rules-layout { grid-template-columns: 1fr; } .rules-sidebar { position: static; } .nav-links { display: none; } .footer-top { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-bar"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Sky<span>Rise</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="store.html">Store</a></li>
+    <li><a href="rules.html" class="active">Rules</a></li>
+    <li><a href="staff.html">Staff</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+    <li><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="nav-discord">Discord</a></li>
+  </ul>
+  <div class="nav-ip">play.skyrise.net</div>
+</nav>
+
+<div class="page-header">
+  <div class="badge">Server Rules</div>
+  <h1>Know The Code</h1>
+  <p>These rules apply to all players on all game modes. Ignorance of the rules is not a valid defense. Last updated: December 2024.</p>
+</div>
+
+<div class="rules-layout">
+  <!-- SIDEBAR -->
+  <div class="rules-sidebar">
+    <div class="sidebar-title">Jump To Section</div>
+    <a href="#general" class="sidebar-link active">General Conduct</a>
+    <a href="#chat" class="sidebar-link">Chat Rules</a>
+    <a href="#gameplay" class="sidebar-link">Gameplay</a>
+    <a href="#cheating" class="sidebar-link">Cheating & Hacking</a>
+    <a href="#griefing" class="sidebar-link">Griefing & Stealing</a>
+    <a href="#builds" class="sidebar-link">Builds & Terrain</a>
+    <a href="#pvp" class="sidebar-link">PvP Rules</a>
+    <a href="#discord" class="sidebar-link">Discord Rules</a>
+    <a href="#punishments" class="sidebar-link">Punishment Scale</a>
+    <a href="#appeals" class="sidebar-link">Appealing a Ban</a>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="rules-content">
+    <div class="rules-intro">
+      <strong>By connecting to play.skyrise.net, you agree to abide by these rules.</strong> Staff have final say in all moderation decisions. Rules may be updated without prior notice — it is your responsibility to check this page periodically. If you are unsure whether something is allowed, ask a staff member before doing it.
+    </div>
+
+    <!-- GENERAL -->
+    <div class="rule-section reveal" id="general">
+      <div class="rule-header"><div class="rule-num">§ 01</div><div class="rule-title">General Conduct</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">Respect all players and staff</div></div><div class="rule-item-desc">Treat every person on the server the way you would want to be treated. This means no belittling, name-calling, or sustained negative behavior directed at any individual.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-temp">Temp Ban</span><div class="rule-item-title">No harassment or targeted behaviour</div></div><div class="rule-item-desc">Repeatedly following, camping spawns near, or otherwise harassing a specific player outside of agreed PvP zones is prohibited. A single warning will be issued before a temporary ban is applied.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-perm">Permanent Ban</span><div class="rule-item-title">No threats, doxxing, or real-life harm</div></div><div class="rule-item-desc">Threatening to harm anyone in real life, revealing a player's personal information, or attempting to DDoS the server or any player results in an immediate permanent ban with no appeal window for 90 days.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">Impersonating staff</div></div><div class="rule-item-desc">You may not use a username, nickname, or skin that is designed to look like or be confused with a SkyRise staff member. Staff are listed on the Staff page.</div></div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="rule-section reveal" id="chat">
+      <div class="rule-header"><div class="rule-num">§ 02</div><div class="rule-title">Chat Rules</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Mute</span><div class="rule-item-title">No spam or excessive caps</div></div><div class="rule-item-desc">Sending the same message repeatedly, flooding chat with symbols, or using ALL CAPS for more than a single word will result in a mute. Mutes escalate: 1 hour → 24 hours → 7 days.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-temp">Temp Mute/Ban</span><div class="rule-item-title">No hate speech or slurs</div></div><div class="rule-item-desc">Any form of hate speech based on race, nationality, religion, gender, sexual orientation, or disability is not tolerated. A single occurrence results in an immediate 7-day mute. Repeat offenders are permanently banned.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">Keep chat in English on global channels</div></div><div class="rule-item-desc">Global and trade chat must be in English so staff can moderate effectively. You are welcome to speak other languages in private messages or faction/island chats.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">No advertising other servers</div></div><div class="rule-item-desc">Posting IPs or names of other Minecraft servers anywhere on SkyRise — chat, signs, books, Discord — will result in an immediate mute. Repeat offenses escalate to a ban.</div></div>
+    </div>
+
+    <!-- GAMEPLAY -->
+    <div class="rule-section reveal" id="gameplay">
+      <div class="rule-header"><div class="rule-num">§ 03</div><div class="rule-title">Gameplay Rules</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-perm">Permanent Ban</span><div class="rule-item-title">No exploiting bugs or duplication glitches</div></div><div class="rule-item-desc">If you discover a bug that provides an unfair advantage — including item duplication, unlimited money, or bypassing game mechanics — you must report it immediately at discord.gg/MyGvcFNYd. Exploiting bugs is a permanent ban offense. Reporters are rewarded.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-temp">Temp Ban</span><div class="rule-item-title">No AFK farms that strain the server</div></div><div class="rule-item-desc">Automated AFK machines that repeatedly trigger entity spawning, mob grinding, or redstone at rates above 20 activations per second are prohibited. Staff will ask you to remove the machine before issuing a ban.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">No schematica printer mode</div></div><div class="rule-item-desc">Schematica's printer feature automatically places blocks and provides an unfair building advantage. Schematica may be used in display mode only. Printer mode will be treated as a macro/auto-clicker offense.</div></div>
+    </div>
+
+    <!-- CHEATING -->
+    <div class="rule-section reveal" id="cheating">
+      <div class="rule-header"><div class="rule-num">§ 04</div><div class="rule-title">Cheating & Hacking</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-perm">Permanent Ban</span><div class="rule-item-title">No hacked clients or cheat mods</div></div><div class="rule-item-desc">Any client modification that gives an in-game advantage — kill aura, speed hacks, fly hacks, xray, ESP, auto-sprint, reach hacks, and similar — results in an immediate permanent ban. No appeal is accepted within 60 days of the ban date.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-temp">Temp Ban</span><div class="rule-item-title">No auto-clickers or macros in PvP</div></div><div class="rule-item-desc">Hardware or software auto-clickers and macros that automate clicking are banned during PvP. CPS above 20 recorded by our anti-cheat triggers an automatic 3-day ban pending staff review.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">Allowed mods</div></div><div class="rule-item-desc">Optifine, Sodium, Iris, Litematica (no print), Inventory Tweaks, and minimap mods without player radar are permitted. If your mod is not listed and you are unsure, ask staff before using it.</div></div>
+    </div>
+
+    <!-- GRIEFING -->
+    <div class="rule-section reveal" id="griefing">
+      <div class="rule-header"><div class="rule-num">§ 05</div><div class="rule-title">Griefing & Stealing</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-perm">Rollback + Ban</span><div class="rule-item-title">No griefing in protected zones</div></div><div class="rule-item-desc">Griefing player builds in protected claims, islands, or towns results in a full rollback of all damage plus a 14-day ban for a first offense. Second offense is permanent.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-temp">Temp Ban</span><div class="rule-item-title">No stealing from unlocked chests</div></div><div class="rule-item-desc">Taking items from an unlocked chest that does not belong to you is still stealing. Always ask before taking. "It was unlocked" is not a defense on SkyRise.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">Wilderness griefing policy</div></div><div class="rule-item-desc">Destroying terrain in the wilderness to reach ores is allowed, but leaving floating trees, large craters, or lava pits near spawn roads is prohibited. Clean up after yourself or staff will issue a warning and charge a fee in in-game currency.</div></div>
+    </div>
+
+    <!-- BUILDS -->
+    <div class="rule-section reveal" id="builds">
+      <div class="rule-header"><div class="rule-num">§ 06</div><div class="rule-title">Builds & Terrain</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-perm">Build Removal + Ban</span><div class="rule-item-title">No offensive or inappropriate builds</div></div><div class="rule-item-desc">Builds depicting sexual content, hate symbols, real-world violence, or content intended to shock or offend will be removed without notice and the builder banned. Staff judgment is final.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">No claim blocking or land camping</div></div><div class="rule-item-desc">Surrounding another player's claim with your own claims to prevent them from expanding — known as claim blocking — is prohibited. Land must be claimed in good faith for active use.</div></div>
+    </div>
+
+    <!-- PVP -->
+    <div class="rule-section reveal" id="pvp">
+      <div class="rule-header"><div class="rule-num">§ 07</div><div class="rule-title">PvP Rules</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">No spawn killing</div></div><div class="rule-item-desc">Killing a player within 10 seconds of them respawning or teleporting to a safe zone is spawn killing. First offense is a warning; repeated offenses escalate to a temp ban.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-temp">Temp Ban</span><div class="rule-item-title">No combat logging</div></div><div class="rule-item-desc">Disconnecting while in active combat to avoid dying is combat logging. Our system will kill your character after 15 seconds. Repeatedly logging to avoid death after receiving a warning results in a ban.</div></div>
+    </div>
+
+    <!-- DISCORD -->
+    <div class="rule-section reveal" id="discord">
+      <div class="rule-header"><div class="rule-num">§ 08</div><div class="rule-title">Discord Rules</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">Use the correct channels</div></div><div class="rule-item-desc">Post in appropriate channels. Support questions go in #open-ticket, suggestions go in #suggestions, screenshots go in #media. Off-topic conversation belongs in #general.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-temp">Discord Ban</span><div class="rule-item-title">No NSFW content anywhere</div></div><div class="rule-item-desc">Posting NSFW images, videos, or links in any channel — including DMs to staff — results in a permanent Discord server ban and an in-game ban.</div></div>
+      <div class="rule-item"><div class="rule-item-header"><span class="severity sev-warn">Warning</span><div class="rule-item-title">No unsolicited DMs advertising</div></div><div class="rule-item-desc">DMing members to advertise services, trades, other servers, or external websites is prohibited and will result in a Discord ban.</div></div>
+    </div>
+
+    <!-- PUNISHMENTS -->
+    <div class="rule-section reveal" id="punishments">
+      <div class="rule-header"><div class="rule-num">§ 09</div><div class="rule-title">Punishment Scale</div></div>
+      <p style="font-size:.85rem;color:#7a8fa8;margin-bottom:1rem;line-height:1.7;">Most infractions follow a progressive scale. Staff may skip steps for severe offenses.</p>
+      <table class="punish-table">
+        <thead><tr><th>Offense Level</th><th>First Offense</th><th>Second Offense</th><th>Third+ Offense</th></tr></thead>
+        <tbody>
+          <tr><td>Minor (spam, caps)</td><td>Verbal warning</td><td>1-hour mute</td><td>24-hour mute</td></tr>
+          <tr><td>Moderate (harassment)</td><td>24-hour temp ban</td><td>7-day temp ban</td><td>30-day temp ban</td></tr>
+          <tr><td>Major (exploits)</td><td>7–30 day ban</td><td>90-day ban</td><td>Permanent ban</td></tr>
+          <tr><td>Severe (hacking, doxxing)</td><td>Permanent ban</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- APPEALS -->
+    <div class="rule-section reveal" id="appeals">
+      <div class="rule-header"><div class="rule-num">§ 10</div><div class="rule-title">Appealing a Ban</div></div>
+      <div class="rule-item">
+        <div class="rule-item-title" style="margin-bottom:.5rem; font-size:.9rem; font-weight:600;">How to appeal</div>
+        <div class="rule-item-desc">Join our Discord at <strong style="color:var(--cyan)">discord.gg/MyGvcFNYd</strong> and open a ticket in <strong>#open-ticket</strong> using the Appeal template. Include your in-game name, the date of the ban, the reason shown, and your explanation. Appeals are reviewed within 72 hours. Appeals for hacking offenses are reviewed no sooner than 60 days after the ban date.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Sky<span style="color:var(--red)">Rise</span></a>
+        <p>Rise Above The Rest. Fair, transparent, and community-driven moderation.</p>
+      </div>
+      <div class="footer-col"><h4>Network</h4><ul><li><a href="index.html">Home</a></li><li><a href="store.html">Store</a></li><li><a href="rules.html">Rules</a></li><li><a href="staff.html">Staff</a></li><li><a href="reviews.html">Reviews</a></li></ul></div>
+      <div class="footer-col"><h4>Community</h4><ul><li><a href="https://discord.gg/MyGvcFNYd" target="_blank">Discord</a></li></ul></div>
+      <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">play.skyrise.net</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2024 SkyRise Network. Not affiliated with Mojang or Microsoft.</p></div>
+  </div>
+</footer>
+
+<script>
+  const dot = document.getElementById('cursor-dot'), ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => { dot.style.left=e.clientX+'px'; dot.style.top=e.clientY+'px'; ring.style.left=e.clientX+'px'; ring.style.top=e.clientY+'px'; });
+  window.addEventListener('scroll', () => { document.getElementById('scroll-bar').style.width = (window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%'; });
+  document.querySelectorAll('.reveal').forEach(el => new IntersectionObserver(([e]) => { if(e.isIntersecting) e.target.classList.add('visible'); }, {threshold:.08}).observe(el));
+  // Active sidebar link on scroll
+  const sections = document.querySelectorAll('.rule-section');
+  const links = document.querySelectorAll('.sidebar-link');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+    links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#'+cur); });
+  });
+</script>
+</body>
+</html>
