@@ -41,7 +41,7 @@
   }
   .rank-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
   .rank-card.popular { border-color: var(--cyan); }
-  .rank-card.popular::before { content: 'MOST POPULAR'; position: absolute; top: 12px; right: -28px; background: var(--cyan); color: var(--navy); font-family: 'Orbitron', sans-serif; font-size: .55rem; font-weight: 900; letter-spacing: 2px; padding: .25rem 2.5rem; transform: rotate(45deg); }
+  .rank-card.popular::before { content: '⭐ MOST POPULAR'; position: absolute; top: 12px; right: -28px; background: var(--cyan); color: var(--navy); font-family: 'Orbitron', sans-serif; font-size: .55rem; font-weight: 900; letter-spacing: 2px; padding: .25rem 2.5rem; transform: rotate(45deg); }
   .rank-top { padding: 1.8rem 1.5rem 1.2rem; text-align: center; }
   .rank-icon { font-size: 2.5rem; margin-bottom: .8rem; }
   .rank-name { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 900; margin-bottom: .3rem; }
@@ -52,8 +52,9 @@
   .perk { display: flex; align-items: flex-start; gap: .5rem; font-size: .8rem; color: #8899b0; margin-bottom: .5rem; line-height: 1.4; }
   .perk::before { content: '✦'; color: var(--cyan); font-size: .6rem; margin-top: 2px; flex-shrink: 0; }
   .rank-btn { display: block; margin: 1.2rem 1.5rem; text-align: center; padding: .7rem; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: 2px; text-decoration: none; transition: all .2s; cursor: pointer; border: none; width: calc(100% - 3rem); }
+  .rank-btn:hover { transform: translateY(-2px); }
   .btn-cyan { background: var(--cyan); color: var(--navy); }
-  .btn-cyan:hover { background: #fff; }
+  .btn-cyan:hover { background: #fff; box-shadow: 0 8px 30px rgba(0,212,255,0.4); }
   .btn-outline-c { background: transparent; border: 1px solid var(--glass-border); color: var(--cyan); }
   .btn-outline-c:hover { background: rgba(0,212,255,0.1); border-color: var(--cyan); }
   /* COSMETICS / BOOSTERS */
@@ -98,7 +99,7 @@
     <li><a href="reviews.html">Reviews</a></li>
     <li><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="nav-discord">Discord</a></li>
   </ul>
-  <div class="nav-ip" onclick="navigator.clipboard.writeText('play.skyrise.net')">play.skyrise.net</div>
+  <div class="nav-ip" onclick="copyIP()">play.skyrise.net</div>
 </nav>
 
 <div class="page-header">
@@ -138,7 +139,7 @@
             <div class="perk">10% shop sell bonus</div>
             <div class="perk">Join full servers with priority queue</div>
           </div>
-          <button class="rank-btn btn-outline-c">Purchase VIP</button>
+          <a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c">Purchase VIP</a>
         </div>
         <!-- VIP+ -->
         <div class="rank-card" style="border-color: rgba(100,200,255,0.3);">
@@ -156,7 +157,7 @@
             <div class="perk">20% shop sell bonus</div>
             <div class="perk">/fly in non-PvP zones</div>
           </div>
-          <button class="rank-btn btn-outline-c">Purchase VIP+</button>
+          <a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c">Purchase VIP+</a>
         </div>
         <!-- ELITE -->
         <div class="rank-card popular" style="border-color: var(--cyan);">
@@ -174,7 +175,7 @@
             <div class="perk">Exclusive ELITE cosmetic kit</div>
             <div class="perk">Monthly in-game reward crate</div>
           </div>
-          <button class="rank-btn btn-cyan">Purchase Elite</button>
+          <a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-cyan">Purchase Elite</a>
         </div>
         <!-- LEGEND -->
         <div class="rank-card" style="border-color: rgba(233,69,96,0.3);">
@@ -192,7 +193,7 @@
             <div class="perk">Access to unreleased beta modes</div>
             <div class="perk">Legend Hall of Fame listing</div>
           </div>
-          <button class="rank-btn btn-outline-c" style="border-color:rgba(233,69,96,0.3);color:#ff6b8a;">Purchase Legend</button>
+          <a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="border-color:rgba(233,69,96,0.3);color:#ff6b8a;">Purchase Legend</a>
         </div>
       </div>
     </div>
@@ -201,12 +202,12 @@
     <div id="tab-cosmetics" style="display:none;">
       <p class="section-sub">One-time cosmetic unlocks. Purely visual — no gameplay impact.</p>
       <div class="item-grid reveal">
-        <div class="item-card"><div class="rank-icon">🌌</div><div class="item-name">Galaxy Trail</div><div class="item-desc">A spiraling galaxy particle trail follows every step you take. Cycles through nebula colors automatically.</div><div class="item-price">$3.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">🔥</div><div class="item-name">Inferno Aura</div><div class="item-desc">Wraps your character in slow-burning flame particles. Intimidate rivals before a single block is placed.</div><div class="item-price">$3.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">❄️</div><div class="item-name">Frost Wings</div><div class="item-desc">Decorative icy wings worn on your back. Cosmetic only, toggle on/off with /wings.</div><div class="item-price">$5.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">⚡</div><div class="item-name">Thunder Pet</div><div class="item-desc">A miniature creeper companion sparking with lightning follows you on your adventures.</div><div class="item-price">$6.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">🌈</div><div class="item-name">Rainbow Chat Color</div><div class="item-desc">Every chat message you send cycles through the full rainbow spectrum automatically.</div><div class="item-price">$4.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">🎭</div><div class="item-name">Morph Pack Vol.1</div><div class="item-desc">Transforms your skin display into 5 unlocked mobs (no hitbox changes). Includes Wolf, Fox, Axolotl, Panda, and Dolphin.</div><div class="item-price">$7.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🌌</div><div class="item-name">Galaxy Trail</div><div class="item-desc">A spiraling galaxy particle trail follows every step you take. Cycles through nebula colors automatically.</div><div class="item-price">$3.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">🔥</div><div class="item-name">Inferno Aura</div><div class="item-desc">Wraps your character in slow-burning flame particles. Intimidate rivals before a single block is placed.</div><div class="item-price">$3.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">❄️</div><div class="item-name">Frost Wings</div><div class="item-desc">Decorative icy wings worn on your back. Cosmetic only, toggle on/off with /wings.</div><div class="item-price">$5.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">⚡</div><div class="item-name">Thunder Pet</div><div class="item-desc">A miniature creeper companion sparking with lightning follows you on your adventures.</div><div class="item-price">$6.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">🌈</div><div class="item-name">Rainbow Chat Color</div><div class="item-desc">Every chat message you send cycles through the full rainbow spectrum automatically.</div><div class="item-price">$4.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">🎭</div><div class="item-name">Morph Pack Vol.1</div><div class="item-desc">Transforms your skin display into 5 unlocked mobs (no hitbox changes). Includes Wolf, Fox, Axolotl, Panda, and Dolphin.</div><div class="item-price">$7.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
       </div>
     </div>
 
@@ -214,10 +215,10 @@
     <div id="tab-boosters" style="display:none;">
       <p class="section-sub">Temporary boosts for accelerated progression. Applied to your account immediately.</p>
       <div class="item-grid reveal">
-        <div class="item-card"><div class="rank-icon">💰</div><div class="item-name">2× Money Booster — 24h</div><div class="item-desc">Double all in-game currency earnings from farming, selling, and mob drops for 24 real hours.</div><div class="item-price">$2.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">⭐</div><div class="item-name">3× XP Booster — 24h</div><div class="item-desc">Triple your job XP and McMMO skill XP gains for 24 hours. Stack with vote bonuses.</div><div class="item-price">$2.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">💎</div><div class="item-name">2× Drop Booster — 24h</div><div class="item-desc">Doubles the drop rate from all custom mobs and lucky blocks on your island/plot for 24 hours.</div><div class="item-price">$3.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">🚀</div><div class="item-name">Premium Bundle — 72h</div><div class="item-desc">All three boosters active simultaneously for 72 hours. Best value for active weekend grinders.</div><div class="item-price">$8.99</div><button class="rank-btn btn-cyan" style="margin:1rem 0 0;">Buy Bundle</button></div>
+        <div class="item-card"><div class="rank-icon">💰</div><div class="item-name">2× Money Booster — 24h</div><div class="item-desc">Double all in-game currency earnings from farming, selling, and mob drops for 24 real hours.</div><div class="item-price">$2.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">⭐</div><div class="item-name">3× XP Booster — 24h</div><div class="item-desc">Triple your job XP and McMMO skill XP gains for 24 hours. Stack with vote bonuses.</div><div class="item-price">$2.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">💎</div><div class="item-name">2× Drop Booster — 24h</div><div class="item-desc">Doubles the drop rate from all custom mobs and lucky blocks on your island/plot for 24 hours.</div><div class="item-price">$3.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">🚀</div><div class="item-name">Premium Bundle — 72h</div><div class="item-desc">All three boosters active simultaneously for 72 hours. Best value for active weekend grinders.</div><div class="item-price">$8.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-cyan" style="margin:1rem 0 0;display:block;">Buy Bundle</a></div>
       </div>
     </div>
 
@@ -225,10 +226,10 @@
     <div id="tab-currency" style="display:none;">
       <p class="section-sub">SkyRise Coins — the in-game premium currency spendable at the in-game coin shop.</p>
       <div class="item-grid reveal">
-        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">500 SkyCoins</div><div class="item-desc">A small starter pack for occasional purchases at the in-game coin shop.</div><div class="item-price">$2.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">1,500 SkyCoins</div><div class="item-desc">Best per-coin rate for players who purchase occasionally. Includes 200 bonus coins.</div><div class="item-price">$7.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">3,500 SkyCoins</div><div class="item-desc">The mid-tier coin package. Includes 500 bonus coins and a free mystery crate key.</div><div class="item-price">$14.99</div><button class="rank-btn btn-cyan" style="margin:1rem 0 0;">Buy</button></div>
-        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">8,000 SkyCoins</div><div class="item-desc">Maximum value pack. Includes 1,200 bonus coins, two crate keys, and a VIP trial (7 days).</div><div class="item-price">$29.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">500 SkyCoins</div><div class="item-desc">A small starter pack for occasional purchases at the in-game coin shop.</div><div class="item-price">$2.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">1,500 SkyCoins</div><div class="item-desc">Best per-coin rate for players who purchase occasionally. Includes 200 bonus coins.</div><div class="item-price">$7.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">3,500 SkyCoins</div><div class="item-desc">The mid-tier coin package. Includes 500 bonus coins and a free mystery crate key.</div><div class="item-price">$14.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-cyan" style="margin:1rem 0 0;display:block;">Buy</a></div>
+        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">8,000 SkyCoins</div><div class="item-desc">Maximum value pack. Includes 1,200 bonus coins, two crate keys, and a VIP trial (7 days).</div><div class="item-price">$29.99</div><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="rank-btn btn-outline-c" style="margin:1rem 0 0;display:block;">Buy</a></div>
       </div>
     </div>
 
@@ -244,7 +245,7 @@
       </div>
       <div class="footer-col"><h4>Network</h4><ul><li><a href="index.html">Home</a></li><li><a href="store.html">Store</a></li><li><a href="rules.html">Rules</a></li><li><a href="staff.html">Staff</a></li><li><a href="reviews.html">Reviews</a></li></ul></div>
       <div class="footer-col"><h4>Community</h4><ul><li><a href="https://discord.gg/MyGvcFNYd" target="_blank">Discord</a></li><li><a href="rules.html">Server Rules</a></li></ul></div>
-      <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">play.skyrise.net</a></li></ul></div>
+      <div class="footer-col"><h4>Connect</h4><ul><li><a href="#" onclick="copyIP()">play.skyrise.net</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <p>© 2024 SkyRise Network. Not affiliated with Mojang or Microsoft.</p>
@@ -262,6 +263,15 @@
     ['ranks','cosmetics','boosters','currency'].forEach(t => document.getElementById('tab-'+t).style.display = t===name ? '' : 'none');
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
+  }
+
+  function copyIP() {
+    navigator.clipboard.writeText('play.skyrise.net');
+    const toast = document.createElement('div');
+    toast.textContent = '✅ IP Copied!';
+    toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--cyan);color:var(--navy);font-family:Orbitron,sans-serif;font-size:.75rem;font-weight:700;padding:.6rem 1.4rem;border-radius:6px;z-index:9999;';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
   }
 </script>
 </body>
