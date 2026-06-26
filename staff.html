@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff — SkyRise Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --cyan: #00d4ff; --navy: #1a1a2e; --red: #e94560; --navy2: #16213e; --glass: rgba(255,255,255,0.05); --glass-border: rgba(0,212,255,0.15); }
+  html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: #e0e6f0; font-family: 'Inter', sans-serif; cursor: none; overflow-x: hidden; }
+  #cursor-dot { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  #cursor-ring { width: 36px; height: 36px; border: 2px solid rgba(0,212,255,0.5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .15s ease; }
+  #scroll-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--red)); z-index: 9997; }
+  nav { position: fixed; top: 3px; left: 0; right: 0; z-index: 1000; background: rgba(26,26,46,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 64px; }
+  .nav-logo { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900; color: var(--cyan); letter-spacing: 2px; text-decoration: none; }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 1.8rem; align-items: center; list-style: none; }
+  .nav-links a { color: #a0b0c8; text-decoration: none; font-size: .85rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+  .nav-discord { background: #5865F2; color: #fff !important; padding: .4rem 1rem; border-radius: 6px; }
+  .nav-ip { font-family: 'Orbitron', sans-serif; font-size: .75rem; color: var(--cyan); border: 1px solid var(--glass-border); padding: .3rem .8rem; border-radius: 4px; cursor: pointer; }
+  .page-header { padding: 9rem 2rem 4rem; text-align: center; background: radial-gradient(ellipse at 50% 60%, rgba(0,212,255,0.07) 0%, transparent 55%), var(--navy); }
+  .page-header .badge { display: inline-block; font-size: .65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan); border: 1px solid rgba(0,212,255,0.3); padding: .3rem 1rem; border-radius: 20px; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: #fff; margin-bottom: .8rem; }
+  .page-header p { color: #7a8fa8; font-size: 1rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+  /* STAFF */
+  .staff-section { padding: 4rem 2rem; }
+  .container { max-width: 1160px; margin: 0 auto; }
+  .tier-label { font-family: 'Orbitron', sans-serif; font-size: .7rem; letter-spacing: 3px; text-transform: uppercase; padding: .25rem .8rem; border-radius: 4px; display: inline-block; margin-bottom: 1.5rem; }
+  .tier-owner { background: rgba(233,69,96,0.15); color: var(--red); border: 1px solid rgba(233,69,96,0.2); }
+  .tier-dev { background: rgba(0,212,255,0.15); color: var(--cyan); border: 1px solid rgba(0,212,255,0.2); }
+  .tier-admin { background: rgba(255,100,0,0.12); color: #ff8c42; border: 1px solid rgba(255,140,0,0.2); }
+  .tier-mod { background: rgba(0,212,255,0.1); color: var(--cyan); border: 1px solid var(--glass-border); }
+  .tier-support { background: rgba(100,200,255,0.1); color: #64c8ff; border: 1px solid rgba(100,200,255,0.2); }
+  .tier-helper { background: rgba(50,200,100,0.1); color: #50c878; border: 1px solid rgba(50,200,100,0.2); }
+  .tier-divider { border: none; border-top: 1px solid var(--glass-border); margin: 3rem 0; }
+  /* STAFF GRID */
+  .staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.4rem; margin-bottom: 1rem; }
+  .staff-card {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px;
+    padding: 1.8rem; display: flex; flex-direction: column; gap: .8rem;
+    transition: all .25s;
+  }
+  .staff-card:hover { transform: translateY(-4px); border-color: var(--cyan); background: rgba(0,212,255,0.04); }
+  .staff-avatar { width: 64px; height: 64px; border-radius: 10px; overflow: hidden; background: var(--navy2); border: 2px solid var(--glass-border); flex-shrink: 0; }
+  .staff-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .staff-avatar-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+  .staff-top { display: flex; align-items: center; gap: 1rem; }
+  .staff-name { font-family: 'Orbitron', sans-serif; font-size: .95rem; font-weight: 700; color: #fff; }
+  .staff-role-badge { font-size: .6rem; letter-spacing: 2px; text-transform: uppercase; padding: .2rem .6rem; border-radius: 4px; margin-top: .2rem; display: inline-block; }
+  .staff-bio { font-size: .82rem; color: #7a8fa8; line-height: 1.7; }
+  .staff-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .tag { font-size: .62rem; letter-spacing: 1px; text-transform: uppercase; padding: .2rem .5rem; border-radius: 4px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: #60728a; }
+  .staff-since { font-size: .72rem; color: #3a4a60; }
+  /* APPLICATION */
+  .apply-box { background: linear-gradient(135deg, rgba(0,212,255,0.06), rgba(233,69,96,0.04)); border: 1px solid var(--glass-border); border-radius: 14px; padding: 3rem 2.5rem; text-align: center; margin-top: 4rem; }
+  .apply-box h2 { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: .8rem; }
+  .apply-box p { color: #7a8fa8; max-width: 480px; margin: 0 auto 2rem; line-height: 1.7; font-size: .9rem; }
+  .requirements { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; text-align: left; }
+  .req { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; padding: 1rem; }
+  .req-title { font-size: .78rem; font-weight: 600; color: var(--cyan); margin-bottom: .3rem; }
+  .req-desc { font-size: .78rem; color: #7a8fa8; line-height: 1.5; }
+  .btn-apply { display: inline-block; background: var(--cyan); color: var(--navy); font-family: 'Orbitron', sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: 2px; padding: .8rem 2.2rem; border-radius: 6px; text-decoration: none; transition: all .2s; }
+  .btn-apply:hover { background: #fff; transform: translateY(-2px); }
+  .reveal { opacity: 0; transform: translateY(20px); transition: all .5s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  footer { background: var(--navy2); border-top: 1px solid var(--glass-border); padding: 3rem 2rem 1.5rem; }
+  .footer-inner { max-width: 1160px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+  .footer-brand p { font-size: .85rem; color: #60728a; line-height: 1.7; max-width: 260px; margin-top: .6rem; }
+  .footer-col h4 { font-family: 'Orbitron', sans-serif; font-size: .75rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .footer-col a { font-size: .85rem; color: #60728a; text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--cyan); }
+  .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 1.2rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+  .footer-bottom p { font-size: .75rem; color: #40506a; }
+  @media(max-width:768px) { .nav-links { display: none; } .footer-top { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-bar"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Sky<span>Rise</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="store.html">Store</a></li>
+    <li><a href="rules.html">Rules</a></li>
+    <li><a href="staff.html" class="active">Staff</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+    <li><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="nav-discord">Discord</a></li>
+  </ul>
+  <div class="nav-ip" onclick="copyIP()">play.skyrise.net</div>
+</nav>
+
+<div class="page-header">
+  <div class="badge">Meet the Team</div>
+  <h1>Our Staff</h1>
+  <p>The people who keep SkyRise running around the clock. Every staff member is a volunteer who applied, was interviewed, and passed a probation period.</p>
+</div>
+
+<section class="staff-section">
+  <div class="container">
+
+    <!-- OWNERS / FOUNDERS -->
+    <div class="reveal">
+      <div class="tier-label tier-owner">👑 Founders & Owners</div>
+    </div>
+    <div class="staff-grid reveal">
+      <div class="staff-card" style="border-color:rgba(233,69,96,0.3);">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/TribalChief/64" alt="Tribal Chief" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>👑</div>'"></div>
+          <div>
+            <div class="staff-name">Tribal Chief</div>
+            <div class="staff-role-badge" style="background:rgba(233,69,96,0.15);color:var(--red);">Founder</div>
+          </div>
+        </div>
+        <div class="staff-bio">Founder and visionary behind SkyRise Network. Built the server from the ground up and continues to drive its growth and direction.</div>
+        <div class="staff-tags"><span class="tag">Vision</span><span class="tag">Leadership</span><span class="tag">Strategy</span></div>
+        <div class="staff-since">Founder since day one</div>
+      </div>
+      <div class="staff-card" style="border-color:rgba(233,69,96,0.3);">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/GoJOCookieXD/64" alt="GoJOCookieXD" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🛡️</div>'"></div>
+          <div>
+            <div class="staff-name">GoJOCookieXD</div>
+            <div class="staff-role-badge" style="background:rgba(233,69,96,0.15);color:var(--red);">Owner</div>
+          </div>
+        </div>
+        <div class="staff-bio">Owner managing community operations, staff hiring, and event coordination. Oversees the moderation team and ensures smooth day-to-day operations.</div>
+        <div class="staff-tags"><span class="tag">Community</span><span class="tag">HR</span><span class="tag">Events</span></div>
+        <div class="staff-since">Owner since founding</div>
+      </div>
+    </div>
+
+    <hr class="tier-divider">
+
+    <!-- DEVELOPERS -->
+    <div class="reveal"><div class="tier-label tier-dev">⚙️ Developers</div></div>
+    <div class="staff-grid reveal">
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/s1ztx/64" alt="s1ztx" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>⚡</div>'"></div>
+          <div><div class="staff-name">s1ztx</div><div class="staff-role-badge" style="background:rgba(0,212,255,0.15);color:#00d4ff;">Lead Developer</div></div>
+        </div>
+        <div class="staff-bio">Lead Developer and Project Lead for SkyRise Network. Oversees all development, custom plugin architecture, and technical direction. Brings extensive experience in Minecraft server development and optimization.</div>
+        <div class="staff-tags"><span class="tag">Project Lead</span><span class="tag">Plugin Dev</span><span class="tag">Architecture</span></div>
+        <div class="staff-since">Staff since January 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/Esycho/64" alt="Esycho" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>💻</div>'"></div>
+          <div><div class="staff-name">Esycho</div><div class="staff-role-badge" style="background:rgba(0,212,255,0.12);color:#00d4ff;">Developer</div></div>
+        </div>
+        <div class="staff-bio">Core Developer specializing in backend systems, database management, and plugin optimization. Ensures server stability and performance across all game modes.</div>
+        <div class="staff-tags"><span class="tag">Backend</span><span class="tag">Database</span><span class="tag">Optimization</span></div>
+        <div class="staff-since">Staff since March 2024</div>
+      </div>
+    </div>
+
+    <hr class="tier-divider">
+
+    <!-- ADMIN -->
+    <div class="reveal"><div class="tier-label tier-admin">🔴 Administration</div></div>
+    <div class="staff-grid reveal">
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/432/64" alt="432" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🔴</div>'"></div>
+          <div><div class="staff-name">432</div><div class="staff-role-badge" style="background:rgba(255,100,0,0.12);color:#ff8c42;">Administrator</div></div>
+        </div>
+        <div class="staff-bio">Server Administrator handling permissions, plugin configuration, and server-wide announcements. Oversees staff activity and enforces staff conduct standards.</div>
+        <div class="staff-tags"><span class="tag">Permissions</span><span class="tag">Config</span><span class="tag">Staff Conduct</span></div>
+        <div class="staff-since">Staff since January 2024</div>
+      </div>
+    </div>
+
+    <hr class="tier-divider">
+
+    <!-- MODERATORS -->
+    <div class="reveal"><div class="tier-label tier-mod">🔵 Moderators</div></div>
+    <div class="staff-grid reveal">
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/CrypticIndium/64" alt="CrypticIndium" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🔮</div>'"></div>
+          <div><div class="staff-name">Cryptic Indium</div><div class="staff-role-badge" style="background:rgba(0,212,255,0.1);color:var(--cyan);">Moderator</div></div>
+        </div>
+        <div class="staff-bio">Active moderator across all game modes. Specializes in player support and ticket resolution. Known for fast response times and calm conflict resolution.</div>
+        <div class="staff-tags"><span class="tag">Support</span><span class="tag">Tickets</span><span class="tag">Conflict</span></div>
+        <div class="staff-since">Staff since June 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/Lizanalt/64" alt="Lizanalt" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🦎</div>'"></div>
+          <div><div class="staff-name">Lizanalt</div><div class="staff-role-badge" style="background:rgba(0,212,255,0.1);color:var(--cyan);">Moderator</div></div>
+        </div>
+        <div class="staff-bio">Moderator focused on global chat management and rule enforcement. Handles player reports and escalates serious issues to administration.</div>
+        <div class="staff-tags"><span class="tag">Global Chat</span><span class="tag">Reports</span><span class="tag">Rules</span></div>
+        <div class="staff-since">Staff since July 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/itxklyx/64" alt="itxklyx" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>✨</div>'"></div>
+          <div><div class="staff-name">itxklyx</div><div class="staff-role-badge" style="background:rgba(0,212,255,0.1);color:var(--cyan);">Moderator</div></div>
+        </div>
+        <div class="staff-bio">Moderator handling build protection and grief prevention. Works closely with players to resolve building disputes and restore griefed areas.</div>
+        <div class="staff-tags"><span class="tag">Protection</span><span class="tag">Grief</span><span class="tag">Building</span></div>
+        <div class="staff-since">Staff since August 2024</div>
+      </div>
+    </div>
+
+    <hr class="tier-divider">
+
+    <!-- SUPPORT TEAM -->
+    <div class="reveal"><div class="tier-label tier-support">💬 Support Team</div></div>
+    <div class="staff-grid reveal">
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/CrypticIndium/64" alt="CrypticIndium" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>💬</div>'"></div>
+          <div><div class="staff-name">Cryptic Indium</div><div class="staff-role-badge" style="background:rgba(100,200,255,0.1);color:#64c8ff;">Support</div></div>
+        </div>
+        <div class="staff-bio">Support team member dedicated to helping players with server issues, game mode questions, and general guidance across all SkyRise services.</div>
+        <div class="staff-tags"><span class="tag">Support</span><span class="tag">Guidance</span><span class="tag">Help</span></div>
+        <div class="staff-since">Staff since June 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/Esycho/64" alt="Esycho" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>💻</div>'"></div>
+          <div><div class="staff-name">Esycho</div><div class="staff-role-badge" style="background:rgba(100,200,255,0.1);color:#64c8ff;">Support</div></div>
+        </div>
+        <div class="staff-bio">Support specialist focusing on technical issues, plugin bugs, and server-related problems. Works closely with the development team.</div>
+        <div class="staff-tags"><span class="tag">Technical</span><span class="tag">Bugs</span><span class="tag">Plugins</span></div>
+        <div class="staff-since">Staff since March 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/Lizanalt/64" alt="Lizanalt" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🦎</div>'"></div>
+          <div><div class="staff-name">Lizanalt</div><div class="staff-role-badge" style="background:rgba(100,200,255,0.1);color:#64c8ff;">Support</div></div>
+        </div>
+        <div class="staff-bio">Support team member helping players navigate server features, game modes, and community guidelines. Always available to answer questions.</div>
+        <div class="staff-tags"><span class="tag">Guidance</span><span class="tag">Community</span><span class="tag">Help</span></div>
+        <div class="staff-since">Staff since July 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/nibz3r/64" alt="nibz3r" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🎯</div>'"></div>
+          <div><div class="staff-name">nibz3r</div><div class="staff-role-badge" style="background:rgba(100,200,255,0.1);color:#64c8ff;">Support</div></div>
+        </div>
+        <div class="staff-bio">Support specialist focusing on newcomer assistance and game mode tutorials. Helps new players get started and find their preferred playstyle.</div>
+        <div class="staff-tags"><span class="tag">Newcomers</span><span class="tag">Tutorials</span><span class="tag">Help</span></div>
+        <div class="staff-since">Staff since September 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/PixelPlaid/64" alt="PixelPlaid" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🎨</div>'"></div>
+          <div><div class="staff-name">PixelPlaid</div><div class="staff-role-badge" style="background:rgba(100,200,255,0.1);color:#64c8ff;">Support</div></div>
+        </div>
+        <div class="staff-bio">Support team member specializing in building and design-related questions. Also helps with server resource pack and texture issues.</div>
+        <div class="staff-tags"><span class="tag">Building</span><span class="tag">Design</span><span class="tag">Resource</span></div>
+        <div class="staff-since">Staff since October 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/s1ztx/64" alt="s1ztx" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>⚡</div>'"></div>
+          <div><div class="staff-name">s1ztx</div><div class="staff-role-badge" style="background:rgba(100,200,255,0.1);color:#64c8ff;">Support</div></div>
+        </div>
+        <div class="staff-bio">Support specialist handling advanced technical support, server optimization, and plugin-related issues.</div>
+        <div class="staff-tags"><span class="tag">Technical</span><span class="tag">Optimization</span><span class="tag">Plugins</span></div>
+        <div class="staff-since">Staff since January 2024</div>
+      </div>
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/shizeen/64" alt="shizeen" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🌟</div>'"></div>
+          <div><div class="staff-name">shizeen</div><div class="staff-role-badge" style="background:rgba(100,200,255,0.1);color:#64c8ff;">Support</div></div>
+        </div>
+        <div class="staff-bio">Support team member focused on community engagement and event support. Helps coordinate server events and community activities.</div>
+        <div class="staff-tags"><span class="tag">Community</span><span class="tag">Events</span><span class="tag">Engagement</span></div>
+        <div class="staff-since">Staff since November 2024</div>
+      </div>
+    </div>
+
+    <hr class="tier-divider">
+
+    <!-- HELPERS / HELPER DEVELOPER -->
+    <div class="reveal"><div class="tier-label tier-helper">🟢 Helper Developer</div></div>
+    <div class="staff-grid reveal">
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar"><img src="https://mc-heads.net/avatar/shizeen/64" alt="shizeen" onerror="this.parentElement.innerHTML='<div class=\'staff-avatar-placeholder\'>🌟</div>'"></div>
+          <div><div class="staff-name">shizeen</div><div class="staff-role-badge" style="background:rgba(50,200,100,0.12);color:#50c878;">Helper Developer</div></div>
+        </div>
+        <div class="staff-bio">Helper Developer assisting with plugin development and testing. Also helps guide new players and contributes to the support team when needed.</div>
+        <div class="staff-tags"><span class="tag">Development</span><span class="tag">Testing</span><span class="tag">Support</span></div>
+        <div class="staff-since">Staff since November 2024</div>
+      </div>
+    </div>
+
+    <hr class="tier-divider">
+
+    <!-- BUILD TEAM - EMPTY -->
+    <div class="reveal"><div class="tier-label tier-builder" style="opacity:0.4;">🏛️ Build Team (Positions Open)</div></div>
+    <div class="staff-grid reveal">
+      <div class="staff-card" style="opacity:0.4;border-style:dashed;">
+        <div class="staff-top">
+          <div class="staff-avatar" style="background:var(--glass);border-style:dashed;"><div class="staff-avatar-placeholder" style="font-size:2rem;">❓</div></div>
+          <div>
+            <div class="staff-name" style="color:#60728a;">Position Available</div>
+            <div class="staff-role-badge" style="background:rgba(255,220,0,0.05);color:#60728a;">Apply Now</div>
+          </div>
+        </div>
+        <div class="staff-bio" style="color:#40506a;">We're currently looking for builders! If you have experience with large-scale builds, interiors, or terraforming, we want to hear from you.</div>
+        <div class="staff-tags"><span class="tag" style="opacity:0.4;">Open Position</span></div>
+        <div class="staff-since" style="color:#2a3a50;">Apply via Discord</div>
+      </div>
+    </div>
+
+    <!-- APPLY -->
+    <div class="apply-box reveal">
+      <h2>Join the Staff Team</h2>
+      <p>Applications are open periodically. We look for patient, experienced players who genuinely want to improve the community — not collect a title.</p>
+      <div class="requirements">
+        <div class="req"><div class="req-title">100+ Hours Playtime</div><div class="req-desc">You need to know the server before you can help run it.</div></div>
+        <div class="req"><div class="req-title">Active Discord Member</div><div class="req-desc">Must be in the Discord with a good standing record.</div></div>
+        <div class="req"><div class="req-title">No Active Punishments</div><div class="req-desc">No bans or mutes in the 60 days prior to applying.</div></div>
+        <div class="req"><div class="req-title">Age 15+</div><div class="req-desc">We require a level of maturity and availability to help players.</div></div>
+        <div class="req"><div class="req-title">Available 10+ hrs/week</div><div class="req-desc">Helpers are expected to be active in-game and in Discord support.</div></div>
+        <div class="req"><div class="req-title">Good Communication</div><div class="req-desc">Must communicate clearly and professionally in English in support contexts.</div></div>
+      </div>
+      <a href="https://discord.gg/MyGvcFNYd" target="_blank" class="btn-apply">Apply on Discord</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Sky<span style="color:var(--red)">Rise</span></a>
+        <p>Rise Above The Rest. Our staff team is the backbone of the SkyRise experience.</p>
+      </div>
+      <div class="footer-col"><h4>Network</h4><ul><li><a href="index.html">Home</a></li><li><a href="store.html">Store</a></li><li><a href="rules.html">Rules</a></li><li><a href="staff.html">Staff</a></li><li><a href="reviews.html">Reviews</a></li></ul></div>
+      <div class="footer-col"><h4>Community</h4><ul><li><a href="https://discord.gg
