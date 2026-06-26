@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store — SkyRise Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --cyan: #00d4ff; --navy: #1a1a2e; --red: #e94560; --navy2: #16213e; --glass: rgba(255,255,255,0.05); --glass-border: rgba(0,212,255,0.15); }
+  html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: #e0e6f0; font-family: 'Inter', sans-serif; cursor: none; overflow-x: hidden; }
+  #cursor-dot { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  #cursor-ring { width: 36px; height: 36px; border: 2px solid rgba(0,212,255,0.5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .15s ease; }
+  #scroll-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--red)); z-index: 9997; }
+  nav { position: fixed; top: 3px; left: 0; right: 0; z-index: 1000; background: rgba(26,26,46,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 64px; }
+  .nav-logo { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900; color: var(--cyan); letter-spacing: 2px; text-decoration: none; }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 1.8rem; align-items: center; list-style: none; }
+  .nav-links a { color: #a0b0c8; text-decoration: none; font-size: .85rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+  .nav-discord { background: #5865F2; color: #fff !important; padding: .4rem 1rem; border-radius: 6px; }
+  .nav-discord:hover { background: #4752c4 !important; }
+  .nav-ip { font-family: 'Orbitron', sans-serif; font-size: .75rem; color: var(--cyan); border: 1px solid var(--glass-border); padding: .3rem .8rem; border-radius: 4px; cursor: pointer; }
+  /* PAGE HEADER */
+  .page-header { padding: 9rem 2rem 4rem; text-align: center; background: radial-gradient(ellipse at 50% 60%, rgba(0,212,255,0.07) 0%, transparent 60%), var(--navy); }
+  .page-header .badge { display: inline-block; font-size: .65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan); border: 1px solid rgba(0,212,255,0.3); padding: .3rem 1rem; border-radius: 20px; margin-bottom: 1rem; }
+  .page-header h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: #fff; margin-bottom: .8rem; }
+  .page-header p { color: #7a8fa8; font-size: 1rem; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+  /* STORE */
+  .store-section { padding: 4rem 2rem; }
+  .container { max-width: 1160px; margin: 0 auto; }
+  .store-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 3rem; }
+  .tab { background: var(--glass); border: 1px solid var(--glass-border); color: #7a8fa8; font-family: 'Orbitron', sans-serif; font-size: .7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: .5rem 1.2rem; border-radius: 6px; cursor: pointer; transition: all .2s; }
+  .tab.active, .tab:hover { background: rgba(0,212,255,0.1); border-color: var(--cyan); color: var(--cyan); }
+  .rank-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+  /* RANK CARD */
+  .rank-card {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px;
+    overflow: hidden; transition: all .25s; position: relative;
+  }
+  .rank-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+  .rank-card.popular { border-color: var(--cyan); }
+  .rank-card.popular::before { content: 'MOST POPULAR'; position: absolute; top: 12px; right: -28px; background: var(--cyan); color: var(--navy); font-family: 'Orbitron', sans-serif; font-size: .55rem; font-weight: 900; letter-spacing: 2px; padding: .25rem 2.5rem; transform: rotate(45deg); }
+  .rank-top { padding: 1.8rem 1.5rem 1.2rem; text-align: center; }
+  .rank-icon { font-size: 2.5rem; margin-bottom: .8rem; }
+  .rank-name { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 900; margin-bottom: .3rem; }
+  .rank-price { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900; }
+  .rank-price span { font-size: .9rem; font-weight: 400; color: #60728a; }
+  .rank-tag { font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; margin-top: .3rem; }
+  .rank-perks { padding: 1.2rem 1.5rem; border-top: 1px solid var(--glass-border); }
+  .perk { display: flex; align-items: flex-start; gap: .5rem; font-size: .8rem; color: #8899b0; margin-bottom: .5rem; line-height: 1.4; }
+  .perk::before { content: '✦'; color: var(--cyan); font-size: .6rem; margin-top: 2px; flex-shrink: 0; }
+  .rank-btn { display: block; margin: 1.2rem 1.5rem; text-align: center; padding: .7rem; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: 2px; text-decoration: none; transition: all .2s; cursor: pointer; border: none; width: calc(100% - 3rem); }
+  .btn-cyan { background: var(--cyan); color: var(--navy); }
+  .btn-cyan:hover { background: #fff; }
+  .btn-outline-c { background: transparent; border: 1px solid var(--glass-border); color: var(--cyan); }
+  .btn-outline-c:hover { background: rgba(0,212,255,0.1); border-color: var(--cyan); }
+  /* COSMETICS / BOOSTERS */
+  .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+  .item-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; padding: 1.5rem; transition: all .25s; }
+  .item-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
+  .item-name { font-family: 'Orbitron', sans-serif; font-size: .8rem; font-weight: 700; color: #fff; margin-bottom: .4rem; }
+  .item-desc { font-size: .8rem; color: #7a8fa8; line-height: 1.6; margin-bottom: 1rem; }
+  .item-price { font-family: 'Orbitron', sans-serif; font-size: 1rem; color: var(--cyan); font-weight: 700; }
+  .section-title { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: .5rem; }
+  .section-sub { font-size: .85rem; color: #60728a; margin-bottom: 2rem; }
+  .reveal { opacity: 0; transform: translateY(20px); transition: all .5s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* notice */
+  .notice { background: rgba(233,69,96,0.08); border: 1px solid rgba(233,69,96,0.25); border-radius: 8px; padding: 1rem 1.4rem; margin-bottom: 2.5rem; font-size: .85rem; color: #c0a0a8; line-height: 1.6; }
+  .notice strong { color: var(--red); }
+  footer { background: var(--navy2); border-top: 1px solid var(--glass-border); padding: 3rem 2rem 1.5rem; }
+  .footer-inner { max-width: 1160px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+  .footer-brand p { font-size: .85rem; color: #60728a; line-height: 1.7; max-width: 260px; margin-top: .6rem; }
+  .footer-col h4 { font-family: 'Orbitron', sans-serif; font-size: .75rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .footer-col a { font-size: .85rem; color: #60728a; text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--cyan); }
+  .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; }
+  .footer-bottom p { font-size: .75rem; color: #40506a; }
+  @media(max-width:768px) { .nav-links { display: none; } .footer-top { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-bar"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Sky<span>Rise</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="store.html" class="active">Store</a></li>
+    <li><a href="rules.html">Rules</a></li>
+    <li><a href="staff.html">Staff</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+    <li><a href="https://discord.gg/MyGvcFNYd" target="_blank" class="nav-discord">Discord</a></li>
+  </ul>
+  <div class="nav-ip" onclick="navigator.clipboard.writeText('play.skyrise.net')">play.skyrise.net</div>
+</nav>
+
+<div class="page-header">
+  <div class="badge">SkyRise Store</div>
+  <h1>Support & Upgrade</h1>
+  <p>Purchase ranks, cosmetics, and boosters to enhance your SkyRise experience. All purchases directly fund server development.</p>
+</div>
+
+<section class="store-section">
+  <div class="container">
+    <div class="notice"><strong>Notice:</strong> All rank perks are purely cosmetic or quality-of-life and do not provide pay-to-win advantages. SkyRise is fully EULA-compliant. Purchases are non-refundable once applied to your account.</div>
+
+    <div class="store-tabs">
+      <div class="tab active" onclick="showTab('ranks', this)">Ranks</div>
+      <div class="tab" onclick="showTab('cosmetics', this)">Cosmetics</div>
+      <div class="tab" onclick="showTab('boosters', this)">Boosters</div>
+      <div class="tab" onclick="showTab('currency', this)">Currency</div>
+    </div>
+
+    <!-- RANKS -->
+    <div id="tab-ranks">
+      <p class="section-sub">Permanent rank upgrades. Higher tiers include all perks from lower tiers.</p>
+      <div class="rank-grid reveal">
+        <!-- VIP -->
+        <div class="rank-card" style="border-color: rgba(0,212,255,0.25);">
+          <div class="rank-top">
+            <div class="rank-icon">⚡</div>
+            <div class="rank-name" style="color: #00d4ff;">VIP</div>
+            <div class="rank-price" style="color:#00d4ff;">$4.99 <span>/ once</span></div>
+            <div class="rank-tag" style="color:#60728a;">Entry Tier</div>
+          </div>
+          <div class="rank-perks">
+            <div class="perk">Cyan [VIP] prefix in chat</div>
+            <div class="perk">5 home locations (vs 2 default)</div>
+            <div class="perk">/hat command — wear any block</div>
+            <div class="perk">Access to VIP chat channel</div>
+            <div class="perk">10% shop sell bonus</div>
+            <div class="perk">Join full servers with priority queue</div>
+          </div>
+          <button class="rank-btn btn-outline-c">Purchase VIP</button>
+        </div>
+        <!-- VIP+ -->
+        <div class="rank-card" style="border-color: rgba(100,200,255,0.3);">
+          <div class="rank-top">
+            <div class="rank-icon">💎</div>
+            <div class="rank-name" style="color: #64c8ff;">VIP+</div>
+            <div class="rank-price" style="color:#64c8ff;">$9.99 <span>/ once</span></div>
+            <div class="rank-tag" style="color:#60728a;">Enhanced Tier</div>
+          </div>
+          <div class="rank-perks">
+            <div class="perk">All VIP perks included</div>
+            <div class="perk">10 home locations</div>
+            <div class="perk">Custom join/leave messages</div>
+            <div class="perk">Particle trail — 12 presets</div>
+            <div class="perk">20% shop sell bonus</div>
+            <div class="perk">/fly in non-PvP zones</div>
+          </div>
+          <button class="rank-btn btn-outline-c">Purchase VIP+</button>
+        </div>
+        <!-- ELITE -->
+        <div class="rank-card popular" style="border-color: var(--cyan);">
+          <div class="rank-top">
+            <div class="rank-icon">🏆</div>
+            <div class="rank-name" style="color: var(--cyan);">ELITE</div>
+            <div class="rank-price" style="color:var(--cyan);">$19.99 <span>/ once</span></div>
+            <div class="rank-tag" style="color:var(--cyan);">Most Popular</div>
+          </div>
+          <div class="rank-perks">
+            <div class="perk">All VIP+ perks included</div>
+            <div class="perk">20 home locations</div>
+            <div class="perk">Custom chat color from 16 choices</div>
+            <div class="perk">30% shop sell bonus</div>
+            <div class="perk">Exclusive ELITE cosmetic kit</div>
+            <div class="perk">Monthly in-game reward crate</div>
+          </div>
+          <button class="rank-btn btn-cyan">Purchase Elite</button>
+        </div>
+        <!-- LEGEND -->
+        <div class="rank-card" style="border-color: rgba(233,69,96,0.3);">
+          <div class="rank-top">
+            <div class="rank-icon">👑</div>
+            <div class="rank-name" style="color: #ff6b8a;">LEGEND</div>
+            <div class="rank-price" style="color:#ff6b8a;">$34.99 <span>/ once</span></div>
+            <div class="rank-tag" style="color:#60728a;">Premium Tier</div>
+          </div>
+          <div class="rank-perks">
+            <div class="perk">All Elite perks included</div>
+            <div class="perk">Unlimited home locations</div>
+            <div class="perk">Custom tag / suffix (10 chars max)</div>
+            <div class="perk">50% shop sell bonus</div>
+            <div class="perk">Access to unreleased beta modes</div>
+            <div class="perk">Legend Hall of Fame listing</div>
+          </div>
+          <button class="rank-btn btn-outline-c" style="border-color:rgba(233,69,96,0.3);color:#ff6b8a;">Purchase Legend</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COSMETICS -->
+    <div id="tab-cosmetics" style="display:none;">
+      <p class="section-sub">One-time cosmetic unlocks. Purely visual — no gameplay impact.</p>
+      <div class="item-grid reveal">
+        <div class="item-card"><div class="rank-icon">🌌</div><div class="item-name">Galaxy Trail</div><div class="item-desc">A spiraling galaxy particle trail follows every step you take. Cycles through nebula colors automatically.</div><div class="item-price">$3.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🔥</div><div class="item-name">Inferno Aura</div><div class="item-desc">Wraps your character in slow-burning flame particles. Intimidate rivals before a single block is placed.</div><div class="item-price">$3.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">❄️</div><div class="item-name">Frost Wings</div><div class="item-desc">Decorative icy wings worn on your back. Cosmetic only, toggle on/off with /wings.</div><div class="item-price">$5.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">⚡</div><div class="item-name">Thunder Pet</div><div class="item-desc">A miniature creeper companion sparking with lightning follows you on your adventures.</div><div class="item-price">$6.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🌈</div><div class="item-name">Rainbow Chat Color</div><div class="item-desc">Every chat message you send cycles through the full rainbow spectrum automatically.</div><div class="item-price">$4.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🎭</div><div class="item-name">Morph Pack Vol.1</div><div class="item-desc">Transforms your skin display into 5 unlocked mobs (no hitbox changes). Includes Wolf, Fox, Axolotl, Panda, and Dolphin.</div><div class="item-price">$7.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+      </div>
+    </div>
+
+    <!-- BOOSTERS -->
+    <div id="tab-boosters" style="display:none;">
+      <p class="section-sub">Temporary boosts for accelerated progression. Applied to your account immediately.</p>
+      <div class="item-grid reveal">
+        <div class="item-card"><div class="rank-icon">💰</div><div class="item-name">2× Money Booster — 24h</div><div class="item-desc">Double all in-game currency earnings from farming, selling, and mob drops for 24 real hours.</div><div class="item-price">$2.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">⭐</div><div class="item-name">3× XP Booster — 24h</div><div class="item-desc">Triple your job XP and McMMO skill XP gains for 24 hours. Stack with vote bonuses.</div><div class="item-price">$2.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">💎</div><div class="item-name">2× Drop Booster — 24h</div><div class="item-desc">Doubles the drop rate from all custom mobs and lucky blocks on your island/plot for 24 hours.</div><div class="item-price">$3.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🚀</div><div class="item-name">Premium Bundle — 72h</div><div class="item-desc">All three boosters active simultaneously for 72 hours. Best value for active weekend grinders.</div><div class="item-price">$8.99</div><button class="rank-btn btn-cyan" style="margin:1rem 0 0;">Buy Bundle</button></div>
+      </div>
+    </div>
+
+    <!-- CURRENCY -->
+    <div id="tab-currency" style="display:none;">
+      <p class="section-sub">SkyRise Coins — the in-game premium currency spendable at the in-game coin shop.</p>
+      <div class="item-grid reveal">
+        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">500 SkyCoins</div><div class="item-desc">A small starter pack for occasional purchases at the in-game coin shop.</div><div class="item-price">$2.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">1,500 SkyCoins</div><div class="item-desc">Best per-coin rate for players who purchase occasionally. Includes 200 bonus coins.</div><div class="item-price">$7.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">3,500 SkyCoins</div><div class="item-desc">The mid-tier coin package. Includes 500 bonus coins and a free mystery crate key.</div><div class="item-price">$14.99</div><button class="rank-btn btn-cyan" style="margin:1rem 0 0;">Buy</button></div>
+        <div class="item-card"><div class="rank-icon">🪙</div><div class="item-name">8,000 SkyCoins</div><div class="item-desc">Maximum value pack. Includes 1,200 bonus coins, two crate keys, and a VIP trial (7 days).</div><div class="item-price">$29.99</div><button class="rank-btn btn-outline-c" style="margin:1rem 0 0;">Buy</button></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Sky<span style="color:var(--red)">Rise</span></a>
+        <p>Rise Above The Rest. Purchases support server infrastructure and development.</p>
+      </div>
+      <div class="footer-col"><h4>Network</h4><ul><li><a href="index.html">Home</a></li><li><a href="store.html">Store</a></li><li><a href="rules.html">Rules</a></li><li><a href="staff.html">Staff</a></li><li><a href="reviews.html">Reviews</a></li></ul></div>
+      <div class="footer-col"><h4>Community</h4><ul><li><a href="https://discord.gg/MyGvcFNYd" target="_blank">Discord</a></li><li><a href="rules.html">Server Rules</a></li></ul></div>
+      <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">play.skyrise.net</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 SkyRise Network. Not affiliated with Mojang or Microsoft.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const dot = document.getElementById('cursor-dot'), ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => { dot.style.left=e.clientX+'px'; dot.style.top=e.clientY+'px'; ring.style.left=e.clientX+'px'; ring.style.top=e.clientY+'px'; });
+  window.addEventListener('scroll', () => { document.getElementById('scroll-bar').style.width = (window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%'; });
+  document.querySelectorAll('.reveal').forEach(el => new IntersectionObserver(([e]) => { if(e.isIntersecting) e.target.classList.add('visible'); }, {threshold:.1}).observe(el));
+
+  function showTab(name, el) {
+    ['ranks','cosmetics','boosters','currency'].forEach(t => document.getElementById('tab-'+t).style.display = t===name ? '' : 'none');
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>
