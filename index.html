@@ -213,7 +213,7 @@
       </div>
       <div class="status-item">
         <div class="status-label">Server IP</div>
-        <div class="status-value">play.skyrise.net</div>
+        <div class="status-value">mc.skyrise.net</div>
       </div>
       <div class="status-item">
         <div class="status-label">Version</div>
@@ -331,7 +331,7 @@
       <h2 style="font-family:'Orbitron',sans-serif; font-size:clamp(1.4rem,3vw,2rem); color:#fff; margin-bottom:1rem;">Ready to Rise?</h2>
       <p style="color:#8899b0; max-width:480px; margin:0 auto 2rem; line-height:1.7;">Copy the server IP, open Minecraft 1.8+, and jump into BedWars Season 2 right now.</p>
       <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-        <div style="font-family:'Orbitron',sans-serif; font-size:1rem; color:var(--cyan); background:var(--glass); border:1px solid var(--glass-border); padding:.8rem 1.8rem; border-radius:6px; cursor:pointer;" onclick="copyIP()">play.skyrise.net — Click to Copy</div>
+        <div style="font-family:'Orbitron',sans-serif; font-size:1rem; color:var(--cyan); background:var(--glass); border:1px solid var(--glass-border); padding:.8rem 1.8rem; border-radius:6px; cursor:pointer;" onclick="copyIP()">mc.skyrise.net — Click to Copy</div>
         <a href="store.html" class="btn-primary">View Ranks</a>
       </div>
     </div>
@@ -366,14 +366,14 @@
       <div class="footer-col">
         <h4>Connect</h4>
         <ul>
-          <li><a href="#" onclick="copyIP()">play.skyrise.net</a></li>
+          <li><a href="#" onclick="copyIP()">mc.skyrise.net</a></li>
           <li><a href="https://discord.gg/MyGvcFNYd" target="_blank">Discord Server</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p>© 2026 SkyRise Network. Not affiliated with Mojang or Microsoft.</p>
-      <div class="ip-copy" onclick="copyIP()">📋 play.skyrise.net</div>
+      <div class="ip-copy" onclick="copyIP()">📋 mc.skyrise.net</div>
     </div>
   </div>
 </footer>
@@ -479,7 +479,7 @@ document.querySelectorAll('.reveal').forEach(el =>
 
 /* ── COPY IP ── */
 function copyIP() {
-  navigator.clipboard.writeText('play.skyrise.net').catch(() => {});
+  navigator.clipboard.writeText('mc.skyrise.net').catch(() => {});
   const t = document.getElementById('toast');
   t.style.transform = 'translateX(-50%) translateY(0)';
   setTimeout(() => t.style.transform = 'translateX(-50%) translateY(80px)', 1800);
@@ -493,7 +493,7 @@ async function fetchServerStatus() {
   const versionEl = document.getElementById('server-version');
   const dotEl     = document.getElementById('status-dot-el');
   try {
-    const res  = await fetch('https://api.minetools.eu/ping/play.skyrise.net/25565');
+    const res  = await fetch('https://api.minetools.eu/ping/mc.skyrise.net/25565');
     const data = await res.json();
     if (data && data.players) {
       statusEl.textContent = 'Online';
@@ -507,7 +507,7 @@ async function fetchServerStatus() {
     } else throw new Error('offline');
   } catch {
     try {
-      const res2 = await fetch('https://mcapi.us/server/status?ip=play.skyrise.net');
+      const res2 = await fetch('https://mcapi.us/server/status?ip=mc.skyrise.net');
       const d2   = await res2.json();
       if (d2.status === 'success' && d2.online) {
         statusEl.textContent = 'Online';
